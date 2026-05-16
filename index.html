@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arnab's Life Planner</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #222636;
+    --border: #2e3347;
+    --accent: #6c63ff;
+    --accent2: #ff6584;
+    --accent3: #43e97b;
+    --accent4: #f7971e;
+    --text: #e8eaf6;
+    --text2: #9ca3af;
+    --text3: #6b7280;
+    --card: #1e2235;
+    --gold: #ffd700;
+    --red: #ff4757;
+    --green: #2ed573;
+    --blue: #1e90ff;
+    --purple: #a29bfe;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(15,17,23,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 60px;
+  }
+  .nav-logo {
+    font-size: 18px; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+  .nav-tabs { display:flex; gap:4px; }
+  .nav-tab {
+    padding: 6px 16px; border-radius: 8px; border: none;
+    background: transparent; color: var(--text2);
+    cursor: pointer; font-size: 13px; font-weight: 500;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { background: var(--bg3); color: var(--text); }
+  .nav-tab.active { background: var(--accent); color: #fff; }
+  .nav-date { font-size: 12px; color: var(--text3); }
+
+  /* MAIN */
+  main { padding: 76px 32px 40px; max-width: 1400px; margin: 0 auto; }
+
+  /* SECTIONS */
+  .section { display:none; }
+  .section.active { display:block; }
+
+  /* HERO BANNER */
+  .hero {
+    background: linear-gradient(135deg, #1a1d27 0%, #222636 50%, #1a1d27 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px 40px;
+    margin-bottom: 28px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; top:-40px; right:-40px;
+    width:200px; height:200px; border-radius:50%;
+    background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
+  }
+  .hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--text2); font-size: 14px; margin-bottom: 20px; }
+  .hero-stats { display:flex; gap:24px; flex-wrap:wrap; }
+  .hero-stat {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 20px; min-width: 140px;
+  }
+  .hero-stat-label { font-size: 11px; color: var(--text3); text-transform:uppercase; letter-spacing:0.5px; }
+  .hero-stat-value { font-size: 20px; font-weight: 700; margin-top: 4px; }
+  .hero-stat-value.gold { color: var(--gold); }
+  .hero-stat-value.green { color: var(--green); }
+  .hero-stat-value.purple { color: var(--purple); }
+  .hero-stat-value.blue { color: var(--blue); }
+
+  /* GRID */
+  .grid { display: grid; gap: 20px; }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .grid-auto { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+  /* CARD */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card-title {
+    font-size: 13px; font-weight: 600; color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.8px;
+    margin-bottom: 16px; display:flex; align-items:center; gap:8px;
+  }
+  .card-title .icon { font-size: 16px; }
+
+  /* MILESTONE TIMELINE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content:''; position:absolute; left:8px; top:0; bottom:0;
+    width:2px; background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .milestone {
+    position: relative; margin-bottom: 20px;
+    padding: 14px 16px; border-radius: 12px;
+    background: var(--bg2); border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .milestone:hover { border-color: var(--accent); transform: translateX(4px); }
+  .milestone::before {
+    content:''; position:absolute; left:-24px; top:50%;
+    transform: translateY(-50%);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .milestone.done::before { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .milestone.warning::before { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+  .milestone.future::before { background: var(--border); box-shadow: none; }
+  .milestone-year { font-size: 11px; color: var(--text3); font-weight: 600; }
+  .milestone-title { font-size: 14px; font-weight: 600; margin: 4px 0; }
+  .milestone-desc { font-size: 12px; color: var(--text2); }
+  .milestone-badge {
+    display: inline-block; padding: 2px 10px; border-radius: 20px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .badge-done { background: rgba(46,213,115,0.15); color: var(--green); }
+  .badge-now { background: rgba(108,99,255,0.2); color: var(--accent); }
+  .badge-target { background: rgba(255,101,132,0.15); color: var(--accent2); }
+  .badge-future { background: rgba(107,114,128,0.15); color: var(--text3); }
+
+  /* PROGRESS BAR */
+  .progress-wrap { margin-bottom: 14px; }
+  .progress-label { display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px; }
+  .progress-label span:first-child { color: var(--text2); }
+  .progress-label span:last-child { color: var(--text); font-weight:600; }
+  .progress-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow:hidden; }
+  .progress-fill { height:100%; border-radius:3px; transition: width 1s ease; }
+
+  /* SALARY TABLE */
+  .salary-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .salary-table th { color: var(--text3); font-weight:600; padding:8px 12px; text-align:left; border-bottom: 1px solid var(--border); font-size:11px; text-transform:uppercase; }
+  .salary-table td { padding:10px 12px; border-bottom: 1px solid var(--border); }
+  .salary-table tr:last-child td { border-bottom:none; }
+  .salary-table tr:hover td { background: rgba(108,99,255,0.05); }
+  .year-pill { background: var(--bg2); border-radius:6px; padding:2px 8px; font-size:11px; font-weight:700; }
+  .highlight-row td { background: rgba(108,99,255,0.08) !important; }
+
+  /* REMINDER / TODO */
+  .reminder-list { display:flex; flex-direction:column; gap:10px; }
+  .reminder-item {
+    display:flex; align-items:center; gap:12px;
+    padding: 12px 14px; border-radius:10px;
+    background: var(--bg2); border: 1px solid var(--border);
+    cursor:pointer; transition: all 0.2s;
+  }
+  .reminder-item:hover { border-color: var(--accent); }
+  .reminder-item.checked { opacity:0.5; }
+  .reminder-check {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 2px solid var(--border); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; transition: all 0.2s;
+  }
+  .reminder-item.checked .reminder-check { background: var(--green); border-color: var(--green); }
+  .reminder-text { flex:1; font-size:13px; }
+  .reminder-item.checked .reminder-text { text-decoration: line-through; color: var(--text3); }
+  .reminder-tag { font-size:10px; padding:2px 8px; border-radius:10px; font-weight:600; }
+  .tag-career { background:rgba(108,99,255,0.2); color:var(--accent); }
+  .tag-finance { background:rgba(67,233,123,0.15); color:var(--green); }
+  .tag-health { background:rgba(255,101,132,0.15); color:var(--accent2); }
+  .tag-habit { background:rgba(247,151,30,0.15); color:var(--accent4); }
+
+  /* ADD REMINDER */
+  .add-form { display:flex; gap:10px; margin-bottom:16px; }
+  .add-input {
+    flex:1; padding:10px 14px; border-radius:10px;
+    background:var(--bg2); border:1px solid var(--border);
+    color:var(--text); font-size:13px; outline:none;
+  }
+  .add-input:focus { border-color:var(--accent); }
+  .add-select {
+    padding:10px 12px; border-radius:10px;
+    background:var(--bg2); border:1px solid var(--border);
+    color:var(--text); font-size:13px; outline:none; cursor:pointer;
+  }
+  .add-btn {
+    padding:10px 18px; border-radius:10px; border:none;
+    background:var(--accent); color:#fff; font-size:13px;
+    font-weight:600; cursor:pointer; transition: all 0.2s;
+  }
+  .add-btn:hover { opacity:0.85; transform:translateY(-1px); }
+
+  /* HOBBIES */
+  .hobby-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; }
+  .hobby-card {
+    border-radius:16px; padding:24px;
+    border: 1px solid var(--border);
+    position:relative; overflow:hidden;
+  }
+  .hobby-card.art { background: linear-gradient(135deg, #1a1030 0%, #2d1b69 100%); }
+  .hobby-card.bengali { background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); }
+  .hobby-card.health { background: linear-gradient(135deg, #134e5e 0%, #71b280 100%); }
+  .hobby-emoji { font-size: 32px; margin-bottom: 12px; }
+  .hobby-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .hobby-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+
+  /* ART TRACKER */
+  .art-streak { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+  .art-day {
+    width:28px; height:28px; border-radius:6px;
+    background:rgba(255,255,255,0.08); cursor:pointer;
+    transition:all 0.2s; display:flex; align-items:center; justify-content:center;
+    font-size:9px; color:rgba(255,255,255,0.3);
+  }
+  .art-day:hover { background: rgba(162,155,254,0.3); }
+  .art-day.active { background: var(--purple); color:#fff; }
+  .art-day.today { border: 2px solid var(--purple); }
+
+  /* BENGALI QUOTES */
+  .quote-display {
+    background: rgba(0,0,0,0.3); border-radius:12px; padding:16px;
+    font-style:italic; font-size:15px; line-height:1.7;
+    margin-bottom:12px; border-left:3px solid var(--blue);
+    min-height:80px;
+  }
+  .quote-author { font-size:12px; color:rgba(255,255,255,0.5); text-align:right; }
+  .quote-nav { display:flex; gap:8px; margin-top:12px; }
+  .quote-btn {
+    flex:1; padding:8px; border-radius:8px; border:none;
+    background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7);
+    cursor:pointer; font-size:12px; transition:all 0.2s;
+  }
+  .quote-btn:hover { background:rgba(255,255,255,0.2); color:#fff; }
+
+  /* HEALTH TRACKER */
+  .health-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .health-item {
+    background:rgba(0,0,0,0.25); border-radius:10px; padding:12px;
+    cursor:pointer; transition:all 0.2s; text-align:center;
+    border: 1px solid transparent;
+  }
+  .health-item:hover { border-color:rgba(255,255,255,0.2); }
+  .health-item.done { background:rgba(46,213,115,0.2); border-color:var(--green); }
+  .health-item-icon { font-size:22px; margin-bottom:4px; }
+  .health-item-label { font-size:11px; color:rgba(255,255,255,0.6); }
+  .health-item.done .health-item-label { color:var(--green); }
+
+  /* FINANCIAL GOALS */
+  .fin-goal {
+    background:var(--bg2); border:1px solid var(--border);
+    border-radius:12px; padding:16px; margin-bottom:12px;
+  }
+  .fin-goal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .fin-goal-name { font-size:13px; font-weight:600; }
+  .fin-goal-value { font-size:13px; color:var(--accent); font-weight:700; }
+  .fin-goal-meta { display:flex; justify-content:space-between; font-size:11px; color:var(--text3); margin-top:8px; }
+
+  /* ESOP TICKER */
+  .esop-display {
+    background: linear-gradient(135deg, #1a1030, #2d1b69);
+    border:1px solid rgba(162,155,254,0.3);
+    border-radius:12px; padding:16px;
+  }
+  .esop-value { font-size:28px; font-weight:800; color:var(--purple); }
+  .esop-label { font-size:11px; color:var(--text3); margin-top:2px; }
+  .esop-row { display:flex; gap:12px; margin-top:12px; }
+  .esop-chip { flex:1; background:rgba(0,0,0,0.3); border-radius:8px; padding:10px; text-align:center; }
+  .esop-chip-val { font-size:14px; font-weight:700; color:var(--purple); }
+  .esop-chip-label { font-size:10px; color:var(--text3); margin-top:2px; }
+
+  /* COUNTDOWN */
+  .countdown-wrap {
+    background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(255,101,132,0.1));
+    border: 1px solid rgba(108,99,255,0.3);
+    border-radius: 14px; padding: 20px; text-align:center;
+  }
+  .countdown-label { font-size:12px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; }
+  .countdown-value { font-size: 42px; font-weight:800; color:var(--accent); margin:8px 0; line-height:1; }
+  .countdown-sub { font-size: 13px; color:var(--text2); }
+
+  /* SECTION TITLE */
+  .section-title { font-size:22px; font-weight:700; margin-bottom:20px; }
+  .section-title span { color:var(--accent); }
+
+  /* SWOT */
+  .swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .swot-cell { border-radius:12px; padding:16px; }
+  .swot-cell.s { background:rgba(46,213,115,0.08); border:1px solid rgba(46,213,115,0.2); }
+  .swot-cell.w { background:rgba(255,71,87,0.08); border:1px solid rgba(255,71,87,0.2); }
+  .swot-cell.o { background:rgba(30,144,255,0.08); border:1px solid rgba(30,144,255,0.2); }
+  .swot-cell.t { background:rgba(247,151,30,0.08); border:1px solid rgba(247,151,30,0.2); }
+  .swot-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+  .swot-cell.s .swot-label { color:var(--green); }
+  .swot-cell.w .swot-label { color:var(--red); }
+  .swot-cell.o .swot-label { color:var(--blue); }
+  .swot-cell.t .swot-label { color:var(--accent4); }
+  .swot-list { list-style:none; }
+  .swot-list li { font-size:12px; color:var(--text2); padding:3px 0; display:flex; gap:6px; }
+  .swot-list li::before { content:'→'; color:var(--text3); flex-shrink:0; }
+
+  /* VERDICT BOX */
+  .verdict {
+    background: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(255,101,132,0.08));
+    border: 1px solid var(--accent); border-radius: 14px; padding: 20px;
+    margin-top: 16px;
+  }
+  .verdict-label { font-size:11px; color:var(--accent); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+  .verdict-text { font-size:14px; line-height:1.7; }
+
+  /* TABS inside card */
+  .inner-tabs { display:flex; gap:4px; margin-bottom:16px; }
+  .inner-tab {
+    padding:5px 14px; border-radius:8px; border:none;
+    background:var(--bg); color:var(--text2); font-size:12px;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .inner-tab.active { background:var(--accent); color:#fff; }
+
+  /* COMPANY COMPARE */
+  .company-row {
+    display:flex; align-items:center; gap:12px;
+    padding: 12px 14px; border-radius:10px;
+    background:var(--bg2); border:1px solid var(--border);
+    margin-bottom:8px;
+  }
+  .company-rank { font-size:16px; font-weight:800; color:var(--text3); width:24px; }
+  .company-name { flex:1; font-size:13px; font-weight:600; }
+  .company-ctc { font-size:12px; color:var(--accent); font-weight:700; }
+  .company-wlb { font-size:12px; color:var(--text3); }
+  .wlb-stars { color:var(--gold); }
+
+  /* STORY EDITOR */
+  .story-area {
+    width:100%; min-height:120px; padding:12px;
+    background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1);
+    border-radius:10px; color:#fff; font-size:13px; line-height:1.7;
+    resize:vertical; outline:none; font-family:inherit;
+  }
+  .story-area:focus { border-color:rgba(30,144,255,0.5); }
+  .story-btn {
+    margin-top:8px; padding:8px 16px; border-radius:8px; border:none;
+    background:rgba(30,144,255,0.3); color:#fff; font-size:12px;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .story-btn:hover { background:rgba(30,144,255,0.5); }
+  .story-saved { margin-top:10px; }
+  .story-entry {
+    background:rgba(0,0,0,0.3); border-radius:8px; padding:10px 12px;
+    margin-bottom:8px; font-size:12px; color:rgba(255,255,255,0.7);
+    line-height:1.6; border-left:2px solid rgba(30,144,255,0.5);
+  }
+  .story-entry-date { font-size:10px; color:rgba(255,255,255,0.35); margin-bottom:4px; }
+
+  /* WATER TRACKER */
+  .water-track { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .water-cup {
+    width:32px; height:40px; border-radius:4px 4px 6px 6px;
+    border:2px solid rgba(30,144,255,0.4);
+    cursor:pointer; transition:all 0.2s;
+    display:flex; align-items:flex-end;
+  }
+  .water-cup.filled { background:rgba(30,144,255,0.6); border-color:var(--blue); }
+  .water-cup:hover { border-color:var(--blue); }
+
+  /* MOOD */
+  .mood-row { display:flex; gap:8px; margin-top:8px; }
+  .mood-btn {
+    width:40px; height:40px; border-radius:10px; border:none;
+    background:rgba(255,255,255,0.07); font-size:20px;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .mood-btn:hover { background:rgba(255,255,255,0.15); transform:scale(1.1); }
+  .mood-btn.selected { background:rgba(108,99,255,0.3); outline:2px solid var(--accent); }
+
+  /* SCROLL */
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+
+  /* RESPONSIVE */
+  @media(max-width:768px) {
+    nav { padding:0 16px; }
+    main { padding:70px 16px 40px; }
+    .grid-2, .grid-3 { grid-template-columns:1fr; }
+    .hero { padding:24px; }
+    .hero-stats { gap:12px; }
+    .swot-grid { grid-template-columns:1fr; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  .section.active { animation: fadeIn 0.3s ease; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+  .live { animation: pulse 2s infinite; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Arnab · Life OS</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('dashboard')">Dashboard</button>
+    <button class="nav-tab" onclick="showSection('career')">Career</button>
+    <button class="nav-tab" onclick="showSection('finance')">Finance</button>
+    <button class="nav-tab" onclick="showSection('tasks')">Tasks</button>
+    <button class="nav-tab" onclick="showSection('hobbies')">Hobbies</button>
+  </div>
+  <div class="nav-date" id="nav-date"></div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════
+     DASHBOARD
+═══════════════════════════════════════════ -->
+<div class="section active" id="section-dashboard">
+  <div class="hero">
+    <h1>Good <span id="greeting-time">morning</span>, <span>Arnab</span> 👋</h1>
+    <p>Senior BA · Credit Risk · Slice | IIT Roorkee 2020 | Kolkata → Bangalore</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-label">Days at Slice</div>
+        <div class="hero-stat-value gold live" id="slice-days">—</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">To March 2027</div>
+        <div class="hero-stat-value purple" id="march-countdown">—</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Current CTC</div>
+        <div class="hero-stat-value green">₹33L</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Net Worth</div>
+        <div class="hero-stat-value blue">~₹92L</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">ESOP Vested</div>
+        <div class="hero-stat-value" style="color:var(--accent4)">₹6L</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <!-- Tenure Countdown -->
+    <div class="card">
+      <div class="card-title"><span class="icon">⏳</span> Tenure Milestone</div>
+      <div class="countdown-wrap">
+        <div class="countdown-label">Days until March 2027</div>
+        <div class="countdown-value" id="days-to-march">—</div>
+        <div class="countdown-sub">Minimum tenure before job switch</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Slice tenure progress</span><span id="tenure-pct">—</span></div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="tenure-bar" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--purple))"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Today's Reminders -->
+    <div class="card">
+      <div class="card-title"><span class="icon">✅</span> Today's Focus</div>
+      <div class="reminder-list" id="today-reminders">
+        <div class="reminder-item" onclick="toggleReminder(this)">
+          <div class="reminder-check">✓</div>
+          <div class="reminder-text">Check portfolio + SIP allocation on Kite</div>
+          <span class="reminder-tag tag-finance">Finance</span>
+        </div>
+        <div class="reminder-item" onclick="toggleReminder(this)">
+          <div class="reminder-check">✓</div>
+          <div class="reminder-text">Work on LinkedIn post — credit risk domain</div>
+          <span class="reminder-tag tag-career">Career</span>
+        </div>
+        <div class="reminder-item" onclick="toggleReminder(this)">
+          <div class="reminder-check">✓</div>
+          <div class="reminder-text">30 min walk / workout</div>
+          <span class="reminder-tag tag-health">Health</span>
+        </div>
+        <div class="reminder-item" onclick="toggleReminder(this)">
+          <div class="reminder-check">✓</div>
+          <div class="reminder-text">8 glasses of water</div>
+          <span class="reminder-tag tag-habit">Habit</span>
+        </div>
+        <div class="reminder-item" onclick="toggleReminder(this)">
+          <div class="reminder-check">✓</div>
+          <div class="reminder-text">10 min drawing / art time</div>
+          <span class="reminder-tag tag-habit">Hobby</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Numbers -->
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="card-title"><span class="icon">💡</span> This Week's Priority</div>
+      <div style="font-size:14px;line-height:1.8;color:var(--text2);">
+        <div style="display:flex;gap:8px;margin-bottom:8px;"><span style="color:var(--accent);font-weight:700;">1.</span><span>Stay sharp at Slice — 18-month rule</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:8px;"><span style="color:var(--accent);font-weight:700;">2.</span><span>₹1.2L SIP minimum — automate</span></div>
+        <div style="display:flex;gap:8px;margin-bottom:8px;"><span style="color:var(--accent);font-weight:700;">3.</span><span>Build LinkedIn brand — 1 post/week</span></div>
+        <div style="display:flex;gap:8px;"><span style="color:var(--accent);font-weight:700;">4.</span><span>₹10L liquid always — don't touch</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📈</span> Path to ₹5 Cr</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Current → ₹5 Cr liquid</span><span style="color:var(--text3)">2032–33</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:18%;background:linear-gradient(90deg,var(--green),var(--accent3))"></div></div>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px;">
+        Current liquid: <strong style="color:var(--text)">~₹18L</strong> |
+        Target: <strong style="color:var(--green)">₹5 Cr</strong> |
+        SIP needed: <strong style="color:var(--text)">₹1.2–1.5L/mo</strong>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px;">
+        At 12% CAGR + salary growth → ₹5 Cr by age 34–35
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🎯</span> 2026 Goals</div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Slice tenure (Sept 25 → Mar 27)</span><span id="pct-disp2">—</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="tenure-bar2" style="width:0%;background:linear-gradient(90deg,var(--accent),var(--purple))"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Monthly SIP target</span><span>₹1.2L / ₹1.5L</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:80%;background:linear-gradient(90deg,var(--green),var(--accent3))"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>LinkedIn brand building</span><span>Growing</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:25%;background:linear-gradient(90deg,var(--blue),var(--accent))"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CAREER
+═══════════════════════════════════════════ -->
+<div class="section" id="section-career">
+  <div class="section-title">Career <span>Planner</span></div>
+
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <!-- Timeline -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🗺️</span> Career Timeline</div>
+      <div class="timeline">
+        <div class="milestone done">
+          <div class="milestone-year">2016 – 2020</div>
+          <div class="milestone-title">IIT Roorkee — B.Tech</div>
+          <div class="milestone-desc">Metallurgical & Materials Engineering | CGPA 7.53 | NCC Senior Under Officer (420+ cadets)</div>
+          <span class="milestone-badge badge-done">Completed</span>
+        </div>
+        <div class="milestone done">
+          <div class="milestone-year">Nov 2020 – Aug 2025</div>
+          <div class="milestone-title">EXL Services — Senior Consultant</div>
+          <div class="milestone-desc">4.75 yrs · Client: OneMain Finance (US) · Fraud & Credit Risk · ~$5M savings · Stellar Award ×2</div>
+          <span class="milestone-badge badge-done">Completed</span>
+        </div>
+        <div class="milestone">
+          <div class="milestone-year">Sept 2025 – Present</div>
+          <div class="milestone-title">Slice — Senior BA, Credit Risk</div>
+          <div class="milestone-desc">Self-employed underwriting policy from scratch · 80% approval lift · AI tooling pioneer · 90% cycle time cut</div>
+          <span class="milestone-badge badge-now">Current · <span id="slice-months">7</span> months</span>
+        </div>
+        <div class="milestone warning">
+          <div class="milestone-year">March 2027</div>
+          <div class="milestone-title">18-Month Tenure Target ⚡</div>
+          <div class="milestone-desc">Minimum viable tenure hit. Start active job networking. Target: CRED / Jupiter / Revolut / JPMorgan</div>
+          <span class="milestone-badge badge-target">Target</span>
+        </div>
+        <div class="milestone future">
+          <div class="milestone-year">2027 – 2028</div>
+          <div class="milestone-title">Job Switch — Tier 1 Fintech</div>
+          <div class="milestone-desc">Target CTC: ₹55–70L · Lead/Principal Credit Risk or Fraud Strategy</div>
+          <span class="milestone-badge badge-future">Planned</span>
+        </div>
+        <div class="milestone future">
+          <div class="milestone-year">2029 – 2031</div>
+          <div class="milestone-title">Sr Manager / AVP</div>
+          <div class="milestone-desc">Target CTC: ₹70–90L · Product fintech leadership</div>
+          <span class="milestone-badge badge-future">Planned</span>
+        </div>
+        <div class="milestone future">
+          <div class="milestone-year">2031 – 2033</div>
+          <div class="milestone-title">VP / Founder's Office</div>
+          <div class="milestone-desc">Target CTC: ₹90L–1.2Cr · Series B–C fintech</div>
+          <span class="milestone-badge badge-future">Planned</span>
+        </div>
+        <div class="milestone future">
+          <div class="milestone-year">2033 – 2035+</div>
+          <div class="milestone-title">NBFC Advisory Boutique</div>
+          <div class="milestone-desc">Fractional CRO · Risk consulting · Kolkata base · Remote clients · Side → Main</div>
+          <span class="milestone-badge badge-future">Vision</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <!-- Salary Trajectory -->
+      <div class="card">
+        <div class="card-title"><span class="icon">💰</span> 5-Year Salary Trajectory</div>
+        <div class="inner-tabs">
+          <button class="inner-tab active" onclick="showSalaryTab('slice')">Slice Path</button>
+          <button class="inner-tab" onclick="showSalaryTab('exl')">EXL Path</button>
+        </div>
+        <div id="salary-slice">
+          <table class="salary-table">
+            <thead><tr><th>Year</th><th>CTC</th><th>ESOP Value</th><th>Total</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td><span class="year-pill">2026</span></td><td>₹33L</td><td>₹3L</td><td>₹36L</td><td>Senior BA</td></tr>
+              <tr><td><span class="year-pill">2027</span></td><td>₹37.9L</td><td>₹6L</td><td>₹43.9L</td><td>Lead BA</td></tr>
+              <tr><td><span class="year-pill">2028</span></td><td>₹43.6L</td><td>₹12L</td><td>₹55.6L</td><td>Principal</td></tr>
+              <tr class="highlight-row"><td><span class="year-pill">2029</span></td><td style="color:var(--green);font-weight:700;">₹60–70L</td><td>—</td><td style="color:var(--green);font-weight:700;">₹60–70L</td><td style="color:var(--accent);">Switch ↗</td></tr>
+              <tr><td><span class="year-pill">2030</span></td><td>₹70–80L</td><td>New</td><td>₹70–80L</td><td>Lead/AM</td></tr>
+              <tr><td><span class="year-pill">2031</span></td><td>₹80–95L</td><td>New</td><td>₹85–100L+</td><td>Sr Manager</td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:11px;color:var(--text3);margin-top:10px;">ESOP assumes 2x stock growth/yr from grant. 3-yr profit: ~₹16.5L net.</div>
+        </div>
+        <div id="salary-exl" style="display:none;">
+          <table class="salary-table">
+            <thead><tr><th>Year</th><th>CTC</th><th>Bonus (10%)</th><th>Effective</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td><span class="year-pill">2026</span></td><td>₹38L</td><td>₹3.8L</td><td>₹41.8L</td><td>Project Mgr</td></tr>
+              <tr><td><span class="year-pill">2027</span></td><td>₹41.8L</td><td>₹4.2L</td><td>₹46L</td><td>Sr PM</td></tr>
+              <tr><td><span class="year-pill">2028</span></td><td>₹46L</td><td>₹4.6L</td><td>₹50.6L</td><td>Sr PM</td></tr>
+              <tr><td><span class="year-pill">2029</span></td><td>₹50.6L</td><td>₹5.1L</td><td>₹55.7L</td><td>AVP/Mgr</td></tr>
+              <tr><td><span class="year-pill">2030</span></td><td>₹55.7L</td><td>₹5.6L</td><td>₹61.3L</td><td>AVP</td></tr>
+              <tr class="highlight-row"><td><span class="year-pill">2031</span></td><td>₹61.3L</td><td>₹6.1L</td><td style="color:var(--text3)">₹67.4L</td><td style="color:var(--text3)">VP maybe</td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:11px;color:var(--red);margin-top:10px;">⚠ EXL VP ceiling ~₹65–70L median. Slice path wins from year 3 onward by ₹15–30L/yr.</div>
+        </div>
+      </div>
+
+      <!-- SWOT -->
+      <div class="card">
+        <div class="card-title"><span class="icon">⚖️</span> EXL vs Slice SWOT</div>
+        <div class="inner-tabs">
+          <button class="inner-tab active" onclick="showSwotTab('slice-swot')">Slice</button>
+          <button class="inner-tab" onclick="showSwotTab('exl-swot')">EXL Return</button>
+        </div>
+        <div id="slice-swot">
+          <div class="swot-grid">
+            <div class="swot-cell s"><div class="swot-label">✓ Strengths</div><ul class="swot-list"><li>15% YoY growth compounding</li><li>Pure fintech brand</li><li>ESOP upside (2x/yr)</li><li>Great manager</li><li>Real ownership</li></ul></div>
+            <div class="swot-cell w"><div class="swot-label">✗ Weaknesses</div><ul class="swot-list"><li>5 days WFO + weekends</li><li>Family in Kolkata</li><li>Tough culture</li><li>No bonus</li><li>0 hike year 1</li></ul></div>
+            <div class="swot-cell o"><div class="swot-label">↗ Opportunities</div><ul class="swot-list"><li>CRED/JPM exit at 18m</li><li>₹21L ESOP profit in 3yr</li><li>AI tooling moat grows</li><li>Slice banking brand</li></ul></div>
+            <div class="swot-cell t"><div class="swot-label">⚡ Threats</div><ul class="swot-list"><li>Startup funding risk</li><li>Burnout potential</li><li>WLB = long-term cost</li><li>Culture may not improve</li></ul></div>
+          </div>
+        </div>
+        <div id="exl-swot" style="display:none;">
+          <div class="swot-grid">
+            <div class="swot-cell s"><div class="swot-label">✓ Strengths</div><ul class="swot-list"><li>WFH permanent</li><li>Known people, reference hire</li><li>10% bonus + stability</li><li>Kolkata comfort</li><li>Low-risk transition</li></ul></div>
+            <div class="swot-cell w"><div class="swot-label">✗ Weaknesses</div><ul class="swot-list"><li>7-month Slice = CV gap</li><li>BPO brand ≠ fintech</li><li>Low salary ceiling</li><li>No ESOP</li><li>10% growth = flat real</li></ul></div>
+            <div class="swot-cell o"><div class="swot-label">↗ Opportunities</div><ul class="swot-list"><li>VP by 2031</li><li>Higher savings (lower costs)</li><li>Consulting network</li></ul></div>
+            <div class="swot-cell t"><div class="swot-label">⚡ Threats</div><ul class="swot-list"><li>US client recession risk</li><li>Skill stagnation</li><li>Hard fintech re-entry later</li><li>BPO layoff cycles</li></ul></div>
+          </div>
+        </div>
+        <div class="verdict">
+          <div class="verdict-label">🎯 Verdict</div>
+          <div class="verdict-text">Stay Slice until <strong>March 2027</strong>. Don't leave for WFH alone — CV damage from two short stints is real. Your manager is excellent. You built policy from scratch. EXL will always exist; this phase won't.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Target Companies -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🏆</span> Target Companies (Post-March 2027)</div>
+    <div class="grid grid-2">
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:10px;font-weight:600;">TIER 1 — Best ROI</div>
+        <div class="company-row">
+          <div class="company-rank">1</div>
+          <div class="company-name">Revolut India</div>
+          <div>
+            <div class="company-ctc">₹50–80L</div>
+            <div class="company-wlb"><span class="wlb-stars">★★★★</span> 3.8/5 WLB · Hybrid</div>
+          </div>
+        </div>
+        <div class="company-row">
+          <div class="company-rank">2</div>
+          <div class="company-name">Jupiter</div>
+          <div>
+            <div class="company-ctc">₹45–60L</div>
+            <div class="company-wlb"><span class="wlb-stars">★★★★</span> 3.5/5 WLB · Hybrid</div>
+          </div>
+        </div>
+        <div class="company-row">
+          <div class="company-rank">3</div>
+          <div class="company-name">CRED</div>
+          <div>
+            <div class="company-ctc">₹50–70L</div>
+            <div class="company-wlb"><span class="wlb-stars">★★★</span> 3.3/5 WLB · Hybrid</div>
+          </div>
+        </div>
+        <div class="company-row">
+          <div class="company-rank">4</div>
+          <div class="company-name">JPMorgan Chase India</div>
+          <div>
+            <div class="company-ctc">₹40–60L</div>
+            <div class="company-wlb"><span class="wlb-stars">★★★★</span> 3.7/5 WLB · Hybrid</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:10px;font-weight:600;">TIER 2 — Good Options</div>
+        <div class="company-row">
+          <div class="company-rank">5</div>
+          <div class="company-name">Razorpay</div>
+          <div>
+            <div class="company-ctc">₹40–55L</div>
+            <div class="company-wlb"><span class="wlb-stars">★★★★</span> 3.8/5 WLB · Hybrid</div>
+          </div>
+        </div>
+        <div class="company-row">
+          <div class="company-rank">6</div>
+          <div class="company-name">Moneyview</div>
+          <div>
+            <div class="company-ctc">₹40–55L</div>
+            <div class="company-wlb"><span class="wlb-stars">★★★</span> 3.2/5 WLB</div>
+          </div>
+        </div>
+        <div class="company-row" style="border-color:rgba(255,71,87,0.3);">
+          <div class="company-rank" style="color:var(--red);">✗</div>
+          <div class="company-name">Navi <span style="font-size:10px;color:var(--red);">AVOID</span></div>
+          <div>
+            <div class="company-ctc">₹45–65L</div>
+            <div class="company-wlb" style="color:var(--red);">2.2/5 WLB · No WFH · Sundays too</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.2);border-radius:10px;padding:12px;font-size:12px;color:var(--text2);">
+          <strong style="color:var(--red);">Navi Warning:</strong> Glassdoor WLB 2.2/5, 49% recommend. "No WFH even Sundays." Worse culture than Slice.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FINANCE
+═══════════════════════════════════════════ -->
+<div class="section" id="section-finance">
+  <div class="section-title">Financial <span>Planner</span></div>
+
+  <div class="grid grid-3" style="margin-bottom:20px;">
+    <div class="card">
+      <div class="card-title"><span class="icon">🏦</span> Net Worth Snapshot</div>
+      <div class="fin-goal">
+        <div class="fin-goal-header"><span class="fin-goal-name">Savings Account</span><span class="fin-goal-value">₹20L</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:40%;background:var(--green)"></div></div>
+        <div class="fin-goal-meta"><span>Keep ₹10L liquid always</span><span>Deploy ₹10L → Index fund</span></div>
+      </div>
+      <div class="fin-goal">
+        <div class="fin-goal-header"><span class="fin-goal-name">Baguiathi Property</span><span class="fin-goal-value">~₹65L</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:65%;background:var(--accent4)"></div></div>
+        <div class="fin-goal-meta"><span>Rental: ₹50K/mo</span><span>8% CAGR → ₹1.3Cr by 2033</span></div>
+      </div>
+      <div class="fin-goal">
+        <div class="fin-goal-header"><span class="fin-goal-name">Equity / SIP</span><span class="fin-goal-value">~₹8L</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--blue)"></div></div>
+        <div class="fin-goal-meta"><span>Target: ₹1.2–1.5L/mo</span><span>12% CAGR assumed</span></div>
+      </div>
+      <div style="margin-top:16px;padding:14px;background:var(--bg2);border-radius:10px;border:1px solid var(--border);">
+        <div style="font-size:11px;color:var(--text3);">TOTAL NET WORTH (May 2026)</div>
+        <div style="font-size:28px;font-weight:800;color:var(--gold);margin-top:4px;">~₹92–99L</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:4px;">Starting well above zero ✓</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🎯</span> Wealth Goals</div>
+      <div class="fin-goal">
+        <div class="fin-goal-header"><span class="fin-goal-name">₹5 Cr Liquid</span><span class="fin-goal-value">2032–33</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:18%;background:linear-gradient(90deg,var(--green),var(--accent3))"></div></div>
+        <div class="fin-goal-meta"><span>Current: ₹18L liquid</span><span>At 12% CAGR + SIP</span></div>
+      </div>
+      <div class="fin-goal">
+        <div class="fin-goal-header"><span class="fin-goal-name">₹10 Cr Total Wealth</span><span class="fin-goal-value">2034</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:9%;background:linear-gradient(90deg,var(--accent),var(--purple))"></div></div>
+        <div class="fin-goal-meta"><span>Includes property</span><span>Age 36</span></div>
+      </div>
+      <div class="fin-goal">
+        <div class="fin-goal-header"><span class="fin-goal-name">Newtown Villa</span><span class="fin-goal-value">₹4–5 Cr</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:5%;background:linear-gradient(90deg,var(--accent4),var(--gold))"></div></div>
+        <div class="fin-goal-meta"><span>Target: 2033–34</span><span>Sell Baguiathi + corpus</span></div>
+      </div>
+      <div class="fin-goal">
+        <div class="fin-goal-header"><span class="fin-goal-name">Financial Freedom</span><span class="fin-goal-value">₹11.7 Cr min</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:8%;background:var(--accent2)"></div></div>
+        <div class="fin-goal-meta"><span>3.5% SWR needed</span><span>Age 42–50 window</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">💎</span> ESOP Tracker (Slice)</div>
+      <div class="esop-display">
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">TOTAL GRANT VALUE</div>
+        <div class="esop-value">₹6L</div>
+        <div class="esop-label">Vesting over 4 years · ₹1.5L/yr</div>
+        <div class="esop-row">
+          <div class="esop-chip">
+            <div class="esop-chip-val">₹3L</div>
+            <div class="esop-chip-label">Year 1 (2x)</div>
+          </div>
+          <div class="esop-chip">
+            <div class="esop-chip-val">₹6L</div>
+            <div class="esop-chip-label">Year 2 (4x)</div>
+          </div>
+          <div class="esop-chip">
+            <div class="esop-chip-val">₹12L</div>
+            <div class="esop-chip-label">Year 3 (8x)</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--text2);line-height:1.7;">
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+          <span>3-yr total market value</span><span style="color:var(--purple);font-weight:700;">₹21L</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+          <span>Net profit (minus grant)</span><span style="color:var(--green);font-weight:700;">~₹16.5L</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;">
+          <span>Strategy</span><span style="color:var(--accent4);font-weight:700;">Hold → Sell at vest</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wealth Projection Table -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📊</span> Wealth Projection (Base Case, Slice Path)</div>
+    <div style="overflow-x:auto;">
+      <table class="salary-table">
+        <thead><tr><th>Year</th><th>Age</th><th>Liquid Corpus</th><th>Total Wealth</th><th>Key Event</th></tr></thead>
+        <tbody>
+          <tr><td><span class="year-pill">2026</span></td><td>28</td><td>~₹99L</td><td>~₹1.65 Cr</td><td style="color:var(--text3)">Starting point</td></tr>
+          <tr><td><span class="year-pill">2028</span></td><td>30</td><td>₹2.4 Cr</td><td>₹3.2 Cr</td><td style="color:var(--accent)">Job switch →Tier 1</td></tr>
+          <tr><td><span class="year-pill">2029</span></td><td>31</td><td>₹3.5 Cr</td><td>₹4.4 Cr</td><td style="color:var(--green)">CTC jumps to ₹55L+</td></tr>
+          <tr class="highlight-row"><td><span class="year-pill">2032</span></td><td>34</td><td style="color:var(--green);font-weight:700;">₹5 Cr ✓</td><td>₹7.0 Cr</td><td style="color:var(--green)">₹5 Cr milestone hit</td></tr>
+          <tr><td><span class="year-pill">2034</span></td><td>36</td><td>₹9.7 Cr</td><td>₹10.5 Cr</td><td style="color:var(--accent4)">Villa purchase</td></tr>
+          <tr><td><span class="year-pill">2037</span></td><td>39</td><td>₹11–14 Cr</td><td>₹12–15 Cr</td><td style="color:var(--purple)">Freedom window opens</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;">
+      <div style="background:rgba(46,213,115,0.08);border:1px solid rgba(46,213,115,0.2);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);">Conservative</div>
+        <div style="font-size:18px;font-weight:700;color:var(--green);margin:4px 0;">₹18 Cr</div>
+        <div style="font-size:11px;color:var(--text3);">at age 50</div>
+      </div>
+      <div style="background:rgba(108,99,255,0.08);border:1px solid rgba(108,99,255,0.2);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);">Realistic</div>
+        <div style="font-size:18px;font-weight:700;color:var(--accent);margin:4px 0;">₹25–30 Cr</div>
+        <div style="font-size:11px;color:var(--text3);">at age 50</div>
+      </div>
+      <div style="background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);">Best (Slice IPO)</div>
+        <div style="font-size:18px;font-weight:700;color:var(--gold);margin:4px 0;">₹40–55 Cr</div>
+        <div style="font-size:11px;color:var(--text3);">at age 50</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rules -->
+  <div class="card" style="margin-top:20px;">
+    <div class="card-title"><span class="icon">🔒</span> Non-Negotiable Financial Rules</div>
+    <div class="grid grid-3">
+      <div style="padding:14px;background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.2);border-radius:10px;">
+        <div style="color:var(--red);font-weight:700;font-size:13px;margin-bottom:6px;">🚫 Always Liquid</div>
+        <div style="font-size:12px;color:var(--text2);">₹10L emergency fund. Never deploy. Never touch. Period.</div>
+      </div>
+      <div style="padding:14px;background:rgba(46,213,115,0.08);border:1px solid rgba(46,213,115,0.2);border-radius:10px;">
+        <div style="color:var(--green);font-weight:700;font-size:13px;margin-bottom:6px;">✅ SIP Minimum</div>
+        <div style="font-size:12px;color:var(--text2);">₹1.2–1.5L/mo automate. Don't reduce. Increase with salary.</div>
+      </div>
+      <div style="padding:14px;background:rgba(108,99,255,0.08);border:1px solid rgba(108,99,255,0.2);border-radius:10px;">
+        <div style="color:var(--accent);font-weight:700;font-size:13px;margin-bottom:6px;">🏢 Business Capital</div>
+        <div style="font-size:12px;color:var(--text2);">Max ₹50–75L for business. Source: consulting income ONLY. Never corpus.</div>
+      </div>
+      <div style="padding:14px;background:rgba(247,151,30,0.08);border:1px solid rgba(247,151,30,0.2);border-radius:10px;">
+        <div style="color:var(--accent4);font-weight:700;font-size:13px;margin-bottom:6px;">🏠 Villa Rule</div>
+        <div style="font-size:12px;color:var(--text2);">Don't buy Newtown villa before corpus hits ₹8 Cr. Non-negotiable.</div>
+      </div>
+      <div style="padding:14px;background:rgba(30,144,255,0.08);border:1px solid rgba(30,144,255,0.2);border-radius:10px;">
+        <div style="color:var(--blue);font-weight:700;font-size:13px;margin-bottom:6px;">🏥 Insurance</div>
+        <div style="font-size:12px;color:var(--text2);">₹50L health floater. Get before baby arrives. Model LTCG tax in projections.</div>
+      </div>
+      <div style="padding:14px;background:rgba(255,101,132,0.08);border:1px solid rgba(255,101,132,0.2);border-radius:10px;">
+        <div style="color:var(--accent2);font-weight:700;font-size:13px;margin-bottom:6px;">👶 Child SIP</div>
+        <div style="font-size:12px;color:var(--text2);">₹5K/mo from birth → ₹35–40L at 12% over 15 years. Start at birth.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TASKS
+═══════════════════════════════════════════ -->
+<div class="section" id="section-tasks">
+  <div class="section-title">Tasks & <span>Reminders</span></div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-title"><span class="icon">➕</span> Add Task / Reminder</div>
+      <div class="add-form">
+        <input class="add-input" id="task-input" placeholder="What do you need to do..." onkeypress="if(event.key==='Enter') addTask()">
+        <select class="add-select" id="task-tag">
+          <option value="career">Career</option>
+          <option value="finance">Finance</option>
+          <option value="health">Health</option>
+          <option value="habit">Habit</option>
+        </select>
+        <button class="add-btn" onclick="addTask()">Add</button>
+      </div>
+      <div class="reminder-list" id="custom-tasks"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📌</span> Recurring Reminders</div>
+      <div class="reminder-list">
+        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Monthly SIP:</strong> ₹1.2–1.5L investment — don't skip</div><span class="reminder-tag tag-finance">Finance</span></div>
+        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>March 2027:</strong> 18-month Slice tenure target — start job search</div><span class="reminder-tag tag-career">Career</span></div>
+        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Weekly LinkedIn:</strong> Post 1 piece of credit risk / fraud insight</div><span class="reminder-tag tag-career">Career</span></div>
+        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Portfolio review:</strong> Check Kite holdings every Sunday</div><span class="reminder-tag tag-finance">Finance</span></div>
+        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>ESOP:</strong> Track Slice stock valuation quarterly</div><span class="reminder-tag tag-finance">Finance</span></div>
+        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Health insurance:</strong> Get ₹50L floater policy</div><span class="reminder-tag tag-health">Health</span></div>
+        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Daily art:</strong> 10–15 min drawing or sketching</div><span class="reminder-tag tag-habit">Hobby</span></div>
+        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Bengali writing:</strong> 1 story or 3 quotes per week</div><span class="reminder-tag tag-habit">Hobby</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="card-title"><span class="icon">🔑</span> Career Rules (Read Weekly)</div>
+    <div class="grid grid-3">
+      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--accent);">
+        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px;">Rule 1 — 18 Month Rule</div>
+        <div style="font-size:12px;color:var(--text2);">Never leave a role before 18 months. Slice minimum: March 2027. Short stints kill credibility.</div>
+      </div>
+      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--green);">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px;">Rule 2 — 25% Hike Only</div>
+        <div style="font-size:12px;color:var(--text2);">Switch jobs only for ≥25% hike on total comp. Disruption cost is real.</div>
+      </div>
+      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--purple);">
+        <div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:6px;">Rule 3 — AI Tooling Moat</div>
+        <div style="font-size:12px;color:var(--text2);">By 2029: position as "credit risk + AI tooling" expert. Use Claude/Cursor daily. This is the 5-yr moat.</div>
+      </div>
+      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--accent4);">
+        <div style="font-size:12px;font-weight:700;color:var(--accent4);margin-bottom:6px;">Rule 4 — Never CTC First</div>
+        <div style="font-size:12px;color:var(--text2);">In negotiations, never reveal current CTC first. Anchor high. Ask ₹55–65L. Walk away only below ₹42L.</div>
+      </div>
+      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--accent2);">
+        <div style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:6px;">Rule 5 — Build NOW</div>
+        <div style="font-size:12px;color:var(--text2);">LinkedIn content + consulting network before you need it. Inbound > outbound. Start 2026.</div>
+      </div>
+      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--blue);">
+        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px;">Rule 6 — Leave When...</div>
+        <div style="font-size:12px;color:var(--text2);">Leave Slice when: stop learning / work becomes repetitive / no visibility. NOT for WFH alone.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     HOBBIES
+═══════════════════════════════════════════ -->
+<div class="section" id="section-hobbies">
+  <div class="section-title">Hobbies & <span>Wellness</span></div>
+
+  <div class="hobby-grid">
+
+    <!-- ART & DRAWING -->
+    <div class="hobby-card art">
+      <div class="hobby-emoji">🎨</div>
+      <div class="hobby-title">Art & Drawing</div>
+      <div class="hobby-sub">Track your creative practice — 10 min a day is enough</div>
+
+      <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px;">THIS MONTH — tap a day to mark done</div>
+      <div class="art-streak" id="art-calendar"></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);">STREAK</div>
+          <div style="font-size:22px;font-weight:800;color:var(--purple);" id="art-streak-count">0 days</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);">THIS MONTH</div>
+          <div style="font-size:22px;font-weight:800;color:rgba(255,255,255,0.7);" id="art-month-count">0 days</div>
+        </div>
+        <button onclick="markArtToday()" style="padding:8px 14px;border-radius:8px;border:none;background:var(--purple);color:#fff;font-size:12px;cursor:pointer;font-weight:600;">Mark Today ✓</button>
+      </div>
+
+      <div style="margin-top:14px;">
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:6px;">TODAY'S INSPIRATION</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.6);font-style:italic;" id="art-prompt">Loading...</div>
+      </div>
+    </div>
+
+    <!-- BENGALI STORIES & QUOTES -->
+    <div class="hobby-card bengali">
+      <div class="hobby-emoji">📖</div>
+      <div class="hobby-title">Bengali Stories & Quotes</div>
+      <div class="hobby-sub">আপনার সৃষ্টিশীল কোণ — Your creative corner</div>
+
+      <div id="quote-display" class="quote-display"></div>
+      <div class="quote-author" id="quote-author"></div>
+      <div class="quote-nav">
+        <button class="quote-btn" onclick="prevQuote()">← Previous</button>
+        <button class="quote-btn" onclick="nextQuote()">Next →</button>
+        <button class="quote-btn" onclick="randomQuote()" style="background:rgba(30,144,255,0.2);">✦ Random</button>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:6px;">WRITE YOUR STORY / THOUGHT</div>
+        <textarea class="story-area" id="story-input" placeholder="আপনার গল্প বা চিন্তা লিখুন... (Write your story or thought here)"></textarea>
+        <button class="story-btn" onclick="saveStory()">Save Entry ✓</button>
+      </div>
+
+      <div class="story-saved" id="story-saved"></div>
+    </div>
+
+    <!-- HEALTH & WELLNESS -->
+    <div class="hobby-card health">
+      <div class="hobby-emoji">💪</div>
+      <div class="hobby-title">Health & Wellness</div>
+      <div class="hobby-sub">Daily habits that keep you sharp and strong</div>
+
+      <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:10px;">TODAY'S HEALTH CHECKLIST</div>
+      <div class="health-grid" id="health-checks">
+        <div class="health-item" onclick="toggleHealth(this)" data-key="walk">
+          <div class="health-item-icon">🚶</div>
+          <div class="health-item-label">Walk / Run</div>
+        </div>
+        <div class="health-item" onclick="toggleHealth(this)" data-key="workout">
+          <div class="health-item-icon">🏋️</div>
+          <div class="health-item-label">Workout</div>
+        </div>
+        <div class="health-item" onclick="toggleHealth(this)" data-key="meditation">
+          <div class="health-item-icon">🧘</div>
+          <div class="health-item-label">Meditation</div>
+        </div>
+        <div class="health-item" onclick="toggleHealth(this)" data-key="sleep">
+          <div class="health-item-icon">😴</div>
+          <div class="health-item-label">8hr Sleep</div>
+        </div>
+        <div class="health-item" onclick="toggleHealth(this)" data-key="healthy-meal">
+          <div class="health-item-icon">🥗</div>
+          <div class="health-item-label">Healthy Meal</div>
+        </div>
+        <div class="health-item" onclick="toggleHealth(this)" data-key="no-junk">
+          <div class="health-item-icon">🚫</div>
+          <div class="health-item-label">No Junk Food</div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px;">WATER INTAKE (tap to fill)</div>
+        <div class="water-track" id="water-cups"></div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px;" id="water-label">0 / 8 glasses</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px;">TODAY'S MOOD</div>
+        <div class="mood-row" id="mood-row">
+          <button class="mood-btn" onclick="setMood(this,'😊')">😊</button>
+          <button class="mood-btn" onclick="setMood(this,'😤')">😤</button>
+          <button class="mood-btn" onclick="setMood(this,'😴')">😴</button>
+          <button class="mood-btn" onclick="setMood(this,'💪')">💪</button>
+          <button class="mood-btn" onclick="setMood(this,'😰')">😰</button>
+          <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;padding:12px;background:rgba(0,0,0,0.25);border-radius:10px;">
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:6px;">HEALTH SCORE TODAY</div>
+        <div style="font-size:24px;font-weight:800;color:var(--green);" id="health-score">0 / 6</div>
+        <div style="height:6px;background:rgba(0,0,0,0.3);border-radius:3px;margin-top:8px;overflow:hidden;">
+          <div id="health-bar" style="height:100%;border-radius:3px;background:linear-gradient(90deg,#43e97b,#38f9d7);width:0%;transition:width 0.4s;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly Health Log -->
+  <div class="card" style="margin-top:20px;">
+    <div class="card-title"><span class="icon">📅</span> Wellness Philosophy</div>
+    <div class="grid grid-3">
+      <div style="padding:14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--green);">
+        <div style="font-weight:700;font-size:13px;color:var(--green);margin-bottom:8px;">🚶 Movement</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">30 min walk minimum daily. Bangalore heat = early morning. Weekends: longer walks in parks near your area.</div>
+      </div>
+      <div style="padding:14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--blue);">
+        <div style="font-weight:700;font-size:13px;color:var(--blue);margin-bottom:8px;">🧘 Mental Reset</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">5 days WFO + chaotic culture = need daily decompression. Art, reading, Bengali writing = mental reset rituals. Non-negotiable.</div>
+      </div>
+      <div style="padding:14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--accent4);">
+        <div style="font-weight:700;font-size:13px;color:var(--accent4);margin-bottom:8px;">🎨 Creative Time</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7;">10–15 min drawing daily. Bengali stories: 1/week minimum. These aren't luxuries — they keep your analytical mind from burning out.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── STATE ───────────────────────────────────────────
+const SLICE_START = new Date('2025-09-01');
+const MARCH_2027  = new Date('2027-03-01');
+const TODAY       = new Date();
+
+// ─── INIT ────────────────────────────────────────────
+function init() {
+  updateDateTime();
+  updateCountdowns();
+  buildArtCalendar();
+  buildWaterCups();
+  loadQuote();
+  loadStories();
+  loadCustomTasks();
+  loadHealthState();
+  setInterval(updateDateTime, 60000);
+}
+
+// ─── NAV ─────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── DATE/TIME ───────────────────────────────────────
+function updateDateTime() {
+  const now = new Date();
+  const h = now.getHours();
+  const greeting = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+  const el = document.getElementById('greeting-time');
+  if (el) el.textContent = greeting;
+
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('nav-date').textContent =
+    `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+}
+
+// ─── COUNTDOWNS ──────────────────────────────────────
+function updateCountdowns() {
+  const sliceDays = Math.floor((TODAY - SLICE_START) / 86400000);
+  const toMarch   = Math.max(0, Math.floor((MARCH_2027 - TODAY) / 86400000));
+
+  // Tenure in months from Sept 2025
+  const totalDays = Math.floor((MARCH_2027 - SLICE_START) / 86400000); // 18 months total
+  const pct = Math.min(100, Math.round((sliceDays / totalDays) * 100));
+  const sliceMonths = Math.floor(sliceDays / 30);
+
+  document.getElementById('slice-days').textContent = sliceDays + 'd';
+  document.getElementById('march-countdown').textContent = toMarch + 'd';
+  document.getElementById('days-to-march').textContent = toMarch;
+
+  const tp = document.getElementById('tenure-pct');
+  const tb = document.getElementById('tenure-bar');
+  const tb2 = document.getElementById('tenure-bar2');
+  const pd2 = document.getElementById('pct-disp2');
+  if (tp) tp.textContent = pct + '%';
+  if (tb) tb.style.width = pct + '%';
+  if (tb2) tb2.style.width = pct + '%';
+  if (pd2) pd2.textContent = pct + '%';
+
+  const sm = document.getElementById('slice-months');
+  if (sm) sm.textContent = sliceMonths;
+}
+
+// ─── REMINDERS / TASKS ───────────────────────────────
+function toggleReminder(el) {
+  el.classList.toggle('checked');
+}
+
+function addTask() {
+  const input = document.getElementById('task-input');
+  const tag   = document.getElementById('task-tag');
+  const text  = input.value.trim();
+  if (!text) return;
+
+  const tasks = JSON.parse(localStorage.getItem('arnab-tasks') || '[]');
+  tasks.push({ text, tag: tag.value, id: Date.now() });
+  localStorage.setItem('arnab-tasks', JSON.stringify(tasks));
+  input.value = '';
+  renderTasks();
+}
+
+function loadCustomTasks() { renderTasks(); }
+
+function renderTasks() {
+  const tasks = JSON.parse(localStorage.getItem('arnab-tasks') || '[]');
+  const container = document.getElementById('custom-tasks');
+  if (!container) return;
+  const tagClass = { career:'tag-career', finance:'tag-finance', health:'tag-health', habit:'tag-habit' };
+  container.innerHTML = tasks.map(t => `
+    <div class="reminder-item" onclick="toggleReminder(this)">
+      <div class="reminder-check">✓</div>
+      <div class="reminder-text">${t.text}</div>
+      <span class="reminder-tag ${tagClass[t.tag]||'tag-habit'}">${t.tag}</span>
+      <span onclick="deleteTask(event,${t.id})" style="font-size:14px;color:var(--text3);cursor:pointer;padding:0 4px;">×</span>
+    </div>
+  `).join('');
+}
+
+function deleteTask(e, id) {
+  e.stopPropagation();
+  const tasks = JSON.parse(localStorage.getItem('arnab-tasks') || '[]').filter(t => t.id !== id);
+  localStorage.setItem('arnab-tasks', JSON.stringify(tasks));
+  renderTasks();
+}
+
+// ─── INNER TABS ──────────────────────────────────────
+function showSalaryTab(id) {
+  document.getElementById('salary-slice').style.display = id === 'slice' ? 'block' : 'none';
+  document.getElementById('salary-exl').style.display   = id === 'exl'   ? 'block' : 'none';
+  document.querySelectorAll('.inner-tab').forEach((t,i) => {
+    t.classList.toggle('active', (id === 'slice' && i === 0) || (id === 'exl' && i === 1));
+  });
+}
+
+function showSwotTab(id) {
+  document.getElementById('slice-swot').style.display = id === 'slice-swot' ? 'block' : 'none';
+  document.getElementById('exl-swot').style.display   = id === 'exl-swot'   ? 'block' : 'none';
+}
+
+// ─── ART CALENDAR ────────────────────────────────────
+function buildArtCalendar() {
+  const cal = document.getElementById('art-calendar');
+  if (!cal) return;
+  const daysInMonth = new Date(TODAY.getFullYear(), TODAY.getMonth() + 1, 0).getDate();
+  const artData = JSON.parse(localStorage.getItem('arnab-art') || '{}');
+  const key = `${TODAY.getFullYear()}-${TODAY.getMonth()}`;
+
+  cal.innerHTML = '';
+  let monthCount = 0;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dayKey = `${key}-${d}`;
+    const done = artData[dayKey];
+    if (done) monthCount++;
+    const div = document.createElement('div');
+    div.className = 'art-day' + (done ? ' active' : '') + (d === TODAY.getDate() ? ' today' : '');
+    div.textContent = d;
+    div.onclick = () => toggleArtDay(dayKey, div);
+    cal.appendChild(div);
+  }
+  document.getElementById('art-month-count').textContent = monthCount + ' days';
+  updateArtStreak(artData);
+}
+
+function toggleArtDay(key, el) {
+  const artData = JSON.parse(localStorage.getItem('arnab-art') || '{}');
+  artData[key] = !artData[key];
+  localStorage.setItem('arnab-art', JSON.stringify(artData));
+  el.classList.toggle('active', artData[key]);
+  buildArtCalendar();
+}
+
+function markArtToday() {
+  const key = `${TODAY.getFullYear()}-${TODAY.getMonth()}-${TODAY.getDate()}`;
+  const artData = JSON.parse(localStorage.getItem('arnab-art') || '{}');
+  artData[key] = true;
+  localStorage.setItem('arnab-art', JSON.stringify(artData));
+  buildArtCalendar();
+}
+
+function updateArtStreak(artData) {
+  let streak = 0;
+  const d = new Date(TODAY);
+  while (true) {
+    const k = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+    if (artData[k]) { streak++; d.setDate(d.getDate() - 1); }
+    else break;
+  }
+  const el = document.getElementById('art-streak-count');
+  if (el) el.textContent = streak + ' days';
+}
+
+const ART_PROMPTS = [
+  'Sketch a Kolkata street corner from memory',
+  'Draw your favorite Bengali dish',
+  'Portrait study — eyes only',
+  'Abstract shapes using only 3 colors',
+  'The view from your Bangalore window',
+  'A memory from IIT Roorkee campus',
+  'Geometric patterns inspired by Bengali kantha embroidery',
+  'Sketch your morning routine in 4 panels',
+  'Draw a rickshaw or tram from Kolkata',
+  'Nature study — a single leaf in detail',
+  'Landscape: Bengal delta rivers',
+  'Character design — a Bengali folk figure',
+];
+
+function setArtPrompt() {
+  const el = document.getElementById('art-prompt');
+  if (el) el.textContent = ART_PROMPTS[Math.floor(Math.random() * ART_PROMPTS.length)];
+}
+
+// ─── BENGALI QUOTES ───────────────────────────────────
+const QUOTES = [
+  { text: 'যদি তোর ডাক শুনে কেউ না আসে তবে একলা চলো রে।', author: '— রবীন্দ্রনাথ ঠাকুর (Rabindranath Tagore)' },
+  { text: 'সাফল্য হলো সেই জায়গা যেখানে প্রস্তুতি ও সুযোগ মিলিত হয়।', author: '— বাংলা প্রবাদ' },
+  { text: 'স্বপ্ন দেখো, সংকল্প করো, কাজে নামো — ফলাফল আসবেই।', author: '— আধুনিক বাংলা ভাবনা' },
+  { text: 'জীবনে যা পেতে চাও, তার জন্য মূল্য দিতে হয়। সেই মূল্য হলো পরিশ্রম ও অপেক্ষা।', author: '— বাংলা জ্ঞান' },
+  { text: 'আলো আসবে বলেই অন্ধকারে পথ চলি।', author: '— রবীন্দ্রনাথ ঠাকুর' },
+  { text: 'মানুষের মধ্যে যে মানুষ তাকে জাগাও।', author: '— বাংলা দার্শনিক চিন্তা' },
+  { text: 'শ্রেষ্ঠ বিনিয়োগ হলো নিজের ওপর বিনিয়োগ।', author: '— আর্নব মণ্ডল (ব্যক্তিগত নোট)' },
+  { text: 'ধৈর্য সেই গাছ যার ফল তিক্ত, কিন্তু ফলাফল মধুর।', author: '— বাংলা প্রবাদ' },
+  { text: 'সূর্য প্রতিদিন উদয় হয়, নতুন সুযোগ নিয়ে আসে।', author: '— বাংলা কবিতা' },
+  { text: 'যে কঠিন পথ বেছে নেয়, সে সহজ জীবন পায়।', author: '— বাংলা দর্শন' },
+  { text: 'সাহস মানে ভয় না পাওয়া নয়, ভয় থাকলেও এগিয়ে যাওয়া।', author: '— আধুনিক বাংলা চিন্তা' },
+  { text: 'তোমার স্বপ্ন তোমাকেই পূরণ করতে হবে — অন্য কেউ করবে না।', author: '— বাংলা অনুপ্রেরণা' },
+];
+
+let currentQuote = 0;
+
+function loadQuote() {
+  currentQuote = Math.floor(Math.random() * QUOTES.length);
+  showQuote();
+}
+
+function showQuote() {
+  const q = QUOTES[currentQuote];
+  document.getElementById('quote-display').textContent = q.text;
+  document.getElementById('quote-author').textContent = q.author;
+}
+
+function nextQuote() {
+  currentQuote = (currentQuote + 1) % QUOTES.length;
+  showQuote();
+}
+
+function prevQuote() {
+  currentQuote = (currentQuote - 1 + QUOTES.length) % QUOTES.length;
+  showQuote();
+}
+
+function randomQuote() {
+  currentQuote = Math.floor(Math.random() * QUOTES.length);
+  showQuote();
+}
+
+// ─── STORY WRITER ────────────────────────────────────
+function saveStory() {
+  const input = document.getElementById('story-input');
+  const text  = input.value.trim();
+  if (!text) return;
+
+  const stories = JSON.parse(localStorage.getItem('arnab-stories') || '[]');
+  stories.unshift({ text, date: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) });
+  localStorage.setItem('arnab-stories', JSON.stringify(stories.slice(0, 20)));
+  input.value = '';
+  loadStories();
+}
+
+function loadStories() {
+  const stories = JSON.parse(localStorage.getItem('arnab-stories') || '[]');
+  const el = document.getElementById('story-saved');
+  if (!el) return;
+  el.innerHTML = stories.slice(0, 3).map(s => `
+    <div class="story-entry">
+      <div class="story-entry-date">${s.date}</div>
+      ${s.text}
+    </div>
+  `).join('');
+}
+
+// ─── WATER CUPS ──────────────────────────────────────
+function buildWaterCups() {
+  const el = document.getElementById('water-cups');
+  if (!el) return;
+  const todayKey = 'water-' + TODAY.toDateString();
+  const filled = parseInt(localStorage.getItem(todayKey) || '0');
+  el.innerHTML = '';
+  for (let i = 0; i < 8; i++) {
+    const cup = document.createElement('div');
+    cup.className = 'water-cup' + (i < filled ? ' filled' : '');
+    cup.onclick = () => fillWater(i + 1);
+    el.appendChild(cup);
+  }
+  document.getElementById('water-label').textContent = `${filled} / 8 glasses`;
+}
+
+function fillWater(n) {
+  const todayKey = 'water-' + TODAY.toDateString();
+  const current = parseInt(localStorage.getItem(todayKey) || '0');
+  const next = current === n ? n - 1 : n;
+  localStorage.setItem(todayKey, next);
+  buildWaterCups();
+}
+
+// ─── HEALTH CHECKS ───────────────────────────────────
+function toggleHealth(el) {
+  el.classList.toggle('done');
+  saveHealthState();
+  updateHealthScore();
+}
+
+function updateHealthScore() {
+  const items = document.querySelectorAll('.health-item');
+  const done  = document.querySelectorAll('.health-item.done').length;
+  const el    = document.getElementById('health-score');
+  const bar   = document.getElementById('health-bar');
+  if (el)  el.textContent  = `${done} / ${items.length}`;
+  if (bar) bar.style.width = `${(done / items.length) * 100}%`;
+}
+
+function saveHealthState() {
+  const keys = {};
+  document.querySelectorAll('.health-item').forEach(el => {
+    keys[el.dataset.key] = el.classList.contains('done');
+  });
+  localStorage.setItem('arnab-health-' + TODAY.toDateString(), JSON.stringify(keys));
+}
+
+function loadHealthState() {
+  const saved = JSON.parse(localStorage.getItem('arnab-health-' + TODAY.toDateString()) || '{}');
+  document.querySelectorAll('.health-item').forEach(el => {
+    if (saved[el.dataset.key]) el.classList.add('done');
+  });
+  updateHealthScore();
+}
+
+// ─── MOOD ─────────────────────────────────────────────
+function setMood(btn, emoji) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  localStorage.setItem('arnab-mood-' + TODAY.toDateString(), emoji);
+}
+
+// ─── BOOT ────────────────────────────────────────────
+setArtPrompt();
+document.addEventListener('DOMContentLoaded', init);
+init();
+</script>
+</body>
+</html>
