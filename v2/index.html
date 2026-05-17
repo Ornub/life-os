@@ -523,6 +523,70 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
   box-shadow:0 8px 32px rgba(67,56,202,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
+/* ── MONEY WISDOM (01/Zero One stories) ── */
+.wisdom-hero {
+  background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 50%,#1a0a2e 100%);
+  border:1px solid rgba(99,102,241,0.3);
+  border-radius:18px; padding:24px 28px; margin-bottom:14px;
+  color:#fff; position:relative; overflow:hidden;
+  box-shadow:0 8px 28px rgba(99,102,241,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.wisdom-hero::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 60% 80% at 100% 0%,rgba(165,180,252,0.15) 0%,transparent 60%);
+  pointer-events:none;
+}
+.wisdom-badge { display:inline-block; background:rgba(99,102,241,0.25); color:#a5b4fc; border:1px solid rgba(99,102,241,0.4); padding:3px 11px; border-radius:999px; font-size:10px; font-weight:700; letter-spacing:1.2px; margin-bottom:10px; }
+.wisdom-hero h3 { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:800; line-height:1.2; margin-bottom:6px; }
+.wisdom-hero h3 .grad { background:linear-gradient(90deg,#818cf8,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.wisdom-hero p { color:rgba(255,255,255,0.65); font-size:13px; max-width:600px; }
+
+.story-card {
+  background:#fff; border:1px solid var(--border);
+  border-radius:16px; padding:20px; margin-bottom:14px;
+  box-shadow:0 4px 18px rgba(10,18,40,0.06), inset 0 1px 0 #fff;
+  position:relative; overflow:hidden;
+}
+.story-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--sc-color,#6366f1),transparent);
+}
+.story-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.story-num { width:36px; height:36px; border-radius:10px; background:var(--sc-color,#6366f1); color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:14px; box-shadow:0 3px 10px var(--sc-color,#6366f1)55; }
+.story-title { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:700; color:var(--text); letter-spacing:-0.3px; line-height:1.25; }
+.story-tag { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:3px; }
+.story-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; margin-bottom:14px; }
+.story-stat { background:#FAFBFF; border:1px solid var(--border); border-radius:10px; padding:10px 12px; text-align:center; }
+.story-stat-num { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:800; line-height:1; }
+.story-stat-lbl { font-size:9.5px; color:var(--text3); text-transform:uppercase; letter-spacing:0.6px; font-weight:700; margin-top:3px; }
+.story-stat.red .story-stat-num { color:var(--accent-red); }
+.story-stat.green .story-stat-num { color:var(--accent-green); }
+.story-stat.amber .story-stat-num { color:var(--accent-gold); }
+.story-stat.blue .story-stat-num { color:var(--accent-blue); }
+.story-stat.purple .story-stat-num { color:var(--accent-purple); }
+
+.story-rules { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; margin-bottom:14px; }
+.story-rule { padding:11px 13px; border-radius:10px; background:#F4F7FF; border-left:3px solid var(--sc-color,#6366f1); font-size:12px; line-height:1.5; }
+.story-rule strong { color:var(--text); font-weight:700; display:block; margin-bottom:2px; font-size:12.5px; }
+.story-rule span { color:var(--text2); }
+
+.story-apply {
+  background:linear-gradient(135deg,rgba(27,72,214,0.08) 0%,rgba(109,40,217,0.05) 100%);
+  border:1px solid rgba(27,72,214,0.2);
+  border-radius:11px; padding:13px 16px; font-size:12.5px; line-height:1.6; color:var(--text2);
+}
+.story-apply strong { color:var(--accent-blue); font-weight:700; }
+.story-apply-label { font-size:10px; color:var(--accent-blue); text-transform:uppercase; letter-spacing:1.2px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+
+.wisdom-callout {
+  background:#F0F9FF; border-left:3px solid var(--accent-blue);
+  border-radius:0 11px 11px 0; padding:13px 16px; font-size:12.5px; line-height:1.6; color:var(--text2);
+  margin-top:10px;
+}
+.wisdom-callout.warn { background:#FFFBEB; border-left-color:var(--accent-gold); }
+.wisdom-callout.danger { background:#FEF2F2; border-left-color:var(--accent-red); }
+.wisdom-callout strong { font-weight:700; }
+
 /* ── CHECKLIST CARD (LIGHT) ── */
 .checklist-light {
   background:linear-gradient(145deg,#FFFFFF 0%,#F4F7FF 60%,#FFFFFF 100%);
@@ -1351,7 +1415,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-17-011';
+  const BUILD = '2026-05-17-012';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -1981,6 +2045,120 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
         <div style="font-size:12px;color:var(--text2);">₹5K/mo from birth → ₹35–40L at 12% over 15 years. Start at birth.</div>
       </div>
     </div>
+  </div>
+
+  <!-- ── MONEY WISDOM · 01/Zero One Insights ── -->
+  <div class="wisdom-hero" style="margin-top:14px;">
+    <div class="wisdom-badge">DATA-VALIDATED · 01 / ZERO ONE</div>
+    <h3><span class="grad">Money. Reality.</span> No BS.</h3>
+    <p>Three videos. Three hard truths about CTC, gold, and your home loan — checked against real Indian market data. Personalized to your plan.</p>
+  </div>
+
+  <!-- STORY 1: HOME BUYING -->
+  <div class="story-card" style="--sc-color:#f87171;">
+    <div class="story-head">
+      <div class="story-num">01</div>
+      <div>
+        <div class="story-tag">HOME BUYING · REAL ESTATE</div>
+        <div class="story-title">The ₹1.5Cr Home Costs ₹2.3Cr — and Returns Just 3.1% CAGR</div>
+      </div>
+    </div>
+    <div class="story-stats">
+      <div class="story-stat red"><div class="story-stat-num">+17.3%</div><div class="story-stat-lbl">True cost over headline</div></div>
+      <div class="story-stat amber"><div class="story-stat-num">₹54.7L</div><div class="story-stat-lbl">10-yr bank interest</div></div>
+      <div class="story-stat red"><div class="story-stat-num">3.1%</div><div class="story-stat-lbl">Real CAGR (after tax+interest)</div></div>
+      <div class="story-stat green"><div class="story-stat-num">≤30%</div><div class="story-stat-lbl">Max EMI of take-home</div></div>
+    </div>
+    <div class="story-rules">
+      <div class="story-rule"><strong>1. Breathability</strong><span>All EMIs ≤ 30% of monthly take-home. Above 40% = job loss → crisis.</span></div>
+      <div class="story-rule"><strong>2. Value Filter</strong><span>Home price ≤ 5× annual income. Simple ceiling.</span></div>
+      <div class="story-rule"><strong>3. Sleep-Well Fund</strong><span>Keep 6–12 months EMI liquid before buying.</span></div>
+    </div>
+    <div class="wisdom-callout danger">
+      <strong>The "Doubled My Money" Myth:</strong> Buy ₹1.5Cr → sell ₹3Cr. After CGT ₹18.75L + interest ₹54.7L + costs = real profit ₹72L over 10 yrs = <strong>3.1% CAGR</strong>. An FD beats this. Nifty triples it.
+    </div>
+    <div class="story-apply" style="margin-top:10px;">
+      <div class="story-apply-label">🎯 APPLIED TO YOUR PLAN</div>
+      <strong>Newtown villa target ₹4–5 Cr by 2033 — math check:</strong><br>
+      • At 5× annual income rule → need ₹80L–₹1 Cr in-hand by 2033 ✓ (Slice path hits ₹85–100L by 2031)<br>
+      • EMI on ₹3.2 Cr loan @ 8% / 20yr = <strong>~₹2.67L/mo</strong> → needs ₹9L/mo take-home (₹1.08 Cr/yr) — borderline<br>
+      • True all-in cost ₹4 Cr villa = <strong>~₹4.7 Cr</strong> with stamp+GST+interior. Plan ₹5 Cr corpus minimum<br>
+      • Don't buy before liquid corpus ≥ ₹8 Cr (your existing rule — matches video's "sleep-well fund")
+    </div>
+  </div>
+
+  <!-- STORY 2: CTC vs REALITY -->
+  <div class="story-card" style="--sc-color:#34d399;">
+    <div class="story-head">
+      <div class="story-num">02</div>
+      <div>
+        <div class="story-tag">SALARY · BEHAVIOUR</div>
+        <div class="story-title">CTC is Fiction — Your Savings Rate is Your Net Worth</div>
+      </div>
+    </div>
+    <div class="story-stats">
+      <div class="story-stat red"><div class="story-stat-num">46%</div><div class="story-stat-lbl">Of 1Cr CTC reaches bank</div></div>
+      <div class="story-stat amber"><div class="story-stat-num">75%</div><div class="story-stat-lbl">Of 40L CTC (clean comp)</div></div>
+      <div class="story-stat green"><div class="story-stat-num">46%</div><div class="story-stat-lbl">Harish savings rate (lowest CTC, best path)</div></div>
+      <div class="story-stat red"><div class="story-stat-num">71%</div><div class="story-stat-lbl">Player 2 fixed cost ratio (cage)</div></div>
+    </div>
+    <div class="story-rules">
+      <div class="story-rule"><strong>Negotiate in-hand, not CTC</strong><span>Strip out ESOPs, variable bonus, insurance. Compare fixed monthly cash.</span></div>
+      <div class="story-rule"><strong>Fixed costs ≤ 50%</strong><span>Above this = no financial optionality. Job loss = crisis.</span></div>
+      <div class="story-rule"><strong>Savings rate &gt; Salary</strong><span>46% on ₹95k beats 16% on ₹2.49L over 20 years.</span></div>
+    </div>
+    <div class="wisdom-callout">
+      <strong>20-yr corpus paradox:</strong> Player 2 (40L CTC) ends with ₹3.27 Cr. Harish (25L CTC) ends with ₹4.46 Cr. Nikil (1Cr CTC, 52% crypto) bear case = ₹1.98 Cr. <strong>Allocation beats amount. Savings rate beats salary.</strong>
+    </div>
+    <div class="story-apply" style="margin-top:10px;">
+      <div class="story-apply-label">🎯 APPLIED TO YOUR PLAN</div>
+      <strong>Slice ₹33L vs EXL ₹38L decision — re-evaluated:</strong><br>
+      • Slice ₹33L CTC ≈ ₹2.0L/mo in-hand (no bonus, ESOP illiquid for years)<br>
+      • EXL ₹38L CTC + 10% bonus ≈ ₹2.3L/mo in-hand + ₹3.8L annual bonus<br>
+      • <strong>Strip ESOPs from Slice comp</strong> when negotiating — they're variable, illiquid (Nikil's trap)<br>
+      • Your current savings rate (~₹1.2L/mo on ₹2L take-home) = <strong>60% — top decile</strong>. Maintain through job switches<br>
+      • By Nikil's logic, your ₹6L Slice ESOP grant is "headline only" until liquidity event
+    </div>
+  </div>
+
+  <!-- STORY 3: GOLD & MACRO -->
+  <div class="story-card" style="--sc-color:#fbbf24;">
+    <div class="story-head">
+      <div class="story-num">03</div>
+      <div>
+        <div class="story-tag">MACRO · PORTFOLIO DIVERSIFICATION</div>
+        <div class="story-title">Gold is Insurance, Not a Trade — The Rupee Story Behind It</div>
+      </div>
+    </div>
+    <div class="story-stats">
+      <div class="story-stat amber"><div class="story-stat-num">+12.4%</div><div class="story-stat-lbl">Gold YTD 2026</div></div>
+      <div class="story-stat red"><div class="story-stat-num">−9.5%</div><div class="story-stat-lbl">Nifty YTD 2026</div></div>
+      <div class="story-stat blue"><div class="story-stat-num">−0.08</div><div class="story-stat-lbl">Gold ↔ Nifty correlation (near-zero)</div></div>
+      <div class="story-stat purple"><div class="story-stat-num">₹95.7</div><div class="story-stat-lbl">USD/INR today (was ₹44 in 2006)</div></div>
+    </div>
+    <div class="story-rules">
+      <div class="story-rule"><strong>Gold = crisis insurance</strong><span>+31.5% in GFC, +5.3% COVID, +21.9% 2025 selloff. Protects when equity falls.</span></div>
+      <div class="story-rule"><strong>Diversification is the only honest answer</strong><span>Equity led 6/11 decades, Gold led 5. Nobody predicts which next.</span></div>
+      <div class="story-rule"><strong>Rupee hedge = free</strong><span>INR fell 116% in 20yr. Gold in INR earns ~4% extra CAGR from currency depreciation alone.</span></div>
+    </div>
+    <div class="wisdom-callout warn">
+      <strong>20-year decade winners:</strong> 2006–16 → Gold (10% vs 4.2%). 2009–19 → Equity (14.2% vs 7.6%). 2016–26 → Gold (19% vs 12.8%). <strong>No regime predictable in advance.</strong>
+    </div>
+    <div class="story-apply" style="margin-top:10px;">
+      <div class="story-apply-label">🎯 APPLIED TO YOUR PLAN</div>
+      <strong>Your ₹18L liquid corpus → allocation check:</strong><br>
+      • Current SIP focus = equity-heavy (12% CAGR assumed). <strong>Missing gold allocation</strong><br>
+      • Recommended: 10–15% gold (SGB or gold ETF) — Sovereign Gold Bonds give 2.5% interest + price appreciation + no LTCG if held 8 yrs<br>
+      • Don't time it. Add ₹15–20K/mo SGB SIP alongside equity SIP<br>
+      • Gold also rises during India-specific stress (rupee crash, inflation) — your fintech career is correlated with Indian economy = portfolio needs uncorrelated asset
+    </div>
+  </div>
+
+  <!-- FINAL THREAD -->
+  <div class="wisdom-hero" style="margin-top:14px;background:linear-gradient(135deg,#052e16 0%,#0f172a 50%,#1e1b4b 100%);border-color:rgba(52,211,153,0.3);">
+    <div class="wisdom-badge" style="background:rgba(52,211,153,0.25);color:#6ee7b7;border-color:rgba(52,211,153,0.4);">THE ONE THREAD · ALL 3 STORIES</div>
+    <h3 style="color:#fff;">The number on the brochure is <span style="color:#f87171;">always a lie</span>.</h3>
+    <p style="color:rgba(255,255,255,0.7);margin-top:8px;">Gold price hides the rupee story. CTC hides the in-hand reality. Home price hides interest, GST, corpus, interiors. The formula that works across all three: <em style="color:#a5b4fc;">know the full cost, keep fixed commitments low, save a large fraction, diversify, never decide under FOMO.</em></p>
   </div>
 </div>
 
