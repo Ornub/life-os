@@ -523,6 +523,98 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
   box-shadow:0 8px 32px rgba(67,56,202,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
+/* ── AFFORDABILITY CALCULATOR ── */
+.calc-card {
+  background:linear-gradient(145deg,#FFFFFF 0%,#F4F7FF 60%,#FFFFFF 100%);
+  border:1px solid var(--border); border-top-color:#fff;
+  border-radius:16px; padding:20px; margin-bottom:14px;
+  box-shadow:0 6px 22px rgba(10,18,40,0.07), inset 0 1px 0 #fff;
+}
+.calc-card::before { content:''; display:block; height:3px; background:linear-gradient(90deg,#1B48D6,#6D28D9,transparent); border-radius:3px; margin:-20px -20px 16px; }
+.calc-head { display:flex; align-items:center; gap:11px; margin-bottom:14px; }
+.calc-icon { width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,#1B48D6,#6D28D9); color:#fff; display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 3px 10px rgba(27,72,214,0.32); }
+.calc-title { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:var(--text); }
+.calc-sub { font-size:11px; color:var(--text3); margin-top:1px; }
+.calc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:8px; margin-bottom:12px; }
+.calc-grp { display:flex; flex-direction:column; gap:4px; }
+.calc-grp label { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.7px; font-weight:700; }
+.calc-grp input { padding:8px 11px; border-radius:8px; background:#fff; border:1px solid var(--border); color:var(--text); font-size:13px; outline:none; font-family:'Inter',sans-serif; }
+.calc-grp input:focus { border-color:rgba(27,72,214,0.4); box-shadow:0 0 0 2px rgba(27,72,214,0.1); }
+.calc-res { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:8px; }
+.calc-res-cell { background:#FAFBFF; border:1px solid var(--border); border-radius:10px; padding:10px 11px; text-align:center; }
+.calc-res-val { font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:800; color:var(--accent-blue); line-height:1; }
+.calc-res-lbl { font-size:9.5px; color:var(--text3); text-transform:uppercase; letter-spacing:0.6px; font-weight:700; margin-top:3px; }
+.calc-res-cell.verdict-good { background:rgba(4,120,87,0.08); border-color:rgba(4,120,87,0.3); }
+.calc-res-cell.verdict-good .calc-res-val { color:var(--accent-green); }
+.calc-res-cell.verdict-warn { background:rgba(194,112,10,0.08); border-color:rgba(194,112,10,0.3); }
+.calc-res-cell.verdict-warn .calc-res-val { color:var(--accent-gold); }
+.calc-res-cell.verdict-bad { background:rgba(200,26,26,0.08); border-color:rgba(200,26,26,0.3); }
+.calc-res-cell.verdict-bad .calc-res-val { color:var(--accent-red); }
+
+/* ── ALLOCATION GAP ── */
+.alloc-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+.alloc-side { background:#FAFBFF; border:1px solid var(--border); border-radius:12px; padding:14px; }
+.alloc-label { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:10px; text-align:center; }
+.alloc-bar { display:flex; height:24px; border-radius:6px; overflow:hidden; margin-bottom:8px; box-shadow:inset 0 1px 0 rgba(0,0,0,0.04); }
+.alloc-seg { display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; transition:all 0.3s; }
+.alloc-legend { display:flex; flex-wrap:wrap; gap:6px; font-size:10.5px; }
+.alloc-leg-item { display:flex; align-items:center; gap:5px; color:var(--text2); }
+.alloc-leg-dot { width:9px; height:9px; border-radius:2px; }
+
+/* ── DECISION FRAMEWORK ── */
+.decis-card {
+  background:#fff; border:1px solid var(--border); border-radius:16px; padding:18px; margin-bottom:14px;
+  box-shadow:0 4px 18px rgba(10,18,40,0.06), inset 0 1px 0 #fff;
+}
+.decis-row { display:grid; grid-template-columns:auto 90px 1fr; gap:12px; align-items:center; padding:10px 12px; border-radius:9px; background:#FAFBFF; margin-bottom:5px; font-size:12.5px; border-left:3px solid transparent; }
+.decis-row.yes { border-left-color:var(--accent-green); }
+.decis-row.wait { border-left-color:var(--accent-gold); }
+.decis-row.no { border-left-color:var(--accent-red); }
+.decis-cond { color:var(--text2); }
+.decis-verdict { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; padding:3px 10px; border-radius:6px; text-align:center; }
+.decis-verdict.yes { background:rgba(4,120,87,0.12); color:var(--accent-green); }
+.decis-verdict.wait { background:rgba(194,112,10,0.12); color:var(--accent-gold); }
+.decis-verdict.no { background:rgba(200,26,26,0.12); color:var(--accent-red); }
+.decis-reason { color:var(--text3); font-size:11.5px; }
+
+/* ── ACTION ITEMS ── */
+.action-item {
+  display:flex; align-items:flex-start; gap:11px;
+  padding:11px 14px; border-radius:11px;
+  background:#FAFBFF; border:1px solid var(--border);
+  margin-bottom:6px; cursor:pointer; transition:all 0.22s;
+}
+.action-item:hover { border-color:var(--border-hover); background:#F0F5FF; }
+.action-item.done { opacity:0.55; background:rgba(4,120,87,0.05); border-color:rgba(4,120,87,0.25); }
+.action-item.done .action-text { text-decoration:line-through; color:var(--text3); }
+.action-check { width:20px; height:20px; border-radius:6px; border:1.5px solid var(--border-strong); background:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; transition:all 0.2s; }
+.action-item.done .action-check { background:var(--accent-green); border-color:var(--accent-green); color:#fff; }
+.action-text { flex:1; font-size:12.5px; color:var(--text); line-height:1.5; }
+.action-text strong { color:var(--text); font-weight:700; }
+.action-tag { font-size:9.5px; padding:2px 8px; border-radius:5px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; flex-shrink:0; }
+.action-tag.now { background:rgba(200,26,26,0.12); color:var(--accent-red); }
+.action-tag.month { background:rgba(194,112,10,0.12); color:var(--accent-gold); }
+.action-tag.quarter { background:rgba(27,72,214,0.12); color:var(--accent-blue); }
+
+/* ── FINISH LINE ── */
+.finish-card {
+  background:linear-gradient(135deg,#052e16 0%,#0f172a 50%,#1e1b4b 100%);
+  border:1px solid rgba(52,211,153,0.3); border-radius:18px; padding:24px;
+  color:#fff; margin-bottom:14px;
+  box-shadow:0 8px 28px rgba(52,211,153,0.15), inset 0 1px 0 rgba(255,255,255,0.06);
+  position:relative; overflow:hidden;
+}
+.finish-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,#34d399,#6ee7b7,transparent); }
+.finish-label { font-size:10px; color:rgba(110,231,183,0.7); text-transform:uppercase; letter-spacing:1.5px; font-weight:700; margin-bottom:8px; }
+.finish-title { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:800; line-height:1.25; margin-bottom:14px; }
+.finish-targets { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:14px; }
+.finish-target { background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.08); border-radius:11px; padding:12px 14px; }
+.finish-target-lbl { font-size:10px; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:0.8px; font-weight:700; margin-bottom:3px; }
+.finish-target-val { font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:800; color:#6EE7B7; line-height:1; font-variant-numeric:tabular-nums; }
+.finish-target-sub { font-size:10.5px; color:rgba(255,255,255,0.5); margin-top:4px; }
+.finish-quote { font-size:13px; color:rgba(255,255,255,0.7); font-style:italic; line-height:1.6; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08); }
+.finish-quote strong { color:#A7F3D0; font-style:normal; }
+
 /* ── MONEY WISDOM (01/Zero One stories) ── */
 .wisdom-hero {
   background:linear-gradient(135deg,#1e1b4b 0%,#0f172a 50%,#1a0a2e 100%);
@@ -1415,7 +1507,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-17-012';
+  const BUILD = '2026-05-17-013';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -2154,9 +2246,203 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
     </div>
   </div>
 
+  <!-- ── AFFORDABILITY CALCULATOR ── -->
+  <div class="calc-card">
+    <div class="calc-head">
+      <div class="calc-icon">🧮</div>
+      <div>
+        <div class="calc-title">Affordability Calculator · Live Math</div>
+        <div class="calc-sub">EMI · True cost · Verdict — change any input, see impact instantly</div>
+      </div>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-grp"><label>Monthly Take-Home (₹)</label><input id="af_sal" type="number" value="200000" oninput="afCalc()"></div>
+      <div class="calc-grp"><label>Home Price (₹)</label><input id="af_price" type="number" value="40000000" oninput="afCalc()"></div>
+      <div class="calc-grp"><label>Down Payment %</label><input id="af_down" type="number" value="20" oninput="afCalc()"></div>
+      <div class="calc-grp"><label>Interest Rate %</label><input id="af_rate" type="number" value="8.5" oninput="afCalc()"></div>
+      <div class="calc-grp"><label>Tenure (years)</label><input id="af_yr" type="number" value="20" oninput="afCalc()"></div>
+      <div class="calc-grp"><label>Stamp Duty %</label><input id="af_stamp" type="number" value="5" oninput="afCalc()"></div>
+    </div>
+    <div class="calc-res">
+      <div class="calc-res-cell"><div class="calc-res-val" id="af_emi">—</div><div class="calc-res-lbl">Monthly EMI</div></div>
+      <div class="calc-res-cell" id="af_pct_cell"><div class="calc-res-val" id="af_pct">—</div><div class="calc-res-lbl">EMI % of salary</div></div>
+      <div class="calc-res-cell"><div class="calc-res-val" id="af_true">—</div><div class="calc-res-lbl">True total cost</div></div>
+      <div class="calc-res-cell"><div class="calc-res-val" id="af_int">—</div><div class="calc-res-lbl">Total interest</div></div>
+      <div class="calc-res-cell" id="af_verdict_cell"><div class="calc-res-val" id="af_verdict" style="font-size:13px;">—</div><div class="calc-res-lbl">Affordability verdict</div></div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:10px;line-height:1.5;">
+      Default values = villa target (₹4 Cr, 20% down, 8.5% / 20 yr, Bangalore 5% stamp). Adjust salary to see when you can afford it.
+    </div>
+  </div>
+
+  <!-- ── ALLOCATION GAP ── -->
+  <div class="calc-card">
+    <div class="calc-head">
+      <div class="calc-icon" style="background:linear-gradient(135deg,#D97706,#92400E);box-shadow:0 3px 10px rgba(194,112,10,0.32);">📊</div>
+      <div>
+        <div class="calc-title">Asset Allocation · Current vs Recommended</div>
+        <div class="calc-sub">Your portfolio missing gold hedge — fix flagged below</div>
+      </div>
+    </div>
+    <div class="alloc-grid">
+      <div class="alloc-side">
+        <div class="alloc-label">YOUR CURRENT (₹26L investable)</div>
+        <div class="alloc-bar">
+          <div class="alloc-seg" style="width:70%;background:#3B82F6;">Equity 70%</div>
+          <div class="alloc-seg" style="width:30%;background:#94A3B8;">Cash 30%</div>
+        </div>
+        <div class="alloc-legend">
+          <div class="alloc-leg-item"><span class="alloc-leg-dot" style="background:#3B82F6;"></span>Equity SIP ₹18L</div>
+          <div class="alloc-leg-item"><span class="alloc-leg-dot" style="background:#94A3B8;"></span>Liquid ₹8L</div>
+        </div>
+      </div>
+      <div class="alloc-side">
+        <div class="alloc-label">RECOMMENDED (Diversified)</div>
+        <div class="alloc-bar">
+          <div class="alloc-seg" style="width:55%;background:#3B82F6;">Equity 55%</div>
+          <div class="alloc-seg" style="width:15%;background:#F59E0B;">Gold 15%</div>
+          <div class="alloc-seg" style="width:15%;background:#10B981;">Debt 15%</div>
+          <div class="alloc-seg" style="width:15%;background:#94A3B8;">Liquid 15%</div>
+        </div>
+        <div class="alloc-legend">
+          <div class="alloc-leg-item"><span class="alloc-leg-dot" style="background:#3B82F6;"></span>Equity MF</div>
+          <div class="alloc-leg-item"><span class="alloc-leg-dot" style="background:#F59E0B;"></span>SGB/Gold ETF</div>
+          <div class="alloc-leg-item"><span class="alloc-leg-dot" style="background:#10B981;"></span>Debt MF/FD</div>
+          <div class="alloc-leg-item"><span class="alloc-leg-dot" style="background:#94A3B8;"></span>Emergency</div>
+        </div>
+      </div>
+    </div>
+    <div class="wisdom-callout warn">
+      <strong>Gap analysis:</strong> Zero gold = missing currency depreciation hedge (₹44→₹95.7 in 20yr = free 4% CAGR). Zero debt = missing crash buffer (debt rose +8% when Nifty fell −28% in COVID). <strong>Action:</strong> Start ₹15K/mo SGB SIP + redirect ₹10K/mo to short-duration debt fund.
+    </div>
+  </div>
+
+  <!-- ── BUY/WAIT/NO DECISION FRAMEWORK ── -->
+  <div class="decis-card">
+    <div class="calc-head">
+      <div class="calc-icon" style="background:linear-gradient(135deg,#10B981,#047857);box-shadow:0 3px 10px rgba(4,120,87,0.32);">🚦</div>
+      <div>
+        <div class="calc-title">Major Decision Framework</div>
+        <div class="calc-sub">Run any big life expense through these checks</div>
+      </div>
+    </div>
+    <div class="decis-row yes">
+      <div class="decis-cond"><strong>EMI ≤ 30%</strong> · 6+ mo emergency fund intact · 7+ yr stay</div>
+      <div class="decis-verdict yes">YES</div>
+      <div class="decis-reason">All 3 rules pass. Emotional + financial safety.</div>
+    </div>
+    <div class="decis-row wait">
+      <div class="decis-cond"><strong>EMI 30–40%</strong> · No emergency fund · City uncertain</div>
+      <div class="decis-verdict wait">WAIT</div>
+      <div class="decis-reason">Build fund first. 2yr FD + SIP to grow down payment.</div>
+    </div>
+    <div class="decis-row no">
+      <div class="decis-cond"><strong>EMI &gt; 40%</strong> · Draining all savings for down payment</div>
+      <div class="decis-verdict no">NO</div>
+      <div class="decis-reason">One job loss = default. Rent is cheaper stress.</div>
+    </div>
+    <div class="decis-row no">
+      <div class="decis-cond"><strong>"Pure investment"</strong> reason · Expecting 2× returns</div>
+      <div class="decis-verdict no">RECONSIDER</div>
+      <div class="decis-reason">Real CAGR 3–5%. Nifty/Gold historically beat.</div>
+    </div>
+    <div class="decis-row no">
+      <div class="decis-cond"><strong>FOMO</strong> · "All my friends are buying"</div>
+      <div class="decis-verdict no">NO</div>
+      <div class="decis-reason">Friends don't share interest cost. FOMO is fertilised with BS.</div>
+    </div>
+    <div class="decis-row yes">
+      <div class="decis-cond"><strong>Family stability</strong> · Want roots · Lifestyle asset first</div>
+      <div class="decis-verdict yes">YES</div>
+      <div class="decis-reason">A house is lifestyle asset first, investment second.</div>
+    </div>
+  </div>
+
+  <!-- ── ACTION ITEMS ── -->
+  <div class="calc-card">
+    <div class="calc-head">
+      <div class="calc-icon" style="background:linear-gradient(135deg,#F43F5E,#9F1239);box-shadow:0 3px 10px rgba(244,63,94,0.32);">⚡</div>
+      <div>
+        <div class="calc-title">Action Items from Wisdom</div>
+        <div class="calc-sub">Specific moves derived from the 3 stories — tap to mark done</div>
+      </div>
+    </div>
+    <div class="action-item" onclick="toggleAction(this)">
+      <div class="action-check"></div>
+      <div class="action-text"><strong>Start SGB SIP ₹15K/mo</strong> — fills 15% gold target. Sovereign Gold Bond = 2.5% interest + price + zero LTCG if held 8 yr. Open Kite → Markets → SGB.</div>
+      <span class="action-tag now">THIS WEEK</span>
+    </div>
+    <div class="action-item" onclick="toggleAction(this)">
+      <div class="action-check"></div>
+      <div class="action-text"><strong>Deploy ₹10L savings → NIFTY 50 index</strong> (parag parikh flexi or UTI Nifty 50). Currently sitting idle losing to inflation. Keep other ₹10L liquid.</div>
+      <span class="action-tag now">THIS WEEK</span>
+    </div>
+    <div class="action-item" onclick="toggleAction(this)">
+      <div class="action-check"></div>
+      <div class="action-text"><strong>Get ₹50L health floater policy</strong> — before any baby planning. Star Health / HDFC Ergo. Premium ~₹15-25k/yr. Non-negotiable rule.</div>
+      <span class="action-tag month">THIS MONTH</span>
+    </div>
+    <div class="action-item" onclick="toggleAction(this)">
+      <div class="action-check"></div>
+      <div class="action-text"><strong>Track fixed cost ratio monthly</strong> — currently ~25% (rent + bills). Cap at 40% even after marriage/baby. Add to Today's Checklist.</div>
+      <span class="action-tag month">THIS MONTH</span>
+    </div>
+    <div class="action-item" onclick="toggleAction(this)">
+      <div class="action-check"></div>
+      <div class="action-text"><strong>Negotiate next offer in IN-HAND only</strong> — strip ESOPs, variable bonus, insurance from comparison. Anchor: "What's my fixed monthly cash?" (Job switch Mar 2027+)</div>
+      <span class="action-tag quarter">BY MAR 2027</span>
+    </div>
+    <div class="action-item" onclick="toggleAction(this)">
+      <div class="action-check"></div>
+      <div class="action-text"><strong>Add ₹15-20K/mo debt fund SIP</strong> — short-duration fund (HDFC/ICICI). Fills 15% debt slot. Crash buffer for when equity tanks.</div>
+      <span class="action-tag quarter">NEXT QUARTER</span>
+    </div>
+    <div class="action-item" onclick="toggleAction(this)">
+      <div class="action-check"></div>
+      <div class="action-text"><strong>Run affordability calc quarterly</strong> — check villa math vs current salary. Don't buy before liquid corpus ≥ ₹8 Cr (your rule).</div>
+      <span class="action-tag quarter">QUARTERLY</span>
+    </div>
+    <div class="action-item" onclick="toggleAction(this)">
+      <div class="action-check"></div>
+      <div class="action-text"><strong>Define "Finish Line"</strong> — what's enough? Write down in journal. Without this number, you're on a treadmill.</div>
+      <span class="action-tag month">THIS MONTH</span>
+    </div>
+  </div>
+
+  <!-- ── FINISH LINE ── -->
+  <div class="finish-card">
+    <div class="finish-label">🎯 YOUR FINISH LINE · WHAT'S "ENOUGH"</div>
+    <div class="finish-title">Wealth without a personal definition of enough is a treadmill.</div>
+    <div class="finish-targets">
+      <div class="finish-target">
+        <div class="finish-target-lbl">Financial Freedom</div>
+        <div class="finish-target-val">₹11.7 Cr</div>
+        <div class="finish-target-sub">3.5% SWR · ₹3.4L/mo passive</div>
+      </div>
+      <div class="finish-target">
+        <div class="finish-target-lbl">Comfortable Retirement</div>
+        <div class="finish-target-val">₹18 Cr</div>
+        <div class="finish-target-sub">Conservative scenario at age 50</div>
+      </div>
+      <div class="finish-target">
+        <div class="finish-target-lbl">Wealth Optionality</div>
+        <div class="finish-target-val">₹25–30 Cr</div>
+        <div class="finish-target-sub">Realistic Slice path + business</div>
+      </div>
+      <div class="finish-target">
+        <div class="finish-target-lbl">"Dream Big" upside</div>
+        <div class="finish-target-val">₹40–55 Cr</div>
+        <div class="finish-target-sub">If Slice IPO + Founder's Office</div>
+      </div>
+    </div>
+    <div class="finish-quote">
+      <strong>"You're doing fine."</strong> Stop clicking YouTube videos to find out if you're doing well enough. Figure out what you actually want — it costs less than you think. — <em>01 / Zero One</em>
+    </div>
+  </div>
+
   <!-- FINAL THREAD -->
-  <div class="wisdom-hero" style="margin-top:14px;background:linear-gradient(135deg,#052e16 0%,#0f172a 50%,#1e1b4b 100%);border-color:rgba(52,211,153,0.3);">
-    <div class="wisdom-badge" style="background:rgba(52,211,153,0.25);color:#6ee7b7;border-color:rgba(52,211,153,0.4);">THE ONE THREAD · ALL 3 STORIES</div>
+  <div class="wisdom-hero" style="margin-top:14px;background:linear-gradient(135deg,#1a0a2e 0%,#0f172a 50%,#1e1b4b 100%);border-color:rgba(165,180,252,0.3);">
+    <div class="wisdom-badge" style="background:rgba(165,180,252,0.2);color:#c7d2fe;border-color:rgba(165,180,252,0.35);">THE ONE THREAD · ALL 3 STORIES</div>
     <h3 style="color:#fff;">The number on the brochure is <span style="color:#f87171;">always a lie</span>.</h3>
     <p style="color:rgba(255,255,255,0.7);margin-top:8px;">Gold price hides the rupee story. CTC hides the in-hand reality. Home price hides interest, GST, corpus, interiors. The formula that works across all three: <em style="color:#a5b4fc;">know the full cost, keep fixed commitments low, save a large fraction, diversify, never decide under FOMO.</em></p>
   </div>
@@ -3001,6 +3287,8 @@ function init() {
   updateStreaks();
   highlightCurrentMeal();
   top3Load();
+  if (typeof afCalc === 'function' && document.getElementById('af_sal')) afCalc();
+  loadActions();
   setInterval(updateRightNow, 60000);
   setInterval(highlightCurrentMeal, 60000);
   setInterval(updateDateTime, 60000);
@@ -3887,6 +4175,64 @@ function highlightCurrentMeal() {
   document.querySelectorAll('.meal-card').forEach(c => {
     if (c.textContent.toLowerCase().includes(slot.keyword)) c.classList.add('meal-now');
   });
+}
+
+// ─── AFFORDABILITY CALCULATOR ────────────────────────
+function fmtINR(n) {
+  if (n >= 10000000) return '₹' + (n / 10000000).toFixed(2) + 'Cr';
+  if (n >= 100000)   return '₹' + (n / 100000).toFixed(1) + 'L';
+  if (n >= 1000)     return '₹' + Math.round(n / 1000) + 'K';
+  return '₹' + Math.round(n);
+}
+
+function afCalc() {
+  const sal   = +document.getElementById('af_sal').value || 0;
+  const price = +document.getElementById('af_price').value || 0;
+  const dpPct = +document.getElementById('af_down').value || 20;
+  const rate  = (+document.getElementById('af_rate').value || 8.5) / 100 / 12;
+  const yr    = (+document.getElementById('af_yr').value || 20);
+  const stamp = (+document.getElementById('af_stamp').value || 5) / 100;
+
+  const loan = price * (1 - dpPct / 100);
+  const tenure = yr * 12;
+  const emi = rate === 0 ? loan / tenure : loan * rate * Math.pow(1 + rate, tenure) / (Math.pow(1 + rate, tenure) - 1);
+  const totalInt = emi * tenure - loan;
+  const trueCost = price * (1 + stamp + 0.01 + stamp * 0.1 + 0.05) + 65000 + 4000 + 100000 + 708000;
+  const pct = sal > 0 ? (emi / sal * 100) : 0;
+
+  document.getElementById('af_emi').textContent  = fmtINR(emi) + '/mo';
+  document.getElementById('af_pct').textContent  = pct.toFixed(1) + '%';
+  document.getElementById('af_true').textContent = fmtINR(trueCost);
+  document.getElementById('af_int').textContent  = fmtINR(totalInt);
+
+  const vEl = document.getElementById('af_verdict');
+  const vCell = document.getElementById('af_verdict_cell');
+  const pctCell = document.getElementById('af_pct_cell');
+  ['verdict-good','verdict-warn','verdict-bad'].forEach(c => { vCell.classList.remove(c); pctCell.classList.remove(c); });
+  if (pct <= 30) { vEl.textContent = '✅ BREATHABLE'; vCell.classList.add('verdict-good'); pctCell.classList.add('verdict-good'); }
+  else if (pct <= 40) { vEl.textContent = '⚠ STRETCHED'; vCell.classList.add('verdict-warn'); pctCell.classList.add('verdict-warn'); }
+  else { vEl.textContent = '🚨 OVEREXTENDED'; vCell.classList.add('verdict-bad'); pctCell.classList.add('verdict-bad'); }
+}
+
+// ─── ACTION ITEMS TOGGLE ─────────────────────────────
+function toggleAction(el) {
+  const items = [...document.querySelectorAll('.action-item')];
+  const idx = items.indexOf(el);
+  el.classList.toggle('done');
+  const done = JSON.parse(localStorage.getItem('arnab-actions') || '[]');
+  if (el.classList.contains('done')) {
+    if (!done.includes(idx)) done.push(idx);
+  } else {
+    const i = done.indexOf(idx);
+    if (i >= 0) done.splice(i, 1);
+  }
+  localStorage.setItem('arnab-actions', JSON.stringify(done));
+}
+
+function loadActions() {
+  const done = JSON.parse(localStorage.getItem('arnab-actions') || '[]');
+  const items = document.querySelectorAll('.action-item');
+  done.forEach(idx => { if (items[idx]) items[idx].classList.add('done'); });
 }
 
 // ─── TODAY'S TOP 3 PRIORITIES ────────────────────────
