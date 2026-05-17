@@ -523,6 +523,45 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
   box-shadow:0 8px 32px rgba(67,56,202,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
+/* ── BUDGET CASCADE ── */
+.budget-card {
+  background:linear-gradient(145deg,#FFFFFF 0%,#F4F7FF 60%,#FFFFFF 100%);
+  border:1px solid var(--border); border-top-color:#fff;
+  border-radius:16px; padding:20px; margin-bottom:14px;
+  box-shadow:0 6px 22px rgba(10,18,40,0.07), inset 0 1px 0 #fff;
+}
+.budget-cascade { display:flex; flex-direction:column; gap:4px; margin-bottom:14px; }
+.bc-row {
+  display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center;
+  padding:9px 14px; border-radius:9px; font-size:12.5px;
+  background:#FAFBFF; border:1px solid var(--border);
+  border-left:3px solid var(--bc-color,#94A3B8);
+}
+.bc-row.gross { background:linear-gradient(90deg,rgba(27,72,214,0.08),rgba(255,255,255,0.95)); border-left-color:var(--accent-blue); font-weight:700; }
+.bc-row.tax   { border-left-color:var(--accent-red); }
+.bc-row.takehome { background:linear-gradient(90deg,rgba(4,120,87,0.08),rgba(255,255,255,0.95)); border-left-color:var(--accent-green); font-weight:700; }
+.bc-row.fixed { border-left-color:var(--accent-gold); }
+.bc-row.missing { border-left-color:var(--accent-red); background:#FEF2F2; }
+.bc-row.save  { background:linear-gradient(90deg,rgba(109,40,217,0.08),rgba(255,255,255,0.95)); border-left-color:var(--accent-purple); font-weight:700; }
+.bc-label { color:var(--text2); }
+.bc-row.gross .bc-label, .bc-row.takehome .bc-label, .bc-row.save .bc-label { color:var(--text); }
+.bc-pct { font-size:10.5px; color:var(--text3); font-weight:700; min-width:48px; text-align:right; }
+.bc-amt { font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:14px; color:var(--text); min-width:90px; text-align:right; font-variant-numeric:tabular-nums; }
+.bc-row.tax .bc-amt, .bc-row.missing .bc-amt { color:var(--accent-red); }
+.bc-row.takehome .bc-amt { color:var(--accent-green); }
+.bc-row.save .bc-amt { color:var(--accent-purple); }
+
+.scenario-toggle { display:inline-flex; gap:4px; padding:3px; background:rgba(10,18,40,0.05); border-radius:9px; margin-bottom:12px; }
+.scenario-btn { padding:6px 12px; border:none; background:transparent; color:var(--text2); font-size:11.5px; font-weight:600; cursor:pointer; border-radius:7px; transition:all 0.2s; }
+.scenario-btn.active { background:#fff; color:var(--accent-blue); box-shadow:0 1px 3px rgba(10,18,40,0.08); }
+
+/* ── ALLOCATION PIE ── */
+.alloc-recipe { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-top:14px; }
+.recipe-cell { padding:11px 12px; border-radius:11px; background:#FAFBFF; border:1px solid var(--border); border-top:3px solid var(--rc-color,#6366f1); }
+.recipe-amt { font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:800; color:var(--rc-color,#6366f1); line-height:1; font-variant-numeric:tabular-nums; }
+.recipe-name { font-size:11px; color:var(--text); font-weight:700; margin-top:5px; }
+.recipe-note { font-size:10px; color:var(--text3); margin-top:2px; line-height:1.4; }
+
 /* ── AFFORDABILITY CALCULATOR ── */
 .calc-card {
   background:linear-gradient(145deg,#FFFFFF 0%,#F4F7FF 60%,#FFFFFF 100%);
@@ -1507,7 +1546,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-17-013';
+  const BUILD = '2026-05-18-014';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -2136,6 +2175,112 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
         <div style="color:var(--accent2);font-weight:700;font-size:13px;margin-bottom:6px;">👶 Child SIP</div>
         <div style="font-size:12px;color:var(--text2);">₹5K/mo from birth → ₹35–40L at 12% over 15 years. Start at birth.</div>
       </div>
+    </div>
+  </div>
+
+  <!-- ── SINGLE EARNER FAMILY BUDGET ── -->
+  <div class="budget-card" style="margin-top:14px;">
+    <div class="calc-head">
+      <div class="calc-icon" style="background:linear-gradient(135deg,#1B48D6,#0C7EA0);box-shadow:0 3px 10px rgba(27,72,214,0.32);">👨‍👩‍👧</div>
+      <div>
+        <div class="calc-title">Single-Earner Family Budget · ₹3L/mo Gross</div>
+        <div class="calc-sub">Bipasha not working · 1 child · Bangalore reality check</div>
+      </div>
+    </div>
+
+    <div class="scenario-toggle">
+      <button class="scenario-btn active" onclick="showBudget('stated', this)">Your stated ₹90k expenses</button>
+      <button class="scenario-btn" onclick="showBudget('realistic', this)">Realistic family ₹1.6L</button>
+    </div>
+
+    <!-- STATED SCENARIO -->
+    <div class="budget-cascade" id="budget-stated">
+      <div class="bc-row gross"><span class="bc-label">Gross salary</span><span class="bc-pct">100%</span><span class="bc-amt">₹3,00,000</span></div>
+      <div class="bc-row tax"><span class="bc-label">− Income tax (30% effective)</span><span class="bc-pct">−30%</span><span class="bc-amt">−₹90,000</span></div>
+      <div class="bc-row takehome"><span class="bc-label">Take-home in bank</span><span class="bc-pct">70%</span><span class="bc-amt">₹2,10,000</span></div>
+      <div class="bc-row fixed"><span class="bc-label">Rent (Bangalore 2BHK)</span><span class="bc-pct">−13%</span><span class="bc-amt">−₹40,000</span></div>
+      <div class="bc-row fixed"><span class="bc-label">Your personal expenses</span><span class="bc-pct">−7%</span><span class="bc-amt">−₹20,000</span></div>
+      <div class="bc-row fixed"><span class="bc-label">Bipasha + child expenses</span><span class="bc-pct">−10%</span><span class="bc-amt">−₹30,000</span></div>
+      <div class="bc-row save"><span class="bc-label">Remaining to deploy</span><span class="bc-pct">40%</span><span class="bc-amt">₹1,20,000</span></div>
+    </div>
+
+    <!-- REALISTIC SCENARIO -->
+    <div class="budget-cascade" id="budget-realistic" style="display:none;">
+      <div class="bc-row gross"><span class="bc-label">Gross salary</span><span class="bc-pct">100%</span><span class="bc-amt">₹3,00,000</span></div>
+      <div class="bc-row tax"><span class="bc-label">− Income tax (actual ~17% new regime · 30% slab marginal)</span><span class="bc-pct">−17%</span><span class="bc-amt">−₹50,000</span></div>
+      <div class="bc-row takehome"><span class="bc-label">Realistic take-home (new regime)</span><span class="bc-pct">83%</span><span class="bc-amt">₹2,50,000</span></div>
+      <div class="bc-row fixed"><span class="bc-label">Rent (2BHK family-suitable)</span><span class="bc-pct">−13%</span><span class="bc-amt">−₹40,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Utilities (elec/gas/internet/water)</span><span class="bc-pct">−2%</span><span class="bc-amt">−₹6,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Groceries (family of 3)</span><span class="bc-pct">−5%</span><span class="bc-amt">−₹15,000</span></div>
+      <div class="bc-row fixed"><span class="bc-label">Your personal (commute/lunch/gym)</span><span class="bc-pct">−7%</span><span class="bc-amt">−₹20,000</span></div>
+      <div class="bc-row fixed"><span class="bc-label">Bipasha + child personal</span><span class="bc-pct">−10%</span><span class="bc-amt">−₹30,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Domestic help (maid + cook)</span><span class="bc-pct">−2%</span><span class="bc-amt">−₹6,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Childcare/preschool</span><span class="bc-pct">−5%</span><span class="bc-amt">−₹15,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Health + term insurance (₹50L+₹1Cr)</span><span class="bc-pct">−2%</span><span class="bc-amt">−₹5,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Transport (fuel, cabs)</span><span class="bc-pct">−2%</span><span class="bc-amt">−₹5,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Subscriptions + mobile</span><span class="bc-pct">−1%</span><span class="bc-amt">−₹3,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Healthcare out-of-pocket</span><span class="bc-pct">−1%</span><span class="bc-amt">−₹3,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Entertainment + family dining</span><span class="bc-pct">−2%</span><span class="bc-amt">−₹6,000</span></div>
+      <div class="bc-row missing"><span class="bc-label">+ Annual amortized (travel, clothes, gifts)</span><span class="bc-pct">−3%</span><span class="bc-amt">−₹8,000</span></div>
+      <div class="bc-row save"><span class="bc-label">Realistic remaining</span><span class="bc-pct">29%</span><span class="bc-amt">₹88,000</span></div>
+    </div>
+
+    <div class="wisdom-callout danger" id="budget-warn-stated">
+      <strong>Reality check:</strong> Your ₹90k expense list misses ~₹70k of hidden costs (utilities, groceries, insurance, maid, childcare, subscriptions, healthcare). On new tax regime your actual take-home is closer to ₹2.5L (not ₹2.1L). True savings capacity: <strong>~₹88k–₹1.2L/mo</strong>, not ₹1.2L flat.
+    </div>
+
+    <!-- RECOMMENDED DEPLOYMENT -->
+    <div style="margin-top:16px;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;">⚡ Where ₹1L (mid-estimate) should go</div>
+    <div class="alloc-recipe">
+      <div class="recipe-cell" style="--rc-color:#3B82F6;">
+        <div class="recipe-amt">₹35,000</div>
+        <div class="recipe-name">Equity SIP</div>
+        <div class="recipe-note">NIFTY 50 + Parag Parikh Flexi · 35%</div>
+      </div>
+      <div class="recipe-cell" style="--rc-color:#F59E0B;">
+        <div class="recipe-amt">₹15,000</div>
+        <div class="recipe-name">Gold SGB</div>
+        <div class="recipe-note">15% · INR hedge + crisis insurance</div>
+      </div>
+      <div class="recipe-cell" style="--rc-color:#10B981;">
+        <div class="recipe-amt">₹15,000</div>
+        <div class="recipe-name">Debt SIP</div>
+        <div class="recipe-note">Short-duration fund · crash buffer</div>
+      </div>
+      <div class="recipe-cell" style="--rc-color:#EC4899;">
+        <div class="recipe-amt">₹15,000</div>
+        <div class="recipe-name">Child Edu Fund</div>
+        <div class="recipe-note">PPF + balanced MF · 15-yr horizon</div>
+      </div>
+      <div class="recipe-cell" style="--rc-color:#6D28D9;">
+        <div class="recipe-amt">₹10,000</div>
+        <div class="recipe-name">Emergency Top-up</div>
+        <div class="recipe-note">Liquid fund · until 12 mo runway</div>
+      </div>
+      <div class="recipe-cell" style="--rc-color:#64748B;">
+        <div class="recipe-amt">₹10,000</div>
+        <div class="recipe-name">Buffer / Goals</div>
+        <div class="recipe-note">Vacation · gadgets · annual lumpy</div>
+      </div>
+    </div>
+
+    <div class="wisdom-callout">
+      <strong>Why this mix:</strong> 35% equity (long compounding) + 15% gold (rupee hedge) + 15% debt (crash buffer) + 15% child fund (15-yr lock) + 10% emergency + 10% lifestyle. <strong>50% in growth assets · 30% in protection · 20% liquid/discretionary.</strong> Survives any 1-year shock without selling equity at loss.
+    </div>
+
+    <div class="wisdom-callout warn">
+      <strong>Single-earner specific risks to budget for:</strong><br>
+      • <strong>Term insurance ₹1 Cr</strong> (your life = sole income) — premium ~₹15k/yr at age 28<br>
+      • <strong>Health floater ₹50L</strong> family · ~₹25-30k/yr · MANDATORY before pregnancy<br>
+      • <strong>Disability + critical illness rider</strong> · ₹50L cover ~₹5k/yr<br>
+      • <strong>12-mo emergency fund</strong> (not 6) — single earner needs longer runway · target ₹15-18L liquid
+    </div>
+
+    <div class="wisdom-callout danger">
+      <strong>Tax optimization (NOT optional):</strong><br>
+      • Switch to <strong>old regime if tax-saving instruments &gt;₹3L/yr</strong>: 80C (₹1.5L PPF/ELSS) + 80D (₹1L health insurance) + NPS (₹50K)<br>
+      • At ₹36L gross: new regime saves ~₹40k/yr UNLESS you max 80C/80D/NPS<br>
+      • Run calc both regimes every March before filing
     </div>
   </div>
 
@@ -4175,6 +4320,16 @@ function highlightCurrentMeal() {
   document.querySelectorAll('.meal-card').forEach(c => {
     if (c.textContent.toLowerCase().includes(slot.keyword)) c.classList.add('meal-now');
   });
+}
+
+// ─── BUDGET SCENARIO TOGGLE ──────────────────────────
+function showBudget(id, btn) {
+  document.getElementById('budget-stated').style.display = id === 'stated' ? 'flex' : 'none';
+  document.getElementById('budget-realistic').style.display = id === 'realistic' ? 'flex' : 'none';
+  const warn = document.getElementById('budget-warn-stated');
+  if (warn) warn.style.display = id === 'stated' ? 'block' : 'none';
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
 }
 
 // ─── AFFORDABILITY CALCULATOR ────────────────────────
