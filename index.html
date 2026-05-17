@@ -522,6 +522,35 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
   border:1px solid rgba(99,102,241,0.28);
   box-shadow:0 8px 32px rgba(67,56,202,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
 }
+
+/* ── KALAKARI · CREATIVE STUDIO ── */
+.hobby-card.kalakari {
+  background:linear-gradient(145deg,#2B1408 0%,#3D1C0D 40%,#5A2A12 100%);
+  border:1px solid rgba(251,146,60,0.28);
+  box-shadow:0 8px 32px rgba(194,112,10,0.24), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.hobby-card.kalakari::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(251,191,36,0.7),rgba(253,224,71,0.9),rgba(251,191,36,0.7),transparent);
+}
+.hobby-card.kalakari:hover { border-color:rgba(251,146,60,0.5); box-shadow:0 20px 56px rgba(194,112,10,0.34), inset 0 1px 0 rgba(255,255,255,0.08); }
+.kk-badge { font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;padding:3px 9px;border-radius:6px;background:rgba(251,191,36,0.18);border:1px solid rgba(251,191,36,0.35);color:#FDE68A; }
+.kk-medium-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px; }
+.kk-medium { padding:11px 9px;background:rgba(0,0,0,0.28);border-radius:10px;text-align:center;border:1px solid rgba(255,255,255,0.07);cursor:pointer;transition:all 0.2s; }
+.kk-medium:hover { background:rgba(251,146,60,0.18);border-color:rgba(251,146,60,0.35); }
+.kk-medium-icon { font-size:22px;margin-bottom:4px; }
+.kk-medium-count { font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:#FDE68A;line-height:1; }
+.kk-medium-label { font-size:9.5px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.6px;margin-top:3px;font-weight:700; }
+.kk-log-form { display:grid;grid-template-columns:1fr 130px 80px;gap:6px;margin-bottom:10px; }
+.kk-log-form input, .kk-log-form select { padding:9px 11px;border-radius:9px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:12px;outline:none;font-family:'Inter',sans-serif; }
+.kk-log-form input::placeholder { color:rgba(255,255,255,0.4); }
+.kk-log-form button { padding:9px;border-radius:9px;border:1px solid rgba(251,146,60,0.45);background:rgba(251,146,60,0.28);color:#fff;font-size:12px;font-weight:600;cursor:pointer; }
+.kk-log-form button:hover { background:rgba(251,146,60,0.48); }
+.kk-works-list { display:flex;flex-direction:column;gap:4px;max-height:140px;overflow-y:auto; }
+.kk-work { display:flex;justify-content:space-between;align-items:center;padding:8px 11px;background:rgba(0,0,0,0.22);border-radius:8px;font-size:12px;color:rgba(255,255,255,0.78); }
+.kk-work-date { color:rgba(255,255,255,0.4);font-size:11px; }
+.kk-work-medium { font-size:10px;padding:2px 7px;border-radius:5px;background:rgba(251,146,60,0.2);color:#FDE68A;font-weight:600;letter-spacing:0.3px;text-transform:uppercase; }
+.kk-soon { font-size:11px;color:rgba(255,255,255,0.45);font-style:italic;text-align:center;padding:10px 8px;background:rgba(0,0,0,0.18);border-radius:8px;border:1px dashed rgba(251,146,60,0.22);margin-top:10px; }
 .hobby-card.sleep::before {
   content:''; position:absolute; top:0; left:0; right:0; height:2px;
   background:linear-gradient(90deg,transparent,rgba(129,140,248,0.7),rgba(165,180,252,0.9),rgba(129,140,248,0.7),transparent);
@@ -2334,6 +2363,57 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       <div class="sleep-log" id="sleep-log"></div>
     </div>
   </div>
+
+  <!-- ── KALAKARI · CREATIVE STUDIO (glimpse) ── -->
+  <div class="hobby-grid" style="margin-top:14px;grid-template-columns:1fr;">
+    <div class="hobby-card kalakari">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+        <span class="hobby-emoji" style="margin-bottom:0;font-size:28px;">🎨</span>
+        <span class="kk-badge">Glimpse · v0.1</span>
+      </div>
+      <div class="hobby-title">Kalakari · Creative Studio</div>
+      <div class="hobby-sub">কলাকারী — your finished works portfolio · medium-wise breakdown · creative streak</div>
+
+      <div class="kk-medium-grid">
+        <div class="kk-medium" data-m="pencil">
+          <div class="kk-medium-icon">✏️</div>
+          <div class="kk-medium-count" id="kk-pencil">0</div>
+          <div class="kk-medium-label">Pencil</div>
+        </div>
+        <div class="kk-medium" data-m="ink">
+          <div class="kk-medium-icon">🖊️</div>
+          <div class="kk-medium-count" id="kk-ink">0</div>
+          <div class="kk-medium-label">Ink</div>
+        </div>
+        <div class="kk-medium" data-m="digital">
+          <div class="kk-medium-icon">💻</div>
+          <div class="kk-medium-count" id="kk-digital">0</div>
+          <div class="kk-medium-label">Digital</div>
+        </div>
+        <div class="kk-medium" data-m="watercolor">
+          <div class="kk-medium-icon">🎨</div>
+          <div class="kk-medium-count" id="kk-watercolor">0</div>
+          <div class="kk-medium-label">Watercolor</div>
+        </div>
+      </div>
+
+      <div style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.9px;font-weight:700;margin-bottom:8px;">LOG FINISHED WORK</div>
+      <div class="kk-log-form">
+        <input type="text" id="kk-title" placeholder="Title / subject…">
+        <select id="kk-medium-sel">
+          <option value="pencil">Pencil</option>
+          <option value="ink">Ink</option>
+          <option value="digital">Digital</option>
+          <option value="watercolor">Watercolor</option>
+        </select>
+        <button onclick="kkLog()">Add</button>
+      </div>
+
+      <div class="kk-works-list" id="kk-works"></div>
+
+      <div class="kk-soon">Coming soon → photo upload · gallery view · weekly creative streak · prompt history</div>
+    </div>
+  </div>
 </div>
 
 </main>
@@ -2361,6 +2441,7 @@ function init() {
   renderCrm();
   buildLsWeeks();
   renderSleep();
+  renderKk();
   pomoRender();
   setInterval(updateDateTime, 60000);
 }
@@ -3091,6 +3172,51 @@ function pomoBeep() {
     g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
     o.start(); o.stop(ctx.currentTime + 0.6);
   } catch(e) {}
+}
+
+// ─── KALAKARI · CREATIVE STUDIO ──────────────────────
+function kkLog() {
+  const title = document.getElementById('kk-title').value.trim();
+  const medium = document.getElementById('kk-medium-sel').value;
+  if (!title) return;
+  const works = JSON.parse(localStorage.getItem('arnab-kk') || '[]');
+  works.unshift({ title, medium, ts: Date.now(), id: Date.now() });
+  localStorage.setItem('arnab-kk', JSON.stringify(works.slice(0, 100)));
+  document.getElementById('kk-title').value = '';
+  renderKk();
+}
+
+function delKk(id) {
+  const works = JSON.parse(localStorage.getItem('arnab-kk') || '[]').filter(w => w.id !== id);
+  localStorage.setItem('arnab-kk', JSON.stringify(works));
+  renderKk();
+}
+
+function renderKk() {
+  const works = JSON.parse(localStorage.getItem('arnab-kk') || '[]');
+  const list = document.getElementById('kk-works');
+  if (!list) return;
+
+  const counts = { pencil:0, ink:0, digital:0, watercolor:0 };
+  works.forEach(w => { if (counts[w.medium] !== undefined) counts[w.medium]++; });
+  document.getElementById('kk-pencil').textContent = counts.pencil;
+  document.getElementById('kk-ink').textContent = counts.ink;
+  document.getElementById('kk-digital').textContent = counts.digital;
+  document.getElementById('kk-watercolor').textContent = counts.watercolor;
+
+  if (!works.length) {
+    list.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:12px;padding:10px;">No works logged yet. Add your first finished piece above.</div>`;
+    return;
+  }
+  list.innerHTML = works.slice(0, 8).map(w => {
+    const d = new Date(w.ts).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+    return `<div class="kk-work">
+      <span style="flex:1;color:#fff;">${escapeHtml(w.title)}</span>
+      <span class="kk-work-medium">${w.medium}</span>
+      <span class="kk-work-date">${d}</span>
+      <span onclick="delKk(${w.id})" style="cursor:pointer;color:rgba(255,255,255,0.4);padding:0 4px;">×</span>
+    </div>`;
+  }).join('');
 }
 
 // ─── BOOT ────────────────────────────────────────────
