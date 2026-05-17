@@ -1860,7 +1860,9 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
   <!-- ── ROW: WORKOUT SCHEDULE + DAILY LOG ── -->
   <div class="grid grid-2" style="margin-bottom:14px;align-items:start;">
 
-    <!-- WEEKLY WORKOUT SCHEDULE -->
+    <!-- LEFT COLUMN: WORKOUT + WEIGHT LOG stacked -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+
     <div class="card">
       <div class="card-title"><span class="icon">🏋️</span> Weekly Workout Plan — 5×/week</div>
       <div class="workout-tabs">
@@ -2007,8 +2009,20 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       </div>
     </div>
 
+      <!-- Weight Log (moved to left column for balance) -->
+      <div class="card">
+        <div class="card-title"><span class="icon">⚖️</span> Weekly Weigh-in Log</div>
+        <div class="weight-log-wrap">
+          <input class="weight-input" type="number" id="weight-entry" placeholder="Enter weight (kg)" min="50" max="120" step="0.1">
+          <button class="weight-btn" onclick="logWeight()">Log</button>
+        </div>
+        <div class="weight-log-list" id="weight-log-list"></div>
+      </div>
+
+    </div><!-- /left column wrapper -->
+
     <!-- DAILY HABIT CHECKLIST + WATER + MOOD -->
-    <div style="display:flex;flex-direction:column;gap:20px;">
+    <div style="display:flex;flex-direction:column;gap:14px;">
 
       <!-- Daily Checklist -->
       <div class="hobby-card health" style="padding:24px;">
@@ -2053,16 +2067,6 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
             <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
           </div>
         </div>
-      </div>
-
-      <!-- Weight Log -->
-      <div class="card">
-        <div class="card-title"><span class="icon">⚖️</span> Weekly Weigh-in Log</div>
-        <div class="weight-log-wrap">
-          <input class="weight-input" type="number" id="weight-entry" placeholder="Enter weight (kg)" min="50" max="120" step="0.1">
-          <button class="weight-btn" onclick="logWeight()">Log</button>
-        </div>
-        <div class="weight-log-list" id="weight-log-list"></div>
       </div>
     </div>
   </div>
