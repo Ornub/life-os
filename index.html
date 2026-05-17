@@ -523,6 +523,123 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
   box-shadow:0 8px 32px rgba(67,56,202,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
+/* ── RIGHT NOW HERO ── */
+.rn-hero {
+  background:linear-gradient(135deg,#1B48D6 0%,#6D28D9 100%);
+  border-radius:18px; padding:18px 22px; margin-bottom:14px;
+  display:flex; align-items:center; gap:18px;
+  box-shadow:0 8px 28px rgba(27,72,214,0.28), inset 0 1px 0 rgba(255,255,255,0.15);
+  color:#fff; position:relative; overflow:hidden;
+}
+.rn-hero::before {
+  content:''; position:absolute; top:-30%; right:-10%;
+  width:200px; height:200px; border-radius:50%;
+  background:radial-gradient(circle,rgba(253,224,71,0.3) 0%,transparent 70%);
+  pointer-events:none;
+}
+.rn-time { font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:800; letter-spacing:-1px; font-variant-numeric:tabular-nums; line-height:1; }
+.rn-meta { flex:1; }
+.rn-label { font-size:10px; opacity:0.7; text-transform:uppercase; letter-spacing:1.2px; font-weight:700; margin-bottom:4px; }
+.rn-action { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:700; line-height:1.25; }
+.rn-detail { font-size:12px; opacity:0.78; margin-top:3px; line-height:1.45; }
+.rn-emoji { font-size:38px; flex-shrink:0; }
+
+/* ── STREAK RIBBON ── */
+.streak-ribbon {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px;
+}
+.streak-cell {
+  background:rgba(255,255,255,0.95); border:1px solid var(--border);
+  border-radius:13px; padding:11px 12px;
+  display:flex; align-items:center; gap:10px;
+  box-shadow:0 2px 8px rgba(10,18,40,0.05), inset 0 1px 0 #fff;
+  transition:all 0.22s;
+}
+.streak-cell:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(10,18,40,0.08); border-color:var(--border-hover); }
+.streak-icon { font-size:20px; flex-shrink:0; }
+.streak-cell.s-gym .streak-icon { filter:drop-shadow(0 0 6px rgba(220,38,38,0.4)); }
+.streak-num { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:800; line-height:1; }
+.streak-cell.s-gym .streak-num { color:var(--accent-red); }
+.streak-cell.s-diet .streak-num { color:var(--accent-green); }
+.streak-cell.s-art .streak-num { color:var(--accent-purple); }
+.streak-cell.s-sleep .streak-num { color:var(--accent-blue); }
+.streak-label { font-size:9.5px; color:var(--text3); text-transform:uppercase; letter-spacing:0.8px; font-weight:700; margin-top:2px; }
+@media(max-width:480px) { .streak-ribbon { grid-template-columns:repeat(2,1fr); } }
+
+/* ── BENGALI QUOTE CARD ── */
+.bq-card {
+  background:linear-gradient(145deg,#1A0E2E 0%,#2D1B4E 50%,#3F2870 100%);
+  border:1px solid rgba(196,181,253,0.22);
+  border-radius:18px; padding:24px 28px; margin-bottom:14px;
+  box-shadow:0 8px 28px rgba(109,40,217,0.2), inset 0 1px 0 rgba(255,255,255,0.06);
+  position:relative; overflow:hidden;
+}
+.bq-card::before {
+  content:'❝'; position:absolute; top:-20px; left:14px;
+  font-size:120px; color:rgba(196,181,253,0.08); font-family:Georgia,serif; line-height:1;
+}
+.bq-label { font-size:10px; color:rgba(196,181,253,0.55); text-transform:uppercase; letter-spacing:1.5px; font-weight:700; margin-bottom:8px; }
+.bq-text { font-size:18px; line-height:1.6; color:rgba(255,255,255,0.92); font-weight:500; font-family:'Inter',sans-serif; }
+.bq-author { font-size:12px; color:rgba(196,181,253,0.6); margin-top:10px; font-style:italic; text-align:right; }
+.bq-controls { display:flex; gap:6px; margin-top:14px; justify-content:flex-end; }
+.bq-btn {
+  padding:6px 13px; border-radius:8px; border:1px solid rgba(196,181,253,0.25);
+  background:rgba(196,181,253,0.08); color:#C4B5FD; font-size:11px;
+  cursor:pointer; font-weight:600; transition:all 0.2s;
+}
+.bq-btn:hover { background:rgba(196,181,253,0.2); border-color:rgba(196,181,253,0.5); }
+
+/* ── MEAL HIGHLIGHT ── */
+.meal-card.meal-now {
+  border-left:3px solid var(--accent-green);
+  background:linear-gradient(90deg,rgba(4,120,87,0.08) 0%,rgba(255,255,255,0.95) 50%) !important;
+  box-shadow:0 4px 14px rgba(4,120,87,0.12), inset 0 1px 0 #fff;
+  position:relative;
+}
+.meal-card.meal-now::after {
+  content:'NOW'; position:absolute; top:6px; right:8px;
+  font-size:9px; font-weight:800; letter-spacing:1px;
+  color:#fff; background:var(--accent-green);
+  padding:2px 8px; border-radius:6px;
+  animation:pulseNow 2s ease-in-out infinite;
+}
+@keyframes pulseNow { 0%,100% { opacity:1; } 50% { opacity:0.55; } }
+
+/* ── HOBBIES SUB-NAV ── */
+.hobby-subnav {
+  display:flex; gap:4px; margin-bottom:14px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  padding:5px; border-radius:14px;
+  border:1px solid var(--border);
+  box-shadow:0 2px 10px rgba(10,18,40,0.04), inset 0 1px 0 #fff;
+  position:sticky; top:96px; z-index:50;
+}
+.hobby-subtab {
+  flex:1; padding:9px 14px; border-radius:10px; border:none;
+  background:transparent; color:var(--text3);
+  cursor:pointer; font-size:13px; font-weight:600;
+  font-family:'Inter',sans-serif;
+  transition:all 0.22s var(--ease);
+  display:flex; align-items:center; justify-content:center; gap:7px;
+}
+.hobby-subtab:hover { background:rgba(10,18,40,0.04); color:var(--text2); }
+.hobby-subtab.active {
+  background:linear-gradient(135deg,#1B48D6,#6D28D9);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(27,72,214,0.32), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+.hobby-subtab-icon { font-size:15px; }
+.hobby-panel { display:none; animation:hpIn 0.36s var(--ease-smooth); }
+.hobby-panel.active { display:block; }
+@keyframes hpIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+@media(max-width:900px) {
+  .hobby-subnav { top:84px; padding:4px; }
+  .hobby-subtab { padding:7px 8px; font-size:12px; }
+  .hobby-subtab-icon { font-size:13px; }
+}
+
 /* ── KALAKARI · CREATIVE STUDIO ── */
 .hobby-card.kalakari {
   background:linear-gradient(145deg,#2B1408 0%,#3D1C0D 40%,#5A2A12 100%);
@@ -1125,6 +1242,20 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 </style>
 </head>
 <body>
+<script>
+// Auto cache-bust: hard reload if new build deployed
+(function(){
+  const BUILD = '2026-05-17-007';
+  const last  = localStorage.getItem('__lifeos_build');
+  if (last && last !== BUILD) {
+    localStorage.setItem('__lifeos_build', BUILD);
+    if ('caches' in window) { caches.keys().then(ks => ks.forEach(k => caches.delete(k))); }
+    location.reload();
+  } else {
+    localStorage.setItem('__lifeos_build', BUILD);
+  }
+})();
+</script>
 
 <div class="bg-layer"></div>
 <div class="noise-layer"></div>
@@ -1843,6 +1974,47 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <div class="section" id="section-hobbies">
   <div class="section-title">Health & <span>Fitness OS</span></div>
 
+  <!-- ── SUB-NAV ── -->
+  <div class="hobby-subnav">
+    <button class="hobby-subtab active" onclick="showHobby('today',this)"><span class="hobby-subtab-icon">⚡</span>Today</button>
+    <button class="hobby-subtab" onclick="showHobby('nutrition',this)"><span class="hobby-subtab-icon">🥗</span>Nutrition</button>
+    <button class="hobby-subtab" onclick="showHobby('mind',this)"><span class="hobby-subtab-icon">🧠</span>Mind & Studio</button>
+  </div>
+
+  <!-- ════ TODAY ════ -->
+  <div class="hobby-panel active" id="hp-today">
+
+  <!-- ── RIGHT NOW HERO ── -->
+  <div class="rn-hero">
+    <div class="rn-time" id="rn-time">—</div>
+    <div class="rn-meta">
+      <div class="rn-label" id="rn-label">Right now</div>
+      <div class="rn-action" id="rn-action">Loading…</div>
+      <div class="rn-detail" id="rn-detail">—</div>
+    </div>
+    <div class="rn-emoji" id="rn-emoji">⚡</div>
+  </div>
+
+  <!-- ── STREAK RIBBON ── -->
+  <div class="streak-ribbon">
+    <div class="streak-cell s-gym">
+      <div class="streak-icon">🏋️</div>
+      <div><div class="streak-num" id="streak-gym">0</div><div class="streak-label">Gym streak</div></div>
+    </div>
+    <div class="streak-cell s-diet">
+      <div class="streak-icon">🥗</div>
+      <div><div class="streak-num" id="streak-diet">0</div><div class="streak-label">Diet streak</div></div>
+    </div>
+    <div class="streak-cell s-art">
+      <div class="streak-icon">🎨</div>
+      <div><div class="streak-num" id="streak-art">0</div><div class="streak-label">Art streak</div></div>
+    </div>
+    <div class="streak-cell s-sleep">
+      <div class="streak-icon">😴</div>
+      <div><div class="streak-num" id="streak-sleep">0</div><div class="streak-label">Sleep 7+ hr</div></div>
+    </div>
+  </div>
+
   <!-- ── BODY STATS ── -->
   <div class="body-stat-grid">
     <div class="body-stat">
@@ -2100,6 +2272,48 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
     </div>
   </div>
 
+  <!-- ── FAT LOSS TIMELINE ── -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title"><span class="icon">📅</span> Fat Loss Timeline — 76 kg → 68 kg</div>
+    <div class="timeline">
+      <div class="milestone" style="background:#FAFBFF;">
+        <div class="milestone-year">May 2026 — Now</div>
+        <div class="milestone-title">Starting Point · 76 kg · BMI 24.5</div>
+        <div class="milestone-desc">Begin deficit + gym routine. Focus: habit formation, not scale obsession.</div>
+        <span class="milestone-badge badge-now">Current</span>
+      </div>
+      <div class="milestone" style="background:#FAFBFF;">
+        <div class="milestone-year">June 2026 — Month 1</div>
+        <div class="milestone-title">Target: 74.5–75 kg</div>
+        <div class="milestone-desc">Adaptation phase. Strength drops slightly (normal). Diet compliance is the main focus.</div>
+        <span class="milestone-badge badge-target">−1 to 1.5 kg</span>
+      </div>
+      <div class="milestone" style="background:#FAFBFF;">
+        <div class="milestone-year">Aug 2026 — Month 3</div>
+        <div class="milestone-title">Target: 72–73 kg · Visible change</div>
+        <div class="milestone-desc">Strength returns + body recomp starts. Jawline definition noticeable.</div>
+        <span class="milestone-badge badge-target">−3 to 4 kg total</span>
+      </div>
+      <div class="milestone" style="background:#FAFBFF;">
+        <div class="milestone-year">Oct 2026 — Month 5</div>
+        <div class="milestone-title">Target: 70 kg · Big milestone</div>
+        <div class="milestone-desc">70 kg is the psychological milestone. Clothes fit differently. Keep deficit.</div>
+        <span class="milestone-badge badge-target">−6 kg total</span>
+      </div>
+      <div class="milestone" style="background:#FAFBFF;">
+        <div class="milestone-year">Nov–Dec 2026 — Month 6–7</div>
+        <div class="milestone-title">Target: 68 kg · BMI 21.9 ✓</div>
+        <div class="milestone-desc">Lean physique locked. Transition to maintenance calories. Begin strength phase.</div>
+        <span class="milestone-badge badge-future">Goal</span>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /hp-today -->
+
+  <!-- ════ NUTRITION ════ -->
+  <div class="hobby-panel" id="hp-nutrition">
+
   <!-- ── DIET PLAN ── -->
   <div class="grid grid-2" style="margin-bottom:14px;align-items:start;">
 
@@ -2227,6 +2441,11 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
     </div>
   </div>
 
+  </div><!-- /hp-nutrition -->
+
+  <!-- ════ MIND & STUDIO ════ -->
+  <div class="hobby-panel" id="hp-mind">
+
   <!-- ── ART + TIMELINE ── -->
   <div class="grid grid-2" style="align-items:start;">
 
@@ -2275,40 +2494,15 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       </div>
     </div>
 
-    <!-- Fat Loss Timeline -->
-    <div class="card">
-      <div class="card-title"><span class="icon">📅</span> Fat Loss Timeline — 76 kg → 68 kg</div>
-      <div class="timeline">
-        <div class="milestone" style="background:#FAFBFF;">
-          <div class="milestone-year">May 2026 — Now</div>
-          <div class="milestone-title">Starting Point · 76 kg · BMI 24.5</div>
-          <div class="milestone-desc">Begin deficit + gym routine. Focus: habit formation, not scale obsession.</div>
-          <span class="milestone-badge badge-now">Current</span>
-        </div>
-        <div class="milestone" style="background:#FAFBFF;">
-          <div class="milestone-year">June 2026 — Month 1</div>
-          <div class="milestone-title">Target: 74.5–75 kg</div>
-          <div class="milestone-desc">Adaptation phase. Strength drops slightly (normal). Diet compliance is the main focus.</div>
-          <span class="milestone-badge badge-target">−1 to 1.5 kg</span>
-        </div>
-        <div class="milestone" style="background:#FAFBFF;">
-          <div class="milestone-year">Aug 2026 — Month 3</div>
-          <div class="milestone-title">Target: 72–73 kg · Visible change</div>
-          <div class="milestone-desc">Strength returns + body recomp starts. Jawline definition noticeable.</div>
-          <span class="milestone-badge badge-target">−3 to 4 kg total</span>
-        </div>
-        <div class="milestone" style="background:#FAFBFF;">
-          <div class="milestone-year">Oct 2026 — Month 5</div>
-          <div class="milestone-title">Target: 70 kg · Big milestone</div>
-          <div class="milestone-desc">70 kg is the psychological milestone. Clothes fit differently. Keep deficit.</div>
-          <span class="milestone-badge badge-target">−6 kg total</span>
-        </div>
-        <div class="milestone" style="background:#FAFBFF;">
-          <div class="milestone-year">Nov–Dec 2026 — Month 6–7</div>
-          <div class="milestone-title">Target: 68 kg · BMI 21.9 ✓</div>
-          <div class="milestone-desc">Lean physique locked. Transition to maintenance calories. Begin strength phase.</div>
-          <span class="milestone-badge badge-future">Goal</span>
-        </div>
+    <!-- Bengali Quote of the Day -->
+    <div class="bq-card">
+      <div class="bq-label">Bangla Bani · বাণী</div>
+      <div class="bq-text" id="bq-text">—</div>
+      <div class="bq-author" id="bq-author">—</div>
+      <div class="bq-controls">
+        <button class="bq-btn" onclick="bqShow(-1)">← Prev</button>
+        <button class="bq-btn" onclick="bqShow(1)">Next →</button>
+        <button class="bq-btn" onclick="bqShow(0)">✦ Random</button>
       </div>
     </div>
   </div>
@@ -2413,6 +2607,8 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       <div class="kk-soon">Coming soon → photo upload · gallery view · weekly creative streak · prompt history</div>
     </div>
   </div>
+
+  </div><!-- /hp-mind -->
 </div>
 
 </main>
@@ -2442,6 +2638,12 @@ function init() {
   renderSleep();
   renderKk();
   pomoRender();
+  updateRightNow();
+  updateStreaks();
+  bqInit();
+  highlightCurrentMeal();
+  setInterval(updateRightNow, 60000);
+  setInterval(highlightCurrentMeal, 60000);
   setInterval(updateDateTime, 60000);
 }
 
@@ -2592,6 +2794,7 @@ function toggleArtDay(key, el) {
   localStorage.setItem('arnab-art', JSON.stringify(artData));
   el.classList.toggle('active', artData[key]);
   buildArtCalendar();
+  if (typeof updateStreaks === 'function') updateStreaks();
 }
 
 function markArtToday() {
@@ -2600,6 +2803,7 @@ function markArtToday() {
   artData[key] = true;
   localStorage.setItem('arnab-art', JSON.stringify(artData));
   buildArtCalendar();
+  if (typeof updateStreaks === 'function') updateStreaks();
 }
 
 function updateArtStreak(artData) {
@@ -2742,6 +2946,7 @@ function toggleHealth(el) {
   el.classList.toggle('done');
   saveHealthState();
   updateHealthScore();
+  if (typeof updateStreaks === 'function') updateStreaks();
 }
 
 function updateHealthScore() {
@@ -3049,6 +3254,7 @@ function logSleep() {
   document.getElementById('sleep-hours').value = '';
   document.getElementById('sleep-quality').value = '';
   renderSleep();
+  if (typeof updateStreaks === 'function') updateStreaks();
 }
 
 function renderSleep() {
@@ -3171,6 +3377,153 @@ function pomoBeep() {
     g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
     o.start(); o.stop(ctx.currentTime + 0.6);
   } catch(e) {}
+}
+
+// ─── RIGHT NOW CONTEXTUAL HERO ───────────────────────
+const RN_SCHEDULE = [
+  { h: 5, end: 7,  e:'🌅', label:'Early Morning',    action:'Hydrate + warm-up',           detail:'Glass of warm water with lemon. 5 min stretch. Bed → action.' },
+  { h: 7, end: 9,  e:'🥚', label:'Breakfast Window',  action:'Whey shake + eggs + multigrain bread', detail:'~25g protein. Pre/post-workout window. Don\'t skip.' },
+  { h: 9, end: 12, e:'💼', label:'Deep Work Block',   action:'Slice deep work — credit risk decisions', detail:'2× Pomodoro 50min. No Slack. Phone face down.' },
+  { h: 12, end: 14,e:'🍱', label:'Lunch Time',        action:'Chicken + rice + dal + salad', detail:'~60g protein, ~400 kcal. Eat away from desk. 15 min walk after.' },
+  { h: 14, end: 17,e:'⚡', label:'Afternoon Sprint',  action:'Stakeholder + analytics work', detail:'Energy dip ~3 PM — black coffee, no sugar. Stand every 30 min.' },
+  { h: 17, end: 19,e:'🏋️', label:'Gym Window',         action:'Today\'s workout — log it',     detail:'30 min lift + 15 min cardio finisher. Check Workout tab.' },
+  { h: 19, end: 21,e:'🍽️', label:'Dinner Time',        action:'Fish/chicken + stir-fried veg', detail:'~35g protein. No carbs after 8 PM. Glass of water before meal.' },
+  { h: 21, end: 23,e:'🎨', label:'Wind Down',          action:'10 min drawing + Bengali reading', detail:'Screen off. Mind reset for sleep. Tomorrow\'s top-3 written.' },
+  { h: 23, end: 5, e:'😴', label:'Sleep Window',       action:'7.5+ hr sleep target',          detail:'Phone in another room. Room cool (22°C). Log this morning.' },
+];
+
+function updateRightNow() {
+  const now = new Date();
+  const h = now.getHours();
+  const slot = RN_SCHEDULE.find(s => (s.h <= h && h < s.end) || (s.h === 23 && (h >= 23 || h < 5)));
+  if (!slot) return;
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const tEl  = document.getElementById('rn-time');
+  const lEl  = document.getElementById('rn-label');
+  const aEl  = document.getElementById('rn-action');
+  const dEl  = document.getElementById('rn-detail');
+  const eEl  = document.getElementById('rn-emoji');
+  if (tEl) tEl.textContent = `${h}:${m}`;
+  if (lEl) lEl.textContent = slot.label;
+  if (aEl) aEl.textContent = slot.action;
+  if (dEl) dEl.textContent = slot.detail;
+  if (eEl) eEl.textContent = slot.e;
+}
+
+// ─── STREAK COMPUTATION ──────────────────────────────
+function updateStreaks() {
+  // Gym streak: count consecutive days where health-checks.gym was true
+  let gym = 0;
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const raw = localStorage.getItem('arnab-health-' + d.toDateString());
+    if (!raw) break;
+    const data = JSON.parse(raw);
+    if (data.gym) gym++; else break;
+  }
+  // Diet streak: protein + calories + nojunk all true
+  let diet = 0;
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const raw = localStorage.getItem('arnab-health-' + d.toDateString());
+    if (!raw) break;
+    const data = JSON.parse(raw);
+    if (data.protein && data.calories && data.nojunk) diet++; else break;
+  }
+  // Art streak from arnab-art map
+  const artData = JSON.parse(localStorage.getItem('arnab-art') || '{}');
+  let art = 0;
+  const td = new Date();
+  while (true) {
+    const k = `${td.getFullYear()}-${td.getMonth()}-${td.getDate()}`;
+    if (artData[k]) { art++; td.setDate(td.getDate() - 1); } else break;
+  }
+  // Sleep streak: 7+ hours
+  const sleepLog = JSON.parse(localStorage.getItem('arnab-sleep') || '[]');
+  let sleep = 0;
+  for (const e of sleepLog) { if (e.hrs >= 7) sleep++; else break; }
+
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set('streak-gym', gym);
+  set('streak-diet', diet);
+  set('streak-art', art);
+  set('streak-sleep', sleep);
+}
+
+// ─── BENGALI QUOTES ──────────────────────────────────
+const BQ_QUOTES = [
+  { t:'যেখানে দেখিবে ছাই, উড়াইয়া দেখো তাই; পাইলেও পাইতে পারো অমূল্য রতন।', a:'— বাঙালি প্রবাদ' },
+  { t:'ধৈর্য তিক্ত, কিন্তু তার ফল মধুর।', a:'— বাংলা প্রবাদ' },
+  { t:'মনের মতো কাজ যদি পাও, জীবনে আর একদিনও কাজ করতে হবে না।', a:'— আধুনিক বাণী' },
+  { t:'আজ যা স্বপ্ন, কাল তাই বাস্তব হতে পারে।', a:'— এ. পি. জে. আবদুল কালাম' },
+  { t:'যে নিজেকে চিনতে পারে, সে সবকিছু জয় করতে পারে।', a:'— স্বামী বিবেকানন্দ' },
+  { t:'জীবনে যা পাওয়ার তা পাবেই, শুধু পরিশ্রম থামিও না।', a:'— বাংলা প্রবচন' },
+  { t:'বিপদ যত বড়, সাহসও তত বড় হওয়া উচিত।', a:'— সুভাষচন্দ্র বসু' },
+  { t:'একলা চলো রে — যদি তোর ডাক শুনে কেউ না আসে।', a:'— রবীন্দ্রনাথ ঠাকুর' },
+  { t:'বড় হতে গেলে বড় ভাবতে হয়।', a:'— বাংলা বাণী' },
+  { t:'সময়ের এক ফোঁড় অসময়ের দশ ফোঁড় বাঁচায়।', a:'— বাংলা প্রবাদ' },
+  { t:'তুমি যদি নিজেকে না জাগাও, কেউ তোমাকে জাগাতে পারবে না।', a:'— বুদ্ধ' },
+  { t:'প্রতিদিন এক কদম এগিয়ে যাও, এক বছরে অনেক দূর যাবে।', a:'— বাংলা প্রবচন' },
+];
+
+let bqIdx = 0;
+function bqShow(dir) {
+  if (dir === 0) bqIdx = Math.floor(Math.random() * BQ_QUOTES.length);
+  else bqIdx = (bqIdx + dir + BQ_QUOTES.length) % BQ_QUOTES.length;
+  const q = BQ_QUOTES[bqIdx];
+  const tEl = document.getElementById('bq-text');
+  const aEl = document.getElementById('bq-author');
+  if (tEl) tEl.textContent = q.t;
+  if (aEl) aEl.textContent = q.a;
+}
+function bqInit() {
+  // Quote of the day — index by day-of-year so it stays same all day
+  const d = new Date();
+  const dayOfYear = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+  bqIdx = dayOfYear % BQ_QUOTES.length;
+  bqShow(0); bqIdx = dayOfYear % BQ_QUOTES.length;
+  const q = BQ_QUOTES[bqIdx];
+  const tEl = document.getElementById('bq-text');
+  const aEl = document.getElementById('bq-author');
+  if (tEl) tEl.textContent = q.t;
+  if (aEl) aEl.textContent = q.a;
+}
+
+// ─── MEAL HIGHLIGHT (auto NOW by hour) ────────────────
+const MEAL_HOURS = [
+  { hStart: 6,  hEnd: 7,  keyword:'wake up' },
+  { hStart: 7,  hEnd: 8,  keyword:'banana' },
+  { hStart: 8,  hEnd: 10, keyword:'whey' },
+  { hStart: 13, hEnd: 15, keyword:'chicken' },
+  { hStart: 16, hEnd: 18, keyword:'almonds' },
+  { hStart: 19, hEnd: 21, keyword:'fish' },
+  { hStart: 22, hEnd: 23, keyword:'turmeric milk' },
+];
+
+function highlightCurrentMeal() {
+  const h = new Date().getHours();
+  const slot = MEAL_HOURS.find(s => h >= s.hStart && h < s.hEnd);
+  document.querySelectorAll('.meal-card').forEach(c => c.classList.remove('meal-now'));
+  if (!slot) return;
+  document.querySelectorAll('.meal-card').forEach(c => {
+    if (c.textContent.toLowerCase().includes(slot.keyword)) c.classList.add('meal-now');
+  });
+}
+
+// ─── HOBBIES SUB-TAB SWITCH ──────────────────────────
+function showHobby(id, btn) {
+  document.querySelectorAll('.hobby-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.hobby-subtab').forEach(t => t.classList.remove('active'));
+  const panel = document.getElementById('hp-' + id);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+  // refresh dynamic widgets per tab
+  if (id === 'today')     { updateRightNow(); updateStreaks(); }
+  if (id === 'nutrition') { highlightCurrentMeal(); }
+  if (id === 'mind')      { bqInit(); }
+  // scroll to top of section
+  const sec = document.getElementById('section-hobbies');
+  if (sec) window.scrollTo({ top: sec.offsetTop - 100, behavior: 'smooth' });
 }
 
 // ─── KALAKARI · CREATIVE STUDIO ──────────────────────
