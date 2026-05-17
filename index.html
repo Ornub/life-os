@@ -523,6 +523,59 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
   box-shadow:0 8px 32px rgba(67,56,202,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
+/* ── BENCHMARK CHART SECTION ── */
+.bench-card {
+  background:linear-gradient(145deg,#FFFFFF 0%,#F4F7FF 60%,#FFFFFF 100%);
+  border:1px solid var(--border); border-radius:18px; padding:22px; margin-bottom:14px;
+  box-shadow:0 8px 28px rgba(10,18,40,0.08);
+}
+.bench-svg-wrap { background:#FAFBFF; border:1px solid var(--border); border-radius:12px; padding:14px; margin:12px 0; overflow-x:auto; }
+.bench-svg { width:100%; max-width:100%; height:auto; display:block; min-width:600px; }
+.bench-legend { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-top:10px; padding:8px; background:#fff; border-radius:10px; }
+.bench-leg { display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--text2); font-weight:600; }
+.bench-leg-dot { width:14px; height:3px; border-radius:2px; }
+.bench-takeaway { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin-top:14px; }
+.bench-tk-cell { padding:12px 14px; border-radius:11px; background:#fff; border:1px solid var(--border); }
+.bench-tk-num { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:800; line-height:1; }
+.bench-tk-num.green { color:var(--accent-green); }
+.bench-tk-num.amber { color:var(--accent-gold); }
+.bench-tk-num.red { color:var(--accent-red); }
+.bench-tk-num.blue { color:var(--accent-blue); }
+.bench-tk-lbl { font-size:10.5px; color:var(--text3); text-transform:uppercase; letter-spacing:0.6px; font-weight:700; margin-top:5px; line-height:1.35; }
+
+/* ── MISSED OPPORTUNITIES ── */
+.missed-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px; margin:12px 0; }
+.missed-card { padding:14px 16px; border-radius:12px; background:#fff; border:1px solid var(--border); border-left:4px solid var(--mc-color,#94A3B8); transition:all 0.2s; }
+.missed-card:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(10,18,40,0.08); }
+.missed-tag { font-size:9.5px; font-weight:800; color:var(--mc-color,#94A3B8); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.missed-title { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; color:var(--text); margin-bottom:4px; line-height:1.25; }
+.missed-comp { font-size:12px; color:var(--text2); margin-bottom:6px; }
+.missed-comp strong { color:var(--mc-color,#94A3B8); font-weight:800; font-family:'Space Grotesk',sans-serif; }
+.missed-why { font-size:11px; color:var(--text3); line-height:1.5; }
+
+/* ── FINTECH ECOSYSTEM ── */
+.fin-eco { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:9px; margin:12px 0; }
+.fin-co { padding:12px 13px; border-radius:11px; background:#FAFBFF; border:1px solid var(--border); position:relative; }
+.fin-co-tier { display:inline-block; font-size:9px; font-weight:800; padding:2px 8px; border-radius:5px; letter-spacing:0.7px; margin-bottom:5px; }
+.fin-tier-1 { background:rgba(4,120,87,0.12); color:var(--accent-green); }
+.fin-tier-2 { background:rgba(27,72,214,0.12); color:var(--accent-blue); }
+.fin-tier-foreign { background:rgba(109,40,217,0.12); color:var(--accent-purple); }
+.fin-co-name { font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:700; color:var(--text); }
+.fin-co-meta { font-size:11px; color:var(--text2); margin-top:3px; }
+.fin-co-sal { font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:800; color:var(--accent-blue); margin-top:4px; }
+.fin-co-note { font-size:10px; color:var(--text3); margin-top:3px; line-height:1.4; }
+
+/* ── EXPECTATIONS TABLE ── */
+.exp-tbl { width:100%; border-collapse:collapse; font-size:12.5px; margin:10px 0; }
+.exp-tbl th { background:linear-gradient(135deg,#0F172A,#1E1B4B); color:#fff; padding:9px 12px; text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.8px; font-weight:700; }
+.exp-tbl th:first-child { border-radius:10px 0 0 10px; }
+.exp-tbl th:last-child { border-radius:0 10px 10px 0; }
+.exp-tbl td { padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text2); }
+.exp-tbl tr:hover td { background:rgba(27,72,214,0.04); }
+.exp-tbl .role { font-weight:700; color:var(--text); }
+.exp-tbl .sal { font-family:'Space Grotesk',sans-serif; font-weight:800; color:var(--accent-green); font-variant-numeric:tabular-nums; }
+.exp-tbl .you { color:var(--accent-blue); font-weight:700; }
+
 /* ── HISTORICAL COMP TABLE ── */
 .histcomp-card {
   background:linear-gradient(145deg,#FFFFFF 0%,#F4F7FF 60%,#FFFFFF 100%);
@@ -1617,7 +1670,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-18-015';
+  const BUILD = '2026-05-18-016';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -1929,6 +1982,23 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
           <div style="font-size:11px;color:var(--text3);margin-top:10px;">ESOP assumes 2x stock growth/yr from grant. 3-yr profit: ~₹16.5L net.</div>
         </div>
         <div id="salary-exl" style="display:none;">
+          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;">📜 ACTUAL EXL HISTORY (2020–2025)</div>
+          <table class="salary-table" style="margin-bottom:10px;">
+            <thead><tr><th>Year</th><th>CTC</th><th>YoY %</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td><span class="year-pill">2020</span></td><td>₹12L</td><td style="color:var(--text3);">start</td><td>Consultant I</td></tr>
+              <tr><td><span class="year-pill">2021</span></td><td>₹13.5L</td><td style="color:var(--accent-blue);">+12%</td><td>Cons I→II</td></tr>
+              <tr><td><span class="year-pill">2022</span></td><td>₹15L</td><td style="color:var(--accent-blue);">+11%</td><td>Consultant II</td></tr>
+              <tr><td><span class="year-pill">2023</span></td><td>₹17L</td><td style="color:var(--accent-blue);">+13%</td><td>Cons II→Sr</td></tr>
+              <tr><td><span class="year-pill">2024</span></td><td>₹19L</td><td style="color:var(--accent-gold);">+12%</td><td>Sr Consultant</td></tr>
+              <tr style="background:rgba(4,120,87,0.06);"><td><span class="year-pill">2025</span></td><td><strong style="color:var(--accent-green);">₹24L</strong></td><td style="color:var(--accent-green);font-weight:700;">+26%</td><td><strong>Pre-switch peak</strong></td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:10.5px;color:var(--text2);background:rgba(4,120,87,0.06);border-radius:8px;padding:8px 11px;margin-bottom:12px;border-left:2px solid var(--accent-green);">
+            <strong>Actual CAGR 2020→25: 14.9%</strong> · stable 11–13% annual + final 26% jump · solid analytics/risk trajectory at EXL
+          </div>
+
+          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;">🔮 PROJECTED IF STAYED AT EXL (2026–2031)</div>
           <table class="salary-table">
             <thead><tr><th>Year</th><th>CTC</th><th>Bonus (10%)</th><th>Effective</th><th>Role</th></tr></thead>
             <tbody>
@@ -2305,6 +2375,323 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       3. <strong>Bipasha has income</strong> or skills to re-enter workforce in 6 months<br>
       4. <strong>Slice ESOP vested ≥ 50%</strong> OR exit liquidity event done (don't leave ₹15L+ on table)<br>
       If any fail → stay job, do hybrid (E) instead.
+    </div>
+  </div>
+
+  <!-- ── BENCHMARK CHART · YOU vs IITian PEERS ── -->
+  <div class="bench-card">
+    <div class="calc-head">
+      <div class="calc-icon" style="background:linear-gradient(135deg,#3B82F6,#1E40AF);box-shadow:0 3px 10px rgba(59,130,246,0.32);">📊</div>
+      <div>
+        <div class="calc-title">IITian Trajectory Benchmark · 8-Year Visual</div>
+        <div class="calc-sub">Your actual compensation vs IIT 2020 batch mean / median / top-decile</div>
+      </div>
+    </div>
+
+    <div class="bench-svg-wrap">
+      <svg class="bench-svg" viewBox="0 0 620 360" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid lines -->
+        <line x1="60" y1="30"  x2="600" y2="30"  stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="60" y1="92"  x2="600" y2="92"  stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="60" y1="155" x2="600" y2="155" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="60" y1="218" x2="600" y2="218" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="60" y1="280" x2="600" y2="280" stroke="#94A3B8" stroke-width="1.5"/>
+        <line x1="60" y1="30"  x2="60"  y2="280" stroke="#94A3B8" stroke-width="1.5"/>
+
+        <!-- Y axis labels -->
+        <text x="50" y="34"  text-anchor="end" font-size="10" font-weight="600" fill="#64748B">₹80L</text>
+        <text x="50" y="96"  text-anchor="end" font-size="10" font-weight="600" fill="#64748B">₹60L</text>
+        <text x="50" y="159" text-anchor="end" font-size="10" font-weight="600" fill="#64748B">₹40L</text>
+        <text x="50" y="222" text-anchor="end" font-size="10" font-weight="600" fill="#64748B">₹20L</text>
+        <text x="50" y="284" text-anchor="end" font-size="10" font-weight="600" fill="#64748B">₹0</text>
+
+        <!-- X axis labels -->
+        <text x="60"  y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#64748B">2020</text>
+        <text x="137" y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#64748B">2021</text>
+        <text x="214" y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#64748B">2022</text>
+        <text x="291" y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#64748B">2023</text>
+        <text x="368" y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#64748B">2024</text>
+        <text x="445" y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#64748B">2025</text>
+        <text x="522" y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#64748B">2026</text>
+        <text x="600" y="300" text-anchor="middle" font-size="10" font-weight="600" fill="#64748B">2027</text>
+
+        <!-- TOP DECILE line (FAANG/MBB) -->
+        <polyline fill="none" stroke="#10B981" stroke-width="2.5" stroke-linejoin="round"
+                  points="60,218 137,205 214,193 291,177 368,155 445,130 522,99 600,61"/>
+
+        <!-- IIT MEDIAN line -->
+        <polyline fill="none" stroke="#64748B" stroke-width="2" stroke-dasharray="5,3"
+                  points="60,236 137,230 214,224 291,214 368,205 445,193 522,180 600,164"/>
+
+        <!-- IIT MEAN line -->
+        <polyline fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="2,3"
+                  points="60,230 137,224 214,217 291,208 368,196 445,180 522,164 600,143"/>
+
+        <!-- YOU line (thick) -->
+        <polyline fill="none" stroke="url(#youGrad)" stroke-width="3.5" stroke-linejoin="round"
+                  points="60,242 137,238 214,233 291,227 368,221 445,205 522,158 600,124"/>
+
+        <defs>
+          <linearGradient id="youGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#1B48D6"/>
+            <stop offset="100%" stop-color="#6D28D9"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Data point dots — YOU -->
+        <circle cx="60"  cy="242" r="4" fill="#1B48D6" stroke="#fff" stroke-width="2"/>
+        <circle cx="137" cy="238" r="4" fill="#1B48D6" stroke="#fff" stroke-width="2"/>
+        <circle cx="214" cy="233" r="4" fill="#1B48D6" stroke="#fff" stroke-width="2"/>
+        <circle cx="291" cy="227" r="4" fill="#1B48D6" stroke="#fff" stroke-width="2"/>
+        <circle cx="368" cy="221" r="4" fill="#1B48D6" stroke="#fff" stroke-width="2"/>
+        <circle cx="445" cy="205" r="5" fill="#1B48D6" stroke="#fff" stroke-width="2"/>
+        <circle cx="522" cy="158" r="6" fill="#6D28D9" stroke="#fff" stroke-width="2.5"/>
+        <circle cx="600" cy="124" r="5" fill="#6D28D9" stroke="#fff" stroke-width="2"/>
+
+        <!-- Pivot annotation -->
+        <line x1="445" y1="205" x2="522" y2="158" stroke="#6D28D9" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+        <rect x="430" y="125" width="115" height="22" rx="5" fill="#6D28D9" opacity="0.95"/>
+        <text x="487" y="140" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">⚡ SLICE PIVOT</text>
+
+        <!-- Value labels on YOU line -->
+        <text x="60"  y="258" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1B48D6">12L</text>
+        <text x="445" y="222" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1B48D6">24L</text>
+        <text x="522" y="148" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9">₹39L</text>
+        <text x="600" y="115" text-anchor="middle" font-size="11" font-weight="800" fill="#6D28D9">₹50L+</text>
+      </svg>
+
+      <div class="bench-legend">
+        <div class="bench-leg"><span class="bench-leg-dot" style="background:linear-gradient(90deg,#1B48D6,#6D28D9);"></span>YOU (actual)</div>
+        <div class="bench-leg"><span class="bench-leg-dot" style="background:#10B981;"></span>Top decile (FAANG/MBB/IIM)</div>
+        <div class="bench-leg"><span class="bench-leg-dot" style="background:#64748B;border-top:1px dashed #64748B;"></span>IIT 2020 Median</div>
+        <div class="bench-leg"><span class="bench-leg-dot" style="background:#94A3B8;"></span>IIT 2020 Mean</div>
+      </div>
+    </div>
+
+    <div class="bench-takeaway">
+      <div class="bench-tk-cell">
+        <div class="bench-tk-num blue">22.5%</div>
+        <div class="bench-tk-lbl">Your 7-yr CAGR</div>
+      </div>
+      <div class="bench-tk-cell">
+        <div class="bench-tk-num amber">15%</div>
+        <div class="bench-tk-lbl">IIT median CAGR</div>
+      </div>
+      <div class="bench-tk-cell">
+        <div class="bench-tk-num green">+7.5pp</div>
+        <div class="bench-tk-lbl">You beat median by</div>
+      </div>
+      <div class="bench-tk-cell">
+        <div class="bench-tk-num red">−₹20L</div>
+        <div class="bench-tk-lbl">Behind top decile at 2025</div>
+      </div>
+    </div>
+
+    <div class="wisdom-callout">
+      <strong>The visible inflection:</strong> Your line stayed close to IIT median through 2020–2024 (₹12L → ₹19L). The 2025 EXL bump (+26%) and Slice pivot (+62%) cut the gap to top decile dramatically. Without those 2 moves you'd be tracking ₹28L line today — ₹11L below where you are. <strong>Pivots matter more than annual raises.</strong>
+    </div>
+  </div>
+
+  <!-- ── WHAT YOU MISSED · Opportunities ── -->
+  <div class="bench-card">
+    <div class="calc-head">
+      <div class="calc-icon" style="background:linear-gradient(135deg,#94A3B8,#475569);box-shadow:0 3px 10px rgba(100,116,139,0.3);">🚪</div>
+      <div>
+        <div class="calc-title">Paths You Didn't Take · IIT 2020 Counterfactuals</div>
+        <div class="calc-sub">Where peers went · what you missed · where you can still pivot</div>
+      </div>
+    </div>
+
+    <div class="missed-grid">
+      <div class="missed-card" style="--mc-color:#10B981;">
+        <div class="missed-tag">CSE PIVOT</div>
+        <div class="missed-title">FAANG India · SDE</div>
+        <div class="missed-comp"><strong>₹35–55L</strong> start → <strong>₹70L–1.2Cr</strong> by yr 5</div>
+        <div class="missed-why">Google/Amazon/Meta India · would need 2-yr CS bootcamp + leetcode grind. <strong>Closed window</strong> at age 28 — too late for entry-level.</div>
+      </div>
+
+      <div class="missed-card" style="--mc-color:#F59E0B;">
+        <div class="missed-tag">CAT → MBA</div>
+        <div class="missed-title">IIM A/B/C · Consulting</div>
+        <div class="missed-comp"><strong>₹30–45L</strong> grad → <strong>₹70L–1.5Cr</strong> by yr 5</div>
+        <div class="missed-why">MBB (McKinsey/BCG/Bain) or strat roles at Walmart, Goldman. <strong>Still open</strong> — ISB 1-yr at 28 viable but expensive (₹40L fees).</div>
+      </div>
+
+      <div class="missed-card" style="--mc-color:#A78BFA;">
+        <div class="missed-tag">QUANT TRADING</div>
+        <div class="missed-title">WorldQuant · Optiver · Citadel</div>
+        <div class="missed-comp"><strong>₹50–80L</strong> start → <strong>₹2–5 Cr</strong> by yr 5</div>
+        <div class="missed-why">Highest paying path · needs math/stats + Python · WorldQuant Bangalore hires from IITs. <strong>Risk-tech adjacent skill match — pivotable</strong>.</div>
+      </div>
+
+      <div class="missed-card" style="--mc-color:#3B82F6;">
+        <div class="missed-tag">GRE → US</div>
+        <div class="missed-title">US Masters → Tech</div>
+        <div class="missed-comp"><strong>$100–150K</strong> ($83L–1.25Cr/yr)</div>
+        <div class="missed-why">MS Data Science / OR at CMU/UIUC · then SDE/MLE at Google, Stripe. <strong>Window mostly closed</strong> (visa risk + family in Kolkata).</div>
+      </div>
+
+      <div class="missed-card" style="--mc-color:#EF4444;">
+        <div class="missed-tag">CFA → IB</div>
+        <div class="missed-title">Investment Banking · PE</div>
+        <div class="missed-comp"><strong>₹35–60L</strong> start → <strong>₹1–2 Cr</strong> by yr 5</div>
+        <div class="missed-why">Goldman, Morgan Stanley, Avendus, KKR. <strong>Lateral entry hard</strong> without MBA · but PE risk roles possible at 30+.</div>
+      </div>
+
+      <div class="missed-card" style="--mc-color:#10B981;">
+        <div class="missed-tag">STILL OPEN ✓</div>
+        <div class="missed-title">Founder's Office · Risk-tech Startup</div>
+        <div class="missed-comp"><strong>₹50–80L</strong> + meaningful equity</div>
+        <div class="missed-why">Perfios, Lentra, M2P, Setu, Karza, Signzy. <strong>Your exact skillset</strong> · domain + AI tooling + Slice brand. Apply post-2027.</div>
+      </div>
+    </div>
+
+    <div class="wisdom-callout warn">
+      <strong>Honest assessment:</strong> You "missed" the FAANG/CSE/quant paths because of branch (Met & Materials → no CS background). But you played YOUR cards optimally — analytics pivot via EXL → fintech via Slice. <strong>Top-decile paths are not "better" — they have different risks (visa, IIM ROI, layoffs).</strong> Your path = lower risk, late-blooming wealth curve.
+    </div>
+  </div>
+
+  <!-- ── INDIAN FINTECH ECOSYSTEM ── -->
+  <div class="bench-card">
+    <div class="calc-head">
+      <div class="calc-icon" style="background:linear-gradient(135deg,#0C7EA0,#0E7490);box-shadow:0 3px 10px rgba(12,126,160,0.32);">🏦</div>
+      <div>
+        <div class="calc-title">Indian Fintech Opportunity Map · Where to Aim</div>
+        <div class="calc-sub">Companies hiring senior risk/credit roles · 2026–2028 window</div>
+      </div>
+    </div>
+
+    <div style="font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;margin-top:8px;">🟢 TIER 1 · BEST WLB + COMP</div>
+    <div class="fin-eco">
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-1">CONSUMER FINTECH</div>
+        <div class="fin-co-name">CRED</div>
+        <div class="fin-co-meta">Premium · risk + analytics</div>
+        <div class="fin-co-sal">₹50–70L</div>
+        <div class="fin-co-note">High ownership · 3.3/5 WLB · Bangalore</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-1">NEOBANK</div>
+        <div class="fin-co-name">Jupiter</div>
+        <div class="fin-co-meta">Risk lead · analytics</div>
+        <div class="fin-co-sal">₹45–60L</div>
+        <div class="fin-co-note">Strong culture · product-led · Bangalore</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-1">CARDS</div>
+        <div class="fin-co-name">OneCard / FPL</div>
+        <div class="fin-co-meta">Credit risk strategy</div>
+        <div class="fin-co-sal">₹50–65L</div>
+        <div class="fin-co-note">FPL Group · backed by IIFL</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-1">PAYMENTS</div>
+        <div class="fin-co-name">Razorpay</div>
+        <div class="fin-co-meta">Risk + analytics</div>
+        <div class="fin-co-sal">₹40–55L</div>
+        <div class="fin-co-note">Engineering-led · mature · 3.8/5 WLB</div>
+      </div>
+    </div>
+
+    <div style="font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;margin-top:12px;">🔵 TIER 2 · GROWTH-STAGE LENDING</div>
+    <div class="fin-eco">
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-2">DIGITAL LENDING</div>
+        <div class="fin-co-name">Moneyview</div>
+        <div class="fin-co-meta">Credit risk lead</div>
+        <div class="fin-co-sal">₹40–55L</div>
+        <div class="fin-co-note">Data-driven · mature underwriting</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-2">CONSUMER</div>
+        <div class="fin-co-name">PhonePe</div>
+        <div class="fin-co-meta">Credit risk lead</div>
+        <div class="fin-co-sal">₹45–60L</div>
+        <div class="fin-co-note">Scale-focused · Walmart-backed</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-2">MSME LENDING</div>
+        <div class="fin-co-name">Lendingkart</div>
+        <div class="fin-co-meta">Risk strategy</div>
+        <div class="fin-co-sal">₹35–50L</div>
+        <div class="fin-co-note">MSME underwriting · adjacent expertise</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-2">BNPL/CARDS</div>
+        <div class="fin-co-name">Zest Money / Uni</div>
+        <div class="fin-co-meta">Credit policy</div>
+        <div class="fin-co-sal">₹35–50L</div>
+        <div class="fin-co-note">Restructuring phase · careful diligence</div>
+      </div>
+    </div>
+
+    <div style="font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;margin-top:12px;">🟣 FOREIGN BANKS · INDIA EXPANSION</div>
+    <div class="fin-eco">
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-foreign">US BANK</div>
+        <div class="fin-co-name">JPMorgan Chase India</div>
+        <div class="fin-co-meta">Associate · Fraud Strategy</div>
+        <div class="fin-co-sal">₹40–60L</div>
+        <div class="fin-co-note">Brand gold · global exposure · Hyderabad/Bangalore</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-foreign">UK FINTECH</div>
+        <div class="fin-co-name">Revolut India</div>
+        <div class="fin-co-meta">Senior Risk Analyst</div>
+        <div class="fin-co-sal">₹50–80L</div>
+        <div class="fin-co-note">Best WLB in list · global product · hybrid</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-foreign">US BANK</div>
+        <div class="fin-co-name">Goldman Sachs India</div>
+        <div class="fin-co-meta">Risk Associate</div>
+        <div class="fin-co-sal">₹45–65L</div>
+        <div class="fin-co-note">Bangalore/Bengaluru · prestige</div>
+      </div>
+      <div class="fin-co">
+        <div class="fin-co-tier fin-tier-foreign">US REMOTE</div>
+        <div class="fin-co-name">Stripe / Brex / Ramp</div>
+        <div class="fin-co-meta">Risk + analytics</div>
+        <div class="fin-co-sal">$80–150K</div>
+        <div class="fin-co-note">~₹65L–1.25Cr · remote India roles opening</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FINTECH ROLE EXPECTATIONS ── -->
+  <div class="bench-card">
+    <div class="calc-head">
+      <div class="calc-icon" style="background:linear-gradient(135deg,#EC4899,#9F1239);box-shadow:0 3px 10px rgba(236,72,153,0.32);">🎯</div>
+      <div>
+        <div class="calc-title">Fintech Role Expectations · Your Career Ladder</div>
+        <div class="calc-sub">What each role pays · what they need · realistic timing for you</div>
+      </div>
+    </div>
+
+    <table class="exp-tbl">
+      <thead><tr><th>Role</th><th>Comp Range</th><th>Years of Exp</th><th>Your Timing</th></tr></thead>
+      <tbody>
+        <tr><td class="role">Senior BA · Credit Risk</td><td class="sal">₹25–40L</td><td>4–7 yr</td><td class="you">✓ NOW (you are here)</td></tr>
+        <tr><td class="role">Lead · Credit/Risk Strategy</td><td class="sal">₹45–65L</td><td>6–9 yr</td><td class="you">2027 (after Slice tenure)</td></tr>
+        <tr><td class="role">Principal Risk · Tier-1 fintech</td><td class="sal">₹65–90L</td><td>8–11 yr</td><td class="you">2029 (Tier-1 switch)</td></tr>
+        <tr><td class="role">Head of Risk · mid-stage fintech</td><td class="sal">₹85L–1.3Cr</td><td>10–13 yr</td><td class="you">2031–32</td></tr>
+        <tr><td class="role">CRO · Series B/C fintech</td><td class="sal">₹1.2–2 Cr + equity</td><td>12–15 yr</td><td class="you">2033–35</td></tr>
+        <tr><td class="role">VP / Founder's Office</td><td class="sal">₹1.5–3 Cr + equity</td><td>12+ yr</td><td class="you">2033+ · also business path</td></tr>
+        <tr><td class="role">Risk-tech founder · independent</td><td class="sal">Variable · ₹50L–10Cr</td><td>any</td><td class="you">2028+ if quit job (see scenario B)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="wisdom-callout">
+      <strong>Realistic target by 2035 (age 38):</strong> Head of Risk at mid-stage fintech OR CRO of Series B/C startup. Comp range <strong>₹1.2–2 Cr + meaningful equity</strong>. Path: Slice (Lead by 2028) → CRED/Jupiter/JPM (Principal by 2030) → mid-stage CRO (2033–35).
+    </div>
+
+    <div class="wisdom-callout warn">
+      <strong>Skills to build NOW to maximize this trajectory:</strong><br>
+      • <strong>AI/ML deeper:</strong> ML model deployment, not just dashboards · Python notebooks → MLOps<br>
+      • <strong>Regulatory:</strong> RBI guidelines, FATF, ECB · CRO roles need policy knowledge<br>
+      • <strong>P&L language:</strong> tie risk decisions to revenue/EBITDA · become "business person who does risk"<br>
+      • <strong>Public speaking:</strong> conference talks (Money20/20, Global Fintech Fest) · CRO needs visibility<br>
+      • <strong>Network density:</strong> 5+ ex-CRO/Head of Risk contacts at target companies by 2028
     </div>
   </div>
 </div>
