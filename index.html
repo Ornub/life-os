@@ -3,422 +3,1113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arnab's Life Planner</title>
+<title>Arnab · Life OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0f1117;
-    --bg2: #1a1d27;
-    --bg3: #222636;
-    --border: #2e3347;
-    --accent: #6c63ff;
-    --accent2: #ff6584;
-    --accent3: #43e97b;
-    --accent4: #f7971e;
-    --text: #e8eaf6;
-    --text2: #9ca3af;
-    --text3: #6b7280;
-    --card: #1e2235;
-    --gold: #ffd700;
-    --red: #ff4757;
-    --green: #2ed573;
-    --blue: #1e90ff;
-    --purple: #a29bfe;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+/* ── ANIMATABLE PROPERTIES ── */
+@property --grad-angle { syntax: '<angle>'; inherits: false; initial-value: 135deg; }
 
-  /* NAV */
+:root {
+  /* Surfaces */
+  --bg: #EFF1F8;
+  --bg2: #E6E9F4;
+  --bg3: #DDE0EE;
+  --bg-card: rgba(255,255,255,0.98);
+  --bg-glass: rgba(255,255,255,0.72);
+  --border: rgba(10,18,40,0.065);
+  --border-strong: rgba(10,18,40,0.11);
+  --border-hover: rgba(27,72,214,0.28);
+
+  /* Typography */
+  --text: #050A18;
+  --text2: #1E293B;
+  --text3: #5A6A7E;
+  --text-muted: #94A3B8;
+  --text-primary: #050A18;
+  --text-secondary: #1E293B;
+  --text-tertiary: #5A6A7E;
+
+  /* Brand — richer, deeper */
+  --accent: #1B48D6;
+  --accent2: #C81A1A;
+  --accent3: #047857;
+  --accent4: #C2700A;
+  --accent-blue: #1B48D6;
+  --accent-blue-light: rgba(27,72,214,0.07);
+  --accent-blue-mid: rgba(27,72,214,0.14);
+  --accent-gold: #C2700A;
+  --accent-gold-light: rgba(194,112,10,0.08);
+  --accent-green: #047857;
+  --accent-green-light: rgba(4,120,87,0.07);
+  --accent-purple: #6D28D9;
+  --accent-purple-light: rgba(109,40,217,0.07);
+  --accent-red: #C81A1A;
+  --accent-red-light: rgba(200,26,26,0.07);
+  --accent-indigo: #4338CA;
+
+  /* Legacy compat aliases */
+  --gold: #C2700A; --red: #C81A1A; --green: #047857;
+  --blue: #1B48D6; --purple: #6D28D9; --cyan: #0C7EA0;
+  --card: rgba(255,255,255,0.98); --amber: #C2700A;
+
+  /* Shadow system — multi-layer + colored ambient */
+  --shadow-xs: 0 1px 3px rgba(10,18,40,0.07), 0 0 0 1px rgba(10,18,40,0.04);
+  --shadow-sm: 0 2px 8px rgba(10,18,40,0.08), 0 1px 3px rgba(10,18,40,0.05), 0 0 0 1px rgba(10,18,40,0.04);
+  --shadow-md: 0 6px 24px rgba(10,18,40,0.1), 0 2px 8px rgba(10,18,40,0.06), 0 0 0 1px rgba(10,18,40,0.04);
+  --shadow-lg: 0 16px 48px rgba(10,18,40,0.13), 0 6px 16px rgba(10,18,40,0.07), 0 0 0 1px rgba(10,18,40,0.05);
+  --shadow-xl: 0 28px 72px rgba(10,18,40,0.16), 0 10px 28px rgba(10,18,40,0.09), 0 0 0 1px rgba(10,18,40,0.06);
+  --shadow-hover: 0 20px 56px rgba(27,72,214,0.2), 0 6px 16px rgba(27,72,214,0.12), 0 0 0 1px rgba(27,72,214,0.22);
+  --shadow-card: 0 4px 24px rgba(10,18,40,0.08), 0 1px 4px rgba(10,18,40,0.04), inset 0 1px 0 rgba(255,255,255,1);
+  --shadow-card-hover: 0 24px 64px rgba(27,72,214,0.18), 0 8px 20px rgba(27,72,214,0.1), 0 0 0 1px rgba(27,72,214,0.2), inset 0 1px 0 rgba(255,255,255,1);
+  --shadow-gold: 0 12px 36px rgba(194,112,10,0.22), 0 4px 10px rgba(194,112,10,0.12);
+  --shadow-green: 0 12px 36px rgba(4,120,87,0.18), 0 4px 10px rgba(4,120,87,0.1);
+  --shadow-purple: 0 12px 36px rgba(109,40,217,0.22), 0 4px 10px rgba(109,40,217,0.12);
+
+  /* Radius */
+  --r-xs: 6px; --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 26px; --r-2xl: 32px; --r-pill: 999px;
+
+  /* Easing */
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
+  --ease-smooth: cubic-bezier(0.16,1,0.3,1);
+
+  /* Fonts */
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+
+  /* Gradient shortcuts */
+  --grad-brand: linear-gradient(135deg, #1B48D6 0%, #6D28D9 100%);
+  --grad-gold: linear-gradient(135deg, #D97706 0%, #C2700A 100%);
+  --grad-green: linear-gradient(135deg, #059669 0%, #047857 100%);
+  --grad-surface: linear-gradient(145deg, #FFFFFF 0%, #F5F6FF 100%);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; overflow-x: hidden;
+  font-size: 14px; line-height: 1.5;
+}
+
+/* ── GRAIN TEXTURE OVERLAY ── */
+.noise-layer {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: multiply;
+}
+
+/* ── BACKGROUND ── */
+.bg-layer {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 170% 80% at 8% -8%, rgba(191,219,254,0.6) 0%, transparent 52%),
+    radial-gradient(ellipse 110% 85% at 92% 110%, rgba(221,214,254,0.5) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 55% at 55% 25%, rgba(207,235,254,0.3) 0%, transparent 58%),
+    radial-gradient(ellipse 90% 65% at 15% 90%, rgba(209,250,229,0.25) 0%, transparent 55%),
+    linear-gradient(168deg, #EFF1F8 0%, #ECEEF8 45%, #EFF1F8 100%);
+}
+.orb {
+  position: fixed; border-radius: 50%;
+  filter: blur(110px); pointer-events: none; z-index: 0;
+  will-change: transform;
+}
+.orb-1 { width:820px; height:820px; top:-320px; left:-210px; background:radial-gradient(circle,rgba(147,197,253,0.34) 0%,rgba(191,219,254,0.14) 52%,transparent 74%); animation: orbFloat 28s ease-in-out infinite; }
+.orb-2 { width:620px; height:620px; top:35%; right:-190px; background:radial-gradient(circle,rgba(196,181,253,0.3) 0%,rgba(221,214,254,0.11) 52%,transparent 74%); animation: orbFloat 28s ease-in-out infinite 10s; }
+.orb-3 { width:660px; height:660px; bottom:-210px; left:22%; background:radial-gradient(circle,rgba(167,243,208,0.24) 0%,rgba(209,250,229,0.09) 52%,transparent 74%); animation: orbFloat 28s ease-in-out infinite 20s; }
+.orb-4 { width:440px; height:440px; top:58%; left:52%; background:radial-gradient(circle,rgba(251,191,36,0.13) 0%,transparent 68%); animation: orbFloat 32s ease-in-out infinite 6s; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+  z-index: 1000; width: calc(100% - 32px); max-width: 1440px;
+  background: rgba(255,255,255,0.86);
+  backdrop-filter: blur(36px) saturate(220%) brightness(105%);
+  -webkit-backdrop-filter: blur(36px) saturate(220%) brightness(105%);
+  border: 1px solid rgba(255,255,255,0.94);
+  border-bottom-color: rgba(10,18,40,0.07);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; height: 48px;
+  box-shadow:
+    0 8px 36px rgba(10,18,40,0.11),
+    0 2px 8px rgba(10,18,40,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.97),
+    inset 0 -1px 0 rgba(10,18,40,0.035);
+}
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; font-weight: 800; letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #1B48D6 0%, #6D28D9 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  display: flex; align-items: center; gap: 9px;
+}
+.nav-logo-icon {
+  width: 24px; height: 24px; flex-shrink: 0;
+  background: linear-gradient(135deg, #1B48D6 0%, #6D28D9 100%);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(27,72,214,0.35);
+  -webkit-text-fill-color: initial;
+}
+.nav-tabs {
+  display: flex; gap: 2px;
+  background: rgba(10,18,40,0.04);
+  border: 1px solid rgba(10,18,40,0.07);
+  border-radius: 14px; padding: 3px;
+}
+.nav-tab {
+  padding: 5px 14px; border-radius: 9px; border: none;
+  background: transparent; color: var(--text3);
+  cursor: pointer; font-size: 12.5px; font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.22s var(--ease);
+  white-space: nowrap;
+}
+.nav-tab:hover { background: rgba(10,18,40,0.05); color: var(--text2); }
+.nav-tab.active {
+  background: #FFFFFF; color: var(--accent-blue);
+  border: 1px solid rgba(27,72,214,0.18);
+  box-shadow: 0 2px 8px rgba(27,72,214,0.13), 0 1px 2px rgba(10,18,40,0.06), inset 0 1px 0 #fff;
+}
+.nav-date { font-size: 11px; color: var(--text3); letter-spacing: 0.3px; }
+
+/* ── MAIN ── */
+main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: relative; z-index: 2; }
+
+/* ── SECTIONS ── */
+.section { display: none; }
+.section.active { display: block; animation: sectionIn 0.44s var(--ease-smooth) both; }
+@keyframes sectionIn { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(145deg, #FFFFFF 0%, #F4F6FF 55%, #FFFFFF 100%);
+  border: 1px solid rgba(10,18,40,0.07);
+  border-top-color: rgba(255,255,255,0.95);
+  border-radius: 22px; padding: 28px 36px;
+  margin-bottom: 18px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 8px 48px rgba(10,18,40,0.09), 0 2px 8px rgba(10,18,40,0.05), inset 0 1px 0 #fff;
+}
+.hero::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 80% at 102% 0%, rgba(27,72,214,0.09) 0%, transparent 58%),
+    radial-gradient(ellipse 55% 65% at -2% 100%, rgba(109,40,217,0.07) 0%, transparent 55%);
+  pointer-events:none;
+}
+.hero::after {
+  content:''; position:absolute; top:0; left:8%; right:8%; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(27,72,214,0.35), rgba(109,40,217,0.25), transparent);
+}
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.8px;
+  color: var(--text); line-height: 1.15; text-wrap: balance;
+}
+.hero h1 span {
+  background: linear-gradient(135deg, #1B48D6 10%, #6D28D9 90%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero p { color: var(--text3); font-size: 13px; margin-bottom: 20px; line-height: 1.55; }
+.hero-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-stat {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(10,18,40,0.07);
+  border-top-color: rgba(255,255,255,1);
+  border-radius: 14px; padding: 12px 18px; min-width: 130px;
+  transition: all 0.34s var(--ease-smooth);
+  box-shadow: 0 4px 18px rgba(10,18,40,0.07), 0 1px 3px rgba(10,18,40,0.04), inset 0 1px 0 #fff;
+  position: relative; overflow: hidden;
+}
+.hero-stat::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background: transparent; border-radius:20px 20px 0 0;
+  transition: background 0.3s;
+}
+.hero-stat:hover { border-color: rgba(27,72,214,0.2); box-shadow: var(--shadow-hover); transform: translateY(-5px); }
+.hero-stat:hover::after { background: var(--grad-brand); }
+.hero-stat-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: 1.1px; font-weight: 700; }
+.hero-stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; margin-top: 3px; letter-spacing: -0.5px; }
+.hero-stat-value.gold   { color: var(--accent-gold);   --glow: rgba(194,112,10,0.4); }
+.hero-stat-value.green  { color: var(--accent-green);  --glow: rgba(4,120,87,0.4); }
+.hero-stat-value.purple { color: var(--accent-purple); --glow: rgba(109,40,217,0.4); }
+.hero-stat-value.blue   { color: var(--accent-blue);   --glow: rgba(27,72,214,0.4); }
+.hero-stat:hover .hero-stat-value { text-shadow: 0 0 20px var(--glow, transparent); }
+
+/* ── GRID ── */
+.grid { display: grid; gap: 14px; }
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+.grid-auto { grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); }
+
+/* ── CARD ── */
+.card {
+  background: rgba(255,255,255,0.97);
+  border: 1px solid rgba(10,18,40,0.065);
+  border-top-color: rgba(255,255,255,0.95);
+  border-radius: 16px; padding: 18px;
+  box-shadow: var(--shadow-card);
+  transition: all 0.36s var(--ease-smooth);
+  position: relative; overflow: hidden;
+}
+.card::before {
+  content:''; position:absolute; top:0; left:12%; right:12%; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(27,72,214,0.22), rgba(109,40,217,0.16), transparent);
+}
+.card::after {
+  content:''; position:absolute; inset:0; border-radius:16px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.55) 0%, transparent 55%);
+  pointer-events:none; opacity:0; transition: opacity 0.32s;
+}
+.card:hover { border-color: rgba(27,72,214,0.15); box-shadow: var(--shadow-card-hover); transform: translateY(-3px); }
+.card:hover::after { opacity: 1; }
+.card-title {
+  font-size: 10px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 1.2px;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.card-title .icon { font-size: 13px; }
+
+/* ── SECTION TITLE ── */
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px;
+  color: var(--text); text-wrap: balance;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title span {
+  background: linear-gradient(135deg, #1B48D6 15%, #6D28D9 95%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.section-title::after {
+  content:''; flex:1; height:1px;
+  background: linear-gradient(90deg, rgba(27,72,214,0.22), transparent);
+}
+
+/* ── MILESTONE TIMELINE ── */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content:''; position:absolute; left:10px; top:8px; bottom:0; width:2px;
+  background: linear-gradient(to bottom,rgba(27,72,214,0.55),rgba(109,40,217,0.3),rgba(10,18,40,0.05));
+}
+.milestone {
+  position: relative; margin-bottom: 8px;
+  padding: 11px 14px; border-radius: 12px;
+  background: rgba(255,255,255,0.95); border: 1px solid var(--border);
+  box-shadow: 0 2px 10px rgba(10,18,40,0.05), inset 0 1px 0 #fff;
+  transition: all 0.3s var(--ease-smooth);
+}
+.milestone:hover {
+  border-color: var(--border-hover); background: #F4F7FF;
+  transform: translateX(6px); box-shadow: 0 6px 22px rgba(27,72,214,0.1), inset 0 1px 0 #fff;
+}
+.milestone::before {
+  content:''; position:absolute; left:-26px; top:50%; transform:translateY(-50%);
+  width:12px; height:12px; border-radius:50%;
+  background: var(--accent-blue); border: 2px solid #EFF1F8;
+  box-shadow: 0 0 0 3px rgba(27,72,214,0.18);
+}
+.milestone.done::before    { background:var(--accent-green); box-shadow:0 0 0 3px rgba(4,120,87,0.18); }
+.milestone.warning::before { background:var(--accent-gold); box-shadow:0 0 0 3px rgba(194,112,10,0.18); }
+.milestone.future::before  { background:#CBD5E1; box-shadow:none; border-color:#E2E8F0; }
+.milestone-year  { font-size:11px; color:var(--text3); font-weight:600; letter-spacing:0.4px; }
+.milestone-title { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; margin:4px 0 3px; color:var(--text); }
+.milestone-desc  { font-size:12px; color:var(--text2); line-height:1.6; }
+.milestone-badge {
+  display:inline-block; padding:3px 10px; border-radius:20px;
+  font-size:10px; font-weight:700; text-transform:uppercase; margin-top:8px; letter-spacing:0.5px;
+}
+.badge-done   { background:rgba(4,120,87,0.1);   color:var(--accent-green); border:1px solid rgba(4,120,87,0.22);  }
+.badge-now    { background:rgba(27,72,214,0.1);   color:var(--accent-blue);  border:1px solid rgba(27,72,214,0.22); }
+.badge-target { background:rgba(194,112,10,0.1);  color:var(--accent-gold);  border:1px solid rgba(194,112,10,0.22); }
+.badge-future { background:rgba(148,163,184,0.12); color:var(--text3); border:1px solid rgba(148,163,184,0.2); }
+
+/* ── PROGRESS ── */
+.progress-wrap { margin-bottom: 10px; }
+.progress-label { display:flex; justify-content:space-between; font-size:11.5px; margin-bottom:5px; }
+.progress-label span:first-child { color:var(--text2); }
+.progress-label span:last-child  { color:var(--text); font-weight:600; }
+.progress-bar {
+  height:7px; background:rgba(10,18,40,0.07);
+  border-radius:8px; overflow:hidden; position:relative;
+}
+.progress-fill {
+  height:100%; border-radius:8px;
+  transition: width 1.2s var(--ease-smooth);
+  position:relative;
+}
+.progress-fill::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.45) 50%,transparent 100%);
+  background-size:200% 100%; animation:shimmer 2.2s linear infinite;
+  border-radius:8px;
+}
+
+/* ── SALARY TABLE ── */
+.salary-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+.salary-table th {
+  color:var(--text3); font-weight:600; padding:6px 10px; text-align:left;
+  border-bottom:1px solid var(--border);
+  font-size:9.5px; text-transform:uppercase; letter-spacing:0.7px;
+  background:rgba(10,18,40,0.02);
+}
+.salary-table td {
+  padding:7px 10px; border-bottom:1px solid rgba(10,18,40,0.05);
+  color:var(--text2); transition:all 0.2s;
+}
+.salary-table tr:last-child td { border-bottom:none; }
+.salary-table tr:hover td { background:rgba(27,72,214,0.04); color:var(--text); }
+.year-pill {
+  background:rgba(27,72,214,0.08); border:1px solid rgba(27,72,214,0.18);
+  border-radius:6px; padding:3px 8px; font-size:11px; font-weight:700; color:var(--accent-blue);
+}
+.highlight-row td { background:rgba(27,72,214,0.05) !important; }
+
+/* ── REMINDERS ── */
+.reminder-list { display:flex; flex-direction:column; gap:5px; }
+.reminder-item {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 12px; border-radius:10px;
+  background:rgba(255,255,255,0.95); border:1px solid var(--border);
+  box-shadow:0 1px 4px rgba(10,18,40,0.04), inset 0 1px 0 #fff;
+  cursor:pointer; transition:all 0.25s var(--ease-smooth);
+}
+.reminder-item:hover { border-color:var(--border-hover); background:#F4F7FF; box-shadow:0 4px 16px rgba(27,72,214,0.08), inset 0 1px 0 #fff; }
+.reminder-item.checked { opacity:0.45; }
+.reminder-check {
+  width:18px; height:18px; border-radius:5px;
+  border:1.5px solid rgba(10,18,40,0.2); flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; transition:all 0.2s; background:#fff;
+}
+.reminder-item.checked .reminder-check { background:var(--accent-green); border-color:var(--accent-green); }
+.reminder-text { flex:1; font-size:13px; color:var(--text2); }
+.reminder-item.checked .reminder-text { text-decoration:line-through; color:var(--text3); }
+.reminder-tag { font-size:10px; padding:3px 10px; border-radius:20px; font-weight:600; letter-spacing:0.3px; }
+.tag-career  { background:rgba(27,72,214,0.08);  color:var(--accent-blue);  border:1px solid rgba(27,72,214,0.18);  }
+.tag-finance { background:rgba(4,120,87,0.08);   color:var(--accent-green); border:1px solid rgba(4,120,87,0.18);   }
+.tag-health  { background:rgba(200,26,26,0.08);  color:var(--accent-red);   border:1px solid rgba(200,26,26,0.18);  }
+.tag-habit   { background:rgba(194,112,10,0.08); color:var(--accent-gold);  border:1px solid rgba(194,112,10,0.18); }
+
+/* ── ADD FORM ── */
+.add-form { display:flex; gap:6px; margin-bottom:10px; }
+.add-input {
+  flex:1; padding:9px 14px; border-radius:10px;
+  background:#fff; border:1px solid rgba(10,18,40,0.12);
+  color:var(--text); font-size:13px; outline:none; font-family:'Inter',sans-serif;
+  transition:all 0.22s; box-shadow:0 1px 4px rgba(10,18,40,0.05), inset 0 1px 0 #fff;
+}
+.add-input::placeholder { color:var(--text3); }
+.add-input:focus { border-color:rgba(27,72,214,0.4); box-shadow:0 0 0 3px rgba(27,72,214,0.1), inset 0 1px 0 #fff; }
+.add-select {
+  padding:9px 12px; border-radius:10px;
+  background:#fff; border:1px solid rgba(10,18,40,0.12);
+  color:var(--text); font-size:13px; outline:none; cursor:pointer;
+  font-family:'Inter',sans-serif; box-shadow:0 1px 4px rgba(10,18,40,0.05);
+}
+.add-btn {
+  padding:9px 18px; border-radius:10px; border:none;
+  background:var(--grad-brand);
+  color:#fff; font-size:13px; font-weight:600; cursor:pointer;
+  transition:all 0.25s var(--ease-smooth);
+  font-family:'Inter',sans-serif; box-shadow:0 4px 14px rgba(27,72,214,0.3);
+}
+.add-btn:hover { opacity:0.9; transform:translateY(-2px); box-shadow:0 8px 22px rgba(27,72,214,0.38); }
+
+/* ── QUICK CAPTURE / INBOX ── */
+.qc-form { display:flex; gap:8px; margin-bottom:14px; }
+.qc-input {
+  flex:1; padding:11px 14px; border-radius:12px;
+  background:#fff; border:1px solid rgba(10,18,40,0.12);
+  color:var(--text); font-size:13px; outline:none; font-family:'Inter',sans-serif;
+  transition:all 0.22s; box-shadow:0 1px 3px rgba(10,18,40,0.04);
+}
+.qc-input:focus { border-color:rgba(27,72,214,0.4); box-shadow:0 0 0 3px rgba(27,72,214,0.1); }
+.qc-btn {
+  padding:11px 16px; border-radius:12px; border:none;
+  background:var(--grad-brand); color:#fff; font-size:13px; font-weight:600;
+  cursor:pointer; transition:all 0.22s; box-shadow:0 3px 10px rgba(27,72,214,0.28);
+}
+.qc-btn:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(27,72,214,0.36); }
+.qc-list { display:flex; flex-direction:column; gap:6px; max-height:260px; overflow-y:auto; padding-right:4px; }
+.qc-item {
+  display:flex; align-items:flex-start; gap:10px;
+  padding:10px 12px; border-radius:10px;
+  background:rgba(255,255,255,0.85); border:1px solid var(--border);
+  font-size:12.5px; color:var(--text2); line-height:1.5;
+  animation: qcIn 0.32s var(--ease-smooth);
+}
+.qc-item-text { flex:1; }
+.qc-item-time { font-size:9.5px; color:var(--text3); font-weight:600; letter-spacing:0.3px; margin-top:3px; }
+.qc-item-del { font-size:14px; color:var(--text3); cursor:pointer; padding:0 4px; flex-shrink:0; opacity:0.5; transition:opacity 0.18s; }
+.qc-item:hover .qc-item-del { opacity:1; }
+@keyframes qcIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── NETWORKING CRM ── */
+.crm-row {
+  display:grid; grid-template-columns:1fr 1fr 110px 90px 30px;
+  gap:10px; align-items:center;
+  padding:10px 12px; border-radius:11px;
+  background:rgba(255,255,255,0.85); border:1px solid var(--border);
+  margin-bottom:6px; font-size:12.5px;
+}
+.crm-row:hover { border-color:var(--border-hover); background:#F4F7FF; }
+.crm-name { font-weight:600; color:var(--text); }
+.crm-company { color:var(--text2); font-size:12px; }
+.crm-stage {
+  padding:3px 9px; border-radius:6px; font-size:10px; font-weight:700;
+  text-transform:uppercase; letter-spacing:0.4px; text-align:center;
+}
+.crm-stage[data-s="cold"]    { background:rgba(148,163,184,0.18); color:#475569; }
+.crm-stage[data-s="outreach"] { background:rgba(194,112,10,0.12); color:var(--accent-gold); }
+.crm-stage[data-s="chat"]     { background:rgba(27,72,214,0.12);  color:var(--accent-blue); }
+.crm-stage[data-s="warm"]     { background:rgba(4,120,87,0.12);   color:var(--accent-green); }
+.crm-stage[data-s="referred"] { background:rgba(109,40,217,0.12); color:var(--accent-purple); }
+.crm-date { font-size:11px; color:var(--text3); text-align:right; }
+.crm-del { color:var(--text3); cursor:pointer; font-size:14px; opacity:0.5; text-align:center; }
+.crm-del:hover { opacity:1; color:var(--accent-red); }
+.crm-form { display:grid; grid-template-columns:1fr 1fr 130px 80px; gap:8px; margin-bottom:12px; }
+.crm-form input, .crm-form select { padding:9px 11px; border-radius:10px; background:#fff; border:1px solid rgba(10,18,40,0.12); font-size:12px; font-family:'Inter',sans-serif; outline:none; }
+.crm-form input:focus, .crm-form select:focus { border-color:rgba(27,72,214,0.4); box-shadow:0 0 0 2px rgba(27,72,214,0.1); }
+.crm-form button { padding:9px; border-radius:10px; border:none; background:var(--grad-brand); color:#fff; font-size:12px; font-weight:600; cursor:pointer; }
+.crm-row-header { display:grid; grid-template-columns:1fr 1fr 110px 90px 30px; gap:10px; padding:6px 12px; font-size:10px; color:var(--text3); font-weight:700; text-transform:uppercase; letter-spacing:0.8px; border-bottom:1px solid var(--border); margin-bottom:8px; }
+
+/* ── LINKEDIN STREAK ── */
+.ls-week-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:5px; margin-bottom:12px; }
+.ls-week {
+  aspect-ratio:1; border-radius:7px;
+  background:rgba(10,18,40,0.06); border:1px solid var(--border);
+  cursor:pointer; transition:all 0.22s;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:700; color:var(--text3);
+}
+.ls-week:hover { background:rgba(27,72,214,0.1); border-color:rgba(27,72,214,0.3); color:var(--accent-blue); }
+.ls-week.done { background:var(--grad-brand); border-color:transparent; color:#fff; box-shadow:0 2px 8px rgba(27,72,214,0.3); }
+.ls-week.current { box-shadow:0 0 0 2px rgba(27,72,214,0.35); }
+.ls-stats { display:flex; gap:14px; margin-bottom:12px; }
+.ls-stat { flex:1; padding:12px; background:rgba(27,72,214,0.05); border-radius:11px; border:1px solid rgba(27,72,214,0.12); text-align:center; }
+.ls-stat-val { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:800; color:var(--accent-blue); }
+.ls-stat-label { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.6px; font-weight:700; margin-top:3px; }
+
+/* ── SLEEP TRACKER (dark hobbies card style) ── */
+.sleep-form { display:grid; grid-template-columns:1fr 1fr auto; gap:8px; margin-bottom:12px; }
+.sleep-form input, .sleep-form select { padding:10px 12px; border-radius:10px; background:rgba(0,0,0,0.28); border:1px solid rgba(255,255,255,0.1); color:#fff; font-size:12.5px; outline:none; font-family:'Inter',sans-serif; }
+.sleep-form input::placeholder { color:rgba(255,255,255,0.4); }
+.sleep-form button { padding:10px 16px; border-radius:10px; border:1px solid rgba(99,102,241,0.5); background:rgba(99,102,241,0.3); color:#fff; font-size:12px; font-weight:600; cursor:pointer; }
+.sleep-form button:hover { background:rgba(99,102,241,0.5); }
+.sleep-stats { display:flex; gap:10px; margin-bottom:14px; }
+.sleep-stat { flex:1; padding:12px; background:rgba(0,0,0,0.28); border-radius:10px; text-align:center; border:1px solid rgba(255,255,255,0.07); }
+.sleep-stat-val { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:800; color:#A5B4FC; }
+.sleep-stat-label { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.6px; font-weight:700; margin-top:3px; }
+.sleep-log { display:flex; flex-direction:column; gap:5px; max-height:160px; overflow-y:auto; }
+.sleep-entry { display:flex; justify-content:space-between; align-items:center; padding:8px 11px; background:rgba(0,0,0,0.22); border-radius:8px; font-size:12px; color:rgba(255,255,255,0.78); }
+.sleep-entry-date { color:rgba(255,255,255,0.45); font-size:11px; }
+.sleep-quality { font-size:13px; }
+.hobby-card.sleep {
+  background:linear-gradient(145deg,#0C0F2E 0%,#15184A 45%,#1E2369 100%);
+  border:1px solid rgba(99,102,241,0.28);
+  box-shadow:0 8px 32px rgba(67,56,202,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.hobby-card.sleep::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(129,140,248,0.7),rgba(165,180,252,0.9),rgba(129,140,248,0.7),transparent);
+}
+.hobby-card.sleep:hover { border-color:rgba(99,102,241,0.5); box-shadow:0 20px 56px rgba(67,56,202,0.32), inset 0 1px 0 rgba(255,255,255,0.08); }
+
+/* ── POMODORO ── */
+.pomo-card { text-align:center; padding:8px 0; }
+.pomo-display {
+  font-family:'Space Grotesk',sans-serif;
+  font-size:64px; font-weight:800; letter-spacing:-2px;
+  color:var(--text); margin:8px 0 6px;
+  background:linear-gradient(135deg,#1B48D6 0%,#6D28D9 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  font-variant-numeric:tabular-nums;
+}
+.pomo-state { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:1.5px; font-weight:700; margin-bottom:18px; }
+.pomo-state.running { color:var(--accent-green); }
+.pomo-state.break { color:var(--accent-gold); }
+.pomo-ctrl { display:flex; gap:8px; justify-content:center; margin-bottom:14px; }
+.pomo-btn {
+  padding:9px 18px; border-radius:11px; border:1px solid rgba(10,18,40,0.1);
+  background:#fff; color:var(--text); font-size:12px; font-weight:600;
+  cursor:pointer; transition:all 0.2s; font-family:'Inter',sans-serif;
+  box-shadow:0 2px 6px rgba(10,18,40,0.05);
+}
+.pomo-btn:hover { border-color:var(--border-hover); transform:translateY(-1px); }
+.pomo-btn.primary { background:var(--grad-brand); color:#fff; border:none; box-shadow:0 3px 10px rgba(27,72,214,0.28); }
+.pomo-btn.primary:hover { box-shadow:0 6px 16px rgba(27,72,214,0.36); }
+.pomo-presets { display:flex; gap:6px; justify-content:center; margin-bottom:14px; }
+.pomo-preset {
+  padding:5px 11px; border-radius:7px; border:1px solid var(--border);
+  background:rgba(10,18,40,0.04); color:var(--text2); font-size:11px;
+  font-weight:600; cursor:pointer; transition:all 0.18s;
+}
+.pomo-preset:hover { background:rgba(27,72,214,0.08); color:var(--accent-blue); border-color:rgba(27,72,214,0.25); }
+.pomo-preset.active { background:var(--accent-blue); color:#fff; border-color:transparent; }
+.pomo-today { display:flex; justify-content:center; gap:10px; padding-top:14px; border-top:1px solid var(--border); }
+.pomo-stat { font-size:11px; color:var(--text3); }
+.pomo-stat strong { color:var(--accent-blue); font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:800; display:block; }
+
+/* ── HOBBIES — intentional dark contrast ── */
+.hobby-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; }
+.hobby-card {
+  border-radius:18px; padding:18px;
+  position:relative; overflow:hidden;
+  transition:all 0.35s var(--ease-smooth);
+}
+.hobby-card:hover { transform:translateY(-6px); }
+.hobby-card.art {
+  background:linear-gradient(145deg,#160C38 0%,#1E1040 45%,#2A1660 100%);
+  border:1px solid rgba(139,92,246,0.28);
+  box-shadow:0 8px 32px rgba(109,40,217,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.hobby-card.art::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(167,139,250,0.7),rgba(196,181,253,0.9),rgba(167,139,250,0.7),transparent);
+}
+.hobby-card.art:hover { border-color:rgba(139,92,246,0.5); box-shadow:0 20px 56px rgba(109,40,217,0.32), inset 0 1px 0 rgba(255,255,255,0.08); }
+.hobby-card.health {
+  background:linear-gradient(145deg,#082820 0%,#0B3D2E 45%,#064E3B 100%);
+  border:1px solid rgba(5,150,105,0.28);
+  box-shadow:0 8px 32px rgba(4,120,87,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.hobby-card.health::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(52,211,153,0.7),rgba(110,231,183,0.9),rgba(52,211,153,0.7),transparent);
+}
+.hobby-card.health:hover { border-color:rgba(5,150,105,0.5); box-shadow:0 20px 56px rgba(4,120,87,0.32), inset 0 1px 0 rgba(255,255,255,0.08); }
+.hobby-emoji { font-size:36px; margin-bottom:14px; display:block; }
+.hobby-title { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:700; margin-bottom:6px; color:#fff; }
+.hobby-sub   { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:20px; }
+
+/* ── ART CALENDAR ── */
+.art-stats-row { display:flex; gap:0; margin-bottom:16px; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.08); }
+.art-stat-cell { flex:1; padding:12px 10px; text-align:center; background:rgba(0,0,0,0.18); border-right:1px solid rgba(255,255,255,0.06); }
+.art-stat-cell:last-child { border-right:none; }
+.art-stat-label { font-size:9px; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.9px; font-weight:700; margin-bottom:4px; }
+.art-stat-val { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:800; line-height:1; }
+.art-stat-val.purple { color:#C4B5FD; text-shadow:0 0 16px rgba(139,92,246,0.5); }
+.art-stat-val.white  { color:rgba(255,255,255,0.85); }
+.art-stat-unit { font-size:10px; color:rgba(255,255,255,0.3); margin-top:3px; }
+.art-cal-label { font-size:10px; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.9px; font-weight:700; margin-bottom:8px; }
+.art-gesture-grid { display:flex; flex-direction:column; gap:6px; }
+.art-gesture-item {
+  display:flex; align-items:center; gap:10px; padding:9px 12px;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.07);
+  border-radius:10px; transition:all 0.2s;
+}
+.art-gesture-item:hover { background:rgba(139,92,246,0.15); border-color:rgba(139,92,246,0.3); }
+.art-gesture-item.done-ex { background:rgba(139,92,246,0.2); border-color:rgba(139,92,246,0.4); }
+.art-time-pill { font-size:9px; font-weight:800; color:#C4B5FD; background:rgba(139,92,246,0.25); border:1px solid rgba(139,92,246,0.35); border-radius:6px; padding:2px 7px; flex-shrink:0; white-space:nowrap; letter-spacing:0.3px; }
+.art-gesture-icon { font-size:14px; flex-shrink:0; }
+.art-gesture-text { flex:1; font-size:12px; color:rgba(255,255,255,0.7); font-weight:500; line-height:1.4; }
+.art-type-tag { font-size:9px; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.5px; flex-shrink:0; }
+.art-gesture-check { width:18px; height:18px; border-radius:5px; border:1.5px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:10px; flex-shrink:0; transition:all 0.2s; }
+.art-gesture-item.done-ex .art-gesture-check { background:#7C3AED; border-color:#7C3AED; color:#fff; }
+.art-prompt-text { font-size:13px; color:rgba(255,255,255,0.55); font-style:italic; line-height:1.65; }
+.art-btn-primary { padding:9px 16px; border-radius:10px; border:1px solid rgba(139,92,246,0.45); background:rgba(139,92,246,0.22); color:#fff; font-size:12px; cursor:pointer; font-weight:600; font-family:'Inter',sans-serif; transition:all 0.2s; }
+.art-btn-primary:hover { background:rgba(139,92,246,0.38); border-color:rgba(139,92,246,0.65); }
+.art-btn-secondary { padding:9px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.55); font-size:12px; cursor:pointer; font-weight:500; font-family:'Inter',sans-serif; transition:all 0.2s; }
+.art-btn-secondary:hover { background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8); }
+.art-streak { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:14px; }
+.art-day {
+  width:30px; height:30px; border-radius:7px;
+  background:rgba(255,255,255,0.08); cursor:pointer;
+  transition:all 0.2s; display:flex; align-items:center; justify-content:center;
+  font-size:10px; color:rgba(255,255,255,0.3); font-weight:500;
+  border:1px solid rgba(255,255,255,0.08);
+}
+.art-day:hover { background:rgba(124,58,237,0.35); border-color:rgba(124,58,237,0.55); color:rgba(255,255,255,0.85); }
+.art-day.active { background:rgba(124,58,237,0.6); border-color:rgba(124,58,237,0.7); color:#fff; }
+.art-day.today  { border:1.5px solid #A78BFA; }
+
+/* ── HEALTH ── */
+.health-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.health-item {
+  background:rgba(0,0,0,0.2); border-radius:12px; padding:14px;
+  cursor:pointer; transition:all 0.2s; text-align:center;
+  border:1px solid rgba(255,255,255,0.08);
+}
+.health-item:hover { border-color:rgba(255,255,255,0.18); background:rgba(255,255,255,0.08); }
+.health-item.done { background:rgba(5,150,105,0.3); border-color:rgba(5,150,105,0.5); }
+.health-item-icon  { font-size:22px; margin-bottom:5px; }
+.health-item-label { font-size:11px; color:rgba(255,255,255,0.5); font-weight:500; }
+.health-item.done .health-item-label { color:#6EE7B7; }
+
+/* ── FINANCIAL GOALS ── */
+.fin-goal {
+  background:rgba(255,255,255,0.95); border:1px solid var(--border);
+  border-radius:16px; padding:16px; margin-bottom:12px;
+  box-shadow:0 2px 8px rgba(10,18,40,0.04), inset 0 1px 0 #fff;
+  transition:all 0.25s var(--ease-smooth);
+}
+.fin-goal:hover { border-color:var(--border-hover); background:#F4F7FF; box-shadow:0 6px 20px rgba(27,72,214,0.09), inset 0 1px 0 #fff; }
+.fin-goal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.fin-goal-name  { font-size:13px; font-weight:600; color:var(--text2); }
+.fin-goal-value { font-size:13px; color:var(--accent-blue); font-weight:700; }
+.fin-goal-meta  { display:flex; justify-content:space-between; font-size:11px; color:var(--text3); margin-top:8px; }
+
+/* ── ESOP ── */
+.esop-display {
+  background:linear-gradient(145deg,#160C38 0%,#1E1040 50%,#2A1660 100%);
+  border:1px solid rgba(139,92,246,0.32); border-radius:20px; padding:20px;
+  box-shadow:0 8px 32px rgba(109,40,217,0.25), inset 0 1px 0 rgba(255,255,255,0.07);
+  position:relative; overflow:hidden;
+}
+.esop-display::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(167,139,250,0.8),rgba(196,181,253,1),rgba(167,139,250,0.8),transparent);
+}
+.esop-value { font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:800; color:#C4B5FD; text-shadow:0 0 24px rgba(167,139,250,0.4); }
+.esop-label { font-size:11px; color:rgba(255,255,255,0.4); margin-top:4px; }
+.esop-row   { display:flex; gap:10px; margin-top:14px; }
+.esop-chip  { flex:1; background:rgba(0,0,0,0.28); border:1px solid rgba(139,92,246,0.22); border-radius:12px; padding:12px; text-align:center; }
+.esop-chip-val   { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:700; color:#C4B5FD; }
+.esop-chip-label { font-size:10px; color:rgba(255,255,255,0.35); margin-top:3px; }
+
+/* ── COUNTDOWN ── */
+.countdown-wrap {
+  background:linear-gradient(145deg,rgba(27,72,214,0.06),rgba(109,40,217,0.04));
+  border:1px solid rgba(27,72,214,0.2); border-radius:20px; padding:28px; text-align:center;
+  position:relative; overflow:hidden;
+  box-shadow:0 4px 20px rgba(27,72,214,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.countdown-wrap::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(27,72,214,0.08) 0%,transparent 65%);
+  pointer-events:none;
+}
+.countdown-label { font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:1.2px; font-weight:700; }
+.countdown-value { font-family:'Space Grotesk',sans-serif; font-size:52px; font-weight:800; color:var(--accent-blue); margin:10px 0; line-height:1; text-shadow:0 0 28px rgba(27,72,214,0.25); }
+.countdown-sub   { font-size:13px; color:var(--text2); }
+
+/* ── SWOT ── */
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.swot-cell { border-radius:16px; padding:16px; transition:all 0.22s var(--ease-smooth); }
+.swot-cell.s { background:rgba(4,120,87,0.06);   border:1px solid rgba(4,120,87,0.18);   box-shadow:0 2px 8px rgba(4,120,87,0.06); }
+.swot-cell.w { background:rgba(200,26,26,0.05);  border:1px solid rgba(200,26,26,0.16);  box-shadow:0 2px 8px rgba(200,26,26,0.05); }
+.swot-cell.o { background:rgba(27,72,214,0.05);  border:1px solid rgba(27,72,214,0.16);  box-shadow:0 2px 8px rgba(27,72,214,0.05); }
+.swot-cell.t { background:rgba(194,112,10,0.06); border:1px solid rgba(194,112,10,0.18); box-shadow:0 2px 8px rgba(194,112,10,0.05); }
+.swot-cell:hover { transform:translateY(-2px); }
+.swot-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+.swot-cell.s .swot-label { color:var(--accent-green); }
+.swot-cell.w .swot-label { color:var(--accent-red); }
+.swot-cell.o .swot-label { color:var(--accent-blue); }
+.swot-cell.t .swot-label { color:var(--accent-gold); }
+.swot-list { list-style:none; }
+.swot-list li { font-size:12px; color:var(--text2); padding:3px 0; display:flex; gap:6px; line-height:1.5; }
+.swot-list li::before { content:'→'; color:var(--text3); flex-shrink:0; font-size:11px; margin-top:1px; }
+
+/* ── VERDICT ── */
+.verdict {
+  background:linear-gradient(145deg,rgba(27,72,214,0.05),rgba(109,40,217,0.03));
+  border:1px solid rgba(27,72,214,0.2); border-radius:18px; padding:20px; margin-top:16px;
+  position:relative; overflow:hidden;
+  box-shadow:0 4px 16px rgba(27,72,214,0.07), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.verdict::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--grad-brand); border-radius:0 0 0 18px; }
+.verdict-label { font-size:11px; color:var(--accent-blue); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+.verdict-text  { font-size:14px; line-height:1.8; color:var(--text2); }
+
+/* ── INNER TABS ── */
+.inner-tabs {
+  display:flex; gap:2px; margin-bottom:16px;
+  background:rgba(10,18,40,0.04); border:1px solid var(--border);
+  border-radius:12px; padding:3px; width:fit-content;
+}
+.inner-tab {
+  padding:5px 14px; border-radius:9px; border:none;
+  background:transparent; color:var(--text3); font-size:12px;
+  cursor:pointer; transition:all 0.22s var(--ease-smooth); font-family:'Inter',sans-serif; font-weight:500;
+}
+.inner-tab.active { background:#fff; color:var(--accent-blue); border:1px solid rgba(27,72,214,0.2); box-shadow:0 1px 6px rgba(10,18,40,0.1); }
+
+/* ── COMPANY ROWS ── */
+.company-row {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 16px; border-radius:14px;
+  background:rgba(255,255,255,0.95); border:1px solid var(--border);
+  box-shadow:0 1px 4px rgba(10,18,40,0.04), inset 0 1px 0 #fff;
+  margin-bottom:8px; transition:all 0.22s var(--ease-smooth);
+}
+.company-row:hover { background:#F4F7FF; border-color:var(--border-hover); box-shadow:0 4px 14px rgba(27,72,214,0.08), inset 0 1px 0 #fff; }
+.company-rank { font-size:16px; font-weight:800; color:var(--text3); width:24px; }
+.company-name { flex:1; font-size:13px; font-weight:600; color:var(--text); }
+.company-ctc  { font-size:12px; color:var(--accent-blue); font-weight:700; }
+.company-wlb  { font-size:12px; color:var(--text3); }
+.wlb-stars    { color:var(--accent-gold); }
+
+/* ── WATER ── */
+.water-track { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.water-cup {
+  width:32px; height:42px; border-radius:5px 5px 9px 9px;
+  border:1.5px solid rgba(27,72,214,0.22); cursor:pointer; transition:all 0.22s var(--ease-smooth);
+  display:flex; align-items:flex-end; background:rgba(27,72,214,0.04);
+}
+.water-cup.filled { background:rgba(27,72,214,0.42); border-color:var(--accent-blue); box-shadow:0 2px 8px rgba(27,72,214,0.2); }
+.water-cup:hover  { border-color:var(--accent-blue); background:rgba(27,72,214,0.12); transform:translateY(-2px); }
+
+/* ── MOOD ── */
+.mood-row { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+.mood-btn {
+  width:44px; height:44px; border-radius:13px; border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.08); font-size:20px; cursor:pointer;
+  transition:all 0.22s var(--ease-smooth);
+}
+.mood-btn:hover  { background:rgba(255,255,255,0.16); transform:scale(1.12); border-color:rgba(255,255,255,0.22); }
+.mood-btn.selected { background:rgba(27,72,214,0.35); border:1.5px solid rgba(27,72,214,0.6); box-shadow:0 0 12px rgba(27,72,214,0.25); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(10,18,40,0.12); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(10,18,40,0.22); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes sectionIn { from { opacity:0; transform:translateY(20px) scale(0.99); } to { opacity:1; transform:translateY(0) scale(1); } }
+.section.active { animation: sectionIn 0.42s var(--ease-smooth); }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.45; } }
+.live { animation: pulse 2.5s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+@keyframes slideDown { from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);} }
+@keyframes shimmer { 0%{background-position:-200% center;} 100%{background-position:200% center;} }
+@keyframes orbFloat {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(30px,-40px) scale(1.04); }
+  66%      { transform: translate(-20px,25px) scale(0.97); }
+}
+@keyframes gradRotate { 0%{--grad-angle:135deg;} 100%{--grad-angle:495deg;} }
+
+/* ── AI INTELLIGENCE STRIP ── */
+.ai-strip {
+  position: fixed; top: 62px; left: 50%; transform: translateX(-50%);
+  z-index: 998; width: calc(100% - 40px); max-width: 1380px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(27,72,214,0.14);
+  border-radius: 10px; padding: 6px 14px;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 4px 20px rgba(27,72,214,0.08), 0 1px 4px rgba(10,18,40,0.05), inset 0 1px 0 rgba(255,255,255,0.9);
+  animation: slideDown 0.5s var(--ease-smooth);
+}
+.ai-strip-pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent-blue); flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(27,72,214,0.4);
+  animation: ripple 2.5s ease-in-out infinite;
+}
+@keyframes ripple {
+  0% { box-shadow: 0 0 0 0 rgba(27,72,214,0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(27,72,214,0); }
+  100% { box-shadow: 0 0 0 0 rgba(27,72,214,0); }
+}
+.ai-strip-badge {
+  font-size: 9px; font-weight: 800; color: var(--accent-blue);
+  text-transform: uppercase; letter-spacing: 1.2px; flex-shrink: 0;
+  background: rgba(27,72,214,0.08); border: 1px solid rgba(27,72,214,0.2);
+  padding: 2px 7px; border-radius: 6px;
+}
+.ai-strip-text { font-size: 12px; color: var(--text2); flex: 1; line-height: 1; }
+.ai-strip-cursor {
+  display: inline-block; width: 1.5px; height: 11px;
+  background: var(--accent-blue); margin-left: 1px;
+  animation: blink 0.9s step-end infinite; vertical-align: text-bottom;
+}
+.ai-strip-right { display: flex; align-items: center; gap: 10px; }
+.sys-status { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text3); }
+.sys-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-green); animation: pulse 3s ease-in-out infinite; }
+
+/* ── COMMAND PALETTE ── */
+.cmd-trigger {
+  display: flex; align-items: center; gap: 5px; cursor: pointer;
+  padding: 4px 9px; border-radius: 8px; border: 1px solid var(--border);
+  background: rgba(10,18,40,0.03); font-size: 10px; color: var(--text3);
+  transition: all 0.2s; flex-shrink: 0; font-family: 'Inter', sans-serif;
+}
+.cmd-trigger:hover { border-color: rgba(27,72,214,0.3); color: var(--accent-blue); background: rgba(27,72,214,0.06); }
+.cmd-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(5,10,25,0.4); backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: none; align-items: flex-start; justify-content: center; padding-top: 110px;
+}
+.cmd-overlay.open { display: flex; animation: fadeIn 0.15s ease; }
+.cmd-palette {
+  width: 100%; max-width: 560px;
+  background: rgba(255,255,255,0.97); border-radius: 24px;
+  border: 1px solid rgba(10,18,40,0.1);
+  box-shadow: 0 48px 120px rgba(10,18,40,0.28), 0 12px 40px rgba(10,18,40,0.12), inset 0 1px 0 #fff;
+  overflow: hidden;
+}
+.cmd-input-wrap {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+}
+.cmd-icon { font-size: 16px; opacity: 0.35; }
+.cmd-input {
+  flex: 1; border: none; outline: none; font-size: 15px;
+  font-family: 'Inter', sans-serif; color: var(--text);
+  background: transparent; font-weight: 500;
+}
+.cmd-input::placeholder { color: var(--text3); }
+.cmd-esc { font-size: 10px; color: var(--text3); background: rgba(10,18,40,0.06); padding: 3px 7px; border-radius: 5px; border: 1px solid var(--border); cursor: pointer; }
+.cmd-results { max-height: 340px; overflow-y: auto; padding: 8px; }
+.cmd-group-label { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 1.2px; padding: 8px 12px 4px; }
+.cmd-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+  border-radius: 11px; cursor: pointer; transition: all 0.12s var(--ease-smooth);
+  color: var(--text2); font-size: 13px;
+}
+.cmd-item:hover, .cmd-item.cmd-focused { background: rgba(27,72,214,0.07); color: var(--text); }
+.cmd-item-icon { font-size: 15px; width: 22px; text-align: center; flex-shrink: 0; }
+.cmd-item-label { flex: 1; }
+.cmd-item-badge { font-size: 10px; color: var(--text3); background: rgba(10,18,40,0.05); padding: 2px 7px; border-radius: 5px; white-space: nowrap; }
+.cmd-footer {
+  padding: 9px 18px; border-top: 1px solid var(--border);
+  display: flex; gap: 14px; align-items: center;
+}
+.cmd-footer-hint { font-size: 10px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+.cmd-key { background: rgba(10,18,40,0.06); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: 9px; }
+
+/* ── AI INSIGHTS CARD ── */
+.ai-insight-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 11px 14px; border-radius: 14px;
+  background: rgba(27,72,214,0.04); border: 1px solid rgba(27,72,214,0.1);
+  margin-bottom: 9px; transition: all 0.25s var(--ease-smooth); cursor: default;
+  box-shadow: 0 1px 4px rgba(27,72,214,0.04);
+}
+.ai-insight-item:last-child { margin-bottom: 0; }
+.ai-insight-item:hover { background: rgba(27,72,214,0.07); border-color: rgba(27,72,214,0.2); transform: translateX(4px); }
+.ai-insight-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.ai-insight-dot.blue   { background: var(--accent-blue);   box-shadow: 0 0 0 3px rgba(27,72,214,0.15); }
+.ai-insight-dot.green  { background: var(--accent-green);  box-shadow: 0 0 0 3px rgba(4,120,87,0.15); }
+.ai-insight-dot.amber  { background: var(--accent-gold);   box-shadow: 0 0 0 3px rgba(194,112,10,0.15); }
+.ai-insight-dot.purple { background: var(--accent-purple); box-shadow: 0 0 0 3px rgba(109,40,217,0.15); }
+.ai-insight-text { font-size: 12.5px; color: var(--text2); line-height: 1.65; }
+.ai-insight-text strong { color: var(--text); font-weight: 600; }
+
+/* ── STAT CARD GLOW ── */
+.hero-stat:hover .hero-stat-value.gold   { text-shadow: 0 0 20px rgba(194,112,10,0.4); }
+.hero-stat:hover .hero-stat-value.green  { text-shadow: 0 0 20px rgba(4,120,87,0.4); }
+.hero-stat:hover .hero-stat-value.purple { text-shadow: 0 0 20px rgba(109,40,217,0.4); }
+.hero-stat:hover .hero-stat-value.blue   { text-shadow: 0 0 20px rgba(27,72,214,0.4); }
+
+/* ── GYM / FITNESS ── */
+.body-stat-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:20px; }
+.body-stat {
+  background:rgba(255,255,255,0.97); border:1px solid var(--border); border-radius:18px;
+  padding:16px 14px; text-align:center; transition:all 0.25s var(--ease-smooth);
+  box-shadow:0 2px 10px rgba(10,18,40,0.05), inset 0 1px 0 #fff;
+}
+.body-stat:hover { border-color:var(--border-hover); transform:translateY(-3px); box-shadow:0 8px 24px rgba(27,72,214,0.1), inset 0 1px 0 #fff; }
+.body-stat-label { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.8px; font-weight:600; margin-bottom:6px; }
+.body-stat-value { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:800; }
+.body-stat-sub   { font-size:10px; color:var(--text3); margin-top:3px; }
+
+.workout-tabs { display:flex; gap:4px; margin-bottom:16px; flex-wrap:wrap; }
+.workout-day-tab {
+  padding:6px 12px; border-radius:9px; border:1px solid var(--border);
+  background:rgba(10,18,40,0.03); color:var(--text3); cursor:pointer; font-size:11px;
+  font-weight:600; font-family:'Inter',sans-serif; transition:all 0.22s var(--ease-smooth);
+}
+.workout-day-tab:hover { border-color:rgba(27,72,214,0.25); color:var(--text2); }
+.workout-day-tab.active { background:rgba(27,72,214,0.09); border-color:rgba(27,72,214,0.3); color:var(--accent-blue); box-shadow:0 2px 8px rgba(27,72,214,0.1); }
+.workout-day-tab.rest { background:rgba(10,18,40,0.02); color:var(--text3); font-style:italic; }
+.workout-panel { display:none; }
+.workout-panel.active { display:block; animation:fadeIn 0.22s ease; }
+.workout-panel-header {
+  display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  padding-bottom:12px; border-bottom:1px solid var(--border);
+}
+.workout-panel-icon { font-size:20px; }
+.workout-panel-title { font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:700; color:var(--text); }
+.workout-panel-meta  { font-size:12px; color:var(--text3); }
+.workout-panel-done { margin-left:auto; }
+.exercise-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+.exercise-table th { color:var(--text3); font-weight:600; padding:8px 10px; text-align:left; border-bottom:1px solid var(--border); font-size:10px; text-transform:uppercase; letter-spacing:0.8px; }
+.exercise-table td { padding:10px 10px; border-bottom:1px solid rgba(10,18,40,0.05); color:var(--text2); }
+.exercise-table tr:last-child td { border-bottom:none; }
+.exercise-table tr:hover td { background:rgba(27,72,214,0.03); }
+.ex-name  { font-weight:600; color:var(--text); }
+.ex-badge { display:inline-block; font-size:9px; padding:2px 7px; border-radius:10px; font-weight:700; margin-left:6px; text-transform:uppercase; letter-spacing:0.4px; }
+.ex-badge.compound  { background:rgba(200,26,26,0.09); color:var(--accent-red);   border:1px solid rgba(200,26,26,0.2); }
+.ex-badge.isolation { background:rgba(27,72,214,0.08);  color:var(--accent-blue);  border:1px solid rgba(27,72,214,0.18); }
+.ex-badge.cardio    { background:rgba(4,120,87,0.08);   color:var(--accent-green); border:1px solid rgba(4,120,87,0.18); }
+.workout-day-check {
+  width:20px; height:20px; border-radius:6px; border:1.5px solid rgba(10,18,40,0.18);
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  font-size:11px; transition:all 0.2s; background:#fff; flex-shrink:0;
+}
+.workout-day-check.done { background:var(--accent-green); border-color:var(--accent-green); color:#fff; }
+
+.diet-section { margin-top:14px; }
+.meal-card { margin-bottom:12px; }
+.meal-time { font-size:10px; color:var(--text3); font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px; }
+.meal-row {
+  display:flex; align-items:center; gap:10px; padding:10px 14px;
+  background:rgba(255,255,255,0.95); border:1px solid var(--border); border-radius:13px;
+  margin-bottom:6px; transition:all 0.22s var(--ease-smooth);
+  box-shadow:0 1px 4px rgba(10,18,40,0.04), inset 0 1px 0 #fff;
+}
+.meal-row:hover { border-color:var(--border-hover); background:#F4F7FF; box-shadow:0 4px 14px rgba(27,72,214,0.08), inset 0 1px 0 #fff; }
+.meal-icon { font-size:16px; flex-shrink:0; }
+.meal-name { flex:1; font-size:13px; color:var(--text); font-weight:500; }
+.meal-kcal { font-size:11px; color:var(--text3); flex-shrink:0; }
+.meal-protein { font-size:11px; color:var(--accent-green); font-weight:600; flex-shrink:0; }
+
+.macro-ring-wrap { display:flex; flex-direction:column; gap:10px; }
+.macro-bar-row { }
+.macro-bar-label { display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px; }
+.macro-bar-label span:first-child { color:var(--text2); font-weight:500; }
+.macro-bar-label span:last-child  { font-weight:700; color:var(--text); }
+.macro-bar-track { height:8px; background:rgba(10,18,40,0.07); border-radius:8px; overflow:hidden; position:relative; }
+.macro-bar-fill  { height:100%; border-radius:8px; transition:width 1s var(--ease-smooth); position:relative; }
+.macro-bar-fill::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
+  background-size:200% 100%; animation:shimmer 2s linear infinite; border-radius:8px;
+}
+
+.supp-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.supp-item {
+  display:flex; align-items:center; gap:10px; padding:10px 12px;
+  background:rgba(255,255,255,0.95); border:1px solid var(--border); border-radius:13px;
+  cursor:pointer; transition:all 0.22s var(--ease-smooth);
+  box-shadow:0 1px 4px rgba(10,18,40,0.04), inset 0 1px 0 #fff;
+}
+.supp-item:hover { border-color:var(--border-hover); background:#F4F7FF; }
+.supp-item.taken { background:rgba(4,120,87,0.06); border-color:rgba(4,120,87,0.25); }
+.supp-check { width:18px; height:18px; border-radius:5px; border:1.5px solid rgba(10,18,40,0.18); display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; background:#fff; transition:all 0.2s; }
+.supp-item.taken .supp-check { background:var(--accent-green); border-color:var(--accent-green); color:#fff; }
+.supp-name { font-size:12px; color:var(--text2); font-weight:500; }
+.supp-item.taken .supp-name { color:var(--text); }
+.supp-dose { font-size:10px; color:var(--text3); }
+
+.weight-log-wrap { display:flex; gap:8px; margin-bottom:14px; }
+.weight-input { flex:1; padding:9px 14px; border-radius:11px; border:1px solid rgba(10,18,40,0.12); background:#fff; color:var(--text); font-size:13px; outline:none; font-family:'Inter',sans-serif; box-shadow:inset 0 1px 0 #fff; }
+.weight-input:focus { border-color:rgba(27,72,214,0.4); box-shadow:0 0 0 3px rgba(27,72,214,0.08); }
+.weight-btn { padding:9px 16px; border-radius:11px; border:none; background:var(--accent-blue); color:#fff; font-size:12px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.22s; box-shadow:0 3px 10px rgba(27,72,214,0.28); }
+.weight-btn:hover { background:#1538B0; transform:translateY(-1px); box-shadow:0 5px 16px rgba(27,72,214,0.34); }
+.weight-log-list { display:flex; flex-direction:column; gap:6px; max-height:160px; overflow-y:auto; }
+.weight-log-entry { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:rgba(255,255,255,0.95); border:1px solid var(--border); border-radius:10px; font-size:12px; }
+.weight-log-date { color:var(--text3); }
+.weight-log-val  { font-weight:700; color:var(--text); font-family:'Space Grotesk',sans-serif; }
+.weight-log-delta { font-size:11px; font-weight:600; }
+.weight-log-delta.loss { color:var(--accent-green); }
+.weight-log-delta.gain { color:var(--accent-red); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
   nav {
-    position: fixed; top:0; left:0; right:0; z-index:100;
-    background: rgba(15,17,23,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 32px; height: 60px;
+    top:0; width:100%; border-radius:0; left:0; transform:none;
+    padding:0 14px; height:52px;
+    box-shadow:0 1px 0 rgba(10,18,40,0.08);
   }
-  .nav-logo {
-    font-size: 18px; font-weight: 700;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    letter-spacing: -0.5px;
+  .nav-logo { font-size:14px; }
+  .nav-tabs {
+    overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;
+    white-space:nowrap; gap:1px;
   }
-  .nav-tabs { display:flex; gap:4px; }
-  .nav-tab {
-    padding: 6px 16px; border-radius: 8px; border: none;
-    background: transparent; color: var(--text2);
-    cursor: pointer; font-size: 13px; font-weight: 500;
-    transition: all 0.2s;
-  }
-  .nav-tab:hover { background: var(--bg3); color: var(--text); }
-  .nav-tab.active { background: var(--accent); color: #fff; }
-  .nav-date { font-size: 12px; color: var(--text3); }
+  .nav-tabs::-webkit-scrollbar { display:none; }
+  .nav-tab { padding:5px 11px; font-size:12px; }
+  .nav-date { display:none; }
 
-  /* MAIN */
-  main { padding: 76px 32px 40px; max-width: 1400px; margin: 0 auto; }
+  .ai-strip {
+    top:52px; width:100%; border-radius:0; left:0; transform:none;
+    padding:5px 12px; border-left:none; border-right:none; border-top:none;
+  }
+  .ai-strip-text { font-size:11px; }
 
-  /* SECTIONS */
-  .section { display:none; }
-  .section.active { display:block; }
+  main { padding:96px 12px 32px; }
 
-  /* HERO BANNER */
-  .hero {
-    background: linear-gradient(135deg, #1a1d27 0%, #222636 50%, #1a1d27 100%);
-    border: 1px solid var(--border);
-    border-radius: 20px; padding: 32px 40px;
-    margin-bottom: 28px;
-    position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content:''; position:absolute; top:-40px; right:-40px;
-    width:200px; height:200px; border-radius:50%;
-    background: radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%);
-  }
-  .hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-  .hero h1 span { color: var(--accent); }
-  .hero p { color: var(--text2); font-size: 14px; margin-bottom: 20px; }
-  .hero-stats { display:flex; gap:24px; flex-wrap:wrap; }
-  .hero-stat {
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px 20px; min-width: 140px;
-  }
-  .hero-stat-label { font-size: 11px; color: var(--text3); text-transform:uppercase; letter-spacing:0.5px; }
-  .hero-stat-value { font-size: 20px; font-weight: 700; margin-top: 4px; }
-  .hero-stat-value.gold { color: var(--gold); }
-  .hero-stat-value.green { color: var(--green); }
-  .hero-stat-value.purple { color: var(--purple); }
-  .hero-stat-value.blue { color: var(--blue); }
+  .grid-2, .grid-3 { grid-template-columns:1fr; }
+  .swot-grid { grid-template-columns:1fr; }
+  .hobby-grid { grid-template-columns:1fr; }
 
-  /* GRID */
-  .grid { display: grid; gap: 20px; }
-  .grid-2 { grid-template-columns: 1fr 1fr; }
-  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .grid-auto { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .hero { padding:18px 14px; border-radius:16px; margin-bottom:12px; }
+  .hero h1 { font-size:20px; }
+  .hero p { font-size:12.5px; margin-bottom:14px; }
+  .hero-stats { gap:6px; }
+  .hero-stat { padding:10px 12px; min-width:100px; border-radius:11px; }
+  .hero-stat-value { font-size:17px; }
 
-  /* CARD */
-  .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 24px;
-    transition: border-color 0.2s;
-  }
-  .card:hover { border-color: var(--accent); }
-  .card-title {
-    font-size: 13px; font-weight: 600; color: var(--text2);
-    text-transform: uppercase; letter-spacing: 0.8px;
-    margin-bottom: 16px; display:flex; align-items:center; gap:8px;
-  }
-  .card-title .icon { font-size: 16px; }
+  .card { padding:14px 14px; border-radius:14px; }
+  .section-title { font-size:19px; margin-bottom:12px; }
 
-  /* MILESTONE TIMELINE */
-  .timeline { position: relative; padding-left: 28px; }
-  .timeline::before {
-    content:''; position:absolute; left:8px; top:0; bottom:0;
-    width:2px; background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-  }
-  .milestone {
-    position: relative; margin-bottom: 20px;
-    padding: 14px 16px; border-radius: 12px;
-    background: var(--bg2); border: 1px solid var(--border);
-    transition: all 0.2s;
-  }
-  .milestone:hover { border-color: var(--accent); transform: translateX(4px); }
-  .milestone::before {
-    content:''; position:absolute; left:-24px; top:50%;
-    transform: translateY(-50%);
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--accent); border: 2px solid var(--bg);
-    box-shadow: 0 0 8px var(--accent);
-  }
-  .milestone.done::before { background: var(--green); box-shadow: 0 0 8px var(--green); }
-  .milestone.warning::before { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
-  .milestone.future::before { background: var(--border); box-shadow: none; }
-  .milestone-year { font-size: 11px; color: var(--text3); font-weight: 600; }
-  .milestone-title { font-size: 14px; font-weight: 600; margin: 4px 0; }
-  .milestone-desc { font-size: 12px; color: var(--text2); }
-  .milestone-badge {
-    display: inline-block; padding: 2px 10px; border-radius: 20px;
-    font-size: 10px; font-weight: 700; text-transform: uppercase;
-    margin-top: 6px;
-  }
-  .badge-done { background: rgba(46,213,115,0.15); color: var(--green); }
-  .badge-now { background: rgba(108,99,255,0.2); color: var(--accent); }
-  .badge-target { background: rgba(255,101,132,0.15); color: var(--accent2); }
-  .badge-future { background: rgba(107,114,128,0.15); color: var(--text3); }
+  .countdown-value { font-size:32px; }
+  .milestone { padding:10px 13px; }
 
-  /* PROGRESS BAR */
-  .progress-wrap { margin-bottom: 14px; }
-  .progress-label { display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px; }
-  .progress-label span:first-child { color: var(--text2); }
-  .progress-label span:last-child { color: var(--text); font-weight:600; }
-  .progress-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow:hidden; }
-  .progress-fill { height:100%; border-radius:3px; transition: width 1s ease; }
+  .body-stat-grid { grid-template-columns:repeat(3,1fr); gap:8px; }
+  .body-stat { padding:13px 10px; border-radius:14px; }
+  .body-stat-value { font-size:18px; }
 
-  /* SALARY TABLE */
-  .salary-table { width:100%; border-collapse:collapse; font-size:13px; }
-  .salary-table th { color: var(--text3); font-weight:600; padding:8px 12px; text-align:left; border-bottom: 1px solid var(--border); font-size:11px; text-transform:uppercase; }
-  .salary-table td { padding:10px 12px; border-bottom: 1px solid var(--border); }
-  .salary-table tr:last-child td { border-bottom:none; }
-  .salary-table tr:hover td { background: rgba(108,99,255,0.05); }
-  .year-pill { background: var(--bg2); border-radius:6px; padding:2px 8px; font-size:11px; font-weight:700; }
-  .highlight-row td { background: rgba(108,99,255,0.08) !important; }
+  .workout-tabs { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; padding-bottom:4px; }
+  .workout-tabs::-webkit-scrollbar { display:none; }
+  .workout-day-tab { flex-shrink:0; }
 
-  /* REMINDER / TODO */
-  .reminder-list { display:flex; flex-direction:column; gap:10px; }
-  .reminder-item {
-    display:flex; align-items:center; gap:12px;
-    padding: 12px 14px; border-radius:10px;
-    background: var(--bg2); border: 1px solid var(--border);
-    cursor:pointer; transition: all 0.2s;
-  }
-  .reminder-item:hover { border-color: var(--accent); }
-  .reminder-item.checked { opacity:0.5; }
-  .reminder-check {
-    width: 18px; height: 18px; border-radius: 4px;
-    border: 2px solid var(--border); flex-shrink:0;
-    display:flex; align-items:center; justify-content:center;
-    font-size:11px; transition: all 0.2s;
-  }
-  .reminder-item.checked .reminder-check { background: var(--green); border-color: var(--green); }
-  .reminder-text { flex:1; font-size:13px; }
-  .reminder-item.checked .reminder-text { text-decoration: line-through; color: var(--text3); }
-  .reminder-tag { font-size:10px; padding:2px 8px; border-radius:10px; font-weight:600; }
-  .tag-career { background:rgba(108,99,255,0.2); color:var(--accent); }
-  .tag-finance { background:rgba(67,233,123,0.15); color:var(--green); }
-  .tag-health { background:rgba(255,101,132,0.15); color:var(--accent2); }
-  .tag-habit { background:rgba(247,151,30,0.15); color:var(--accent4); }
+  .exercise-table th, .exercise-table td { padding:7px 8px; }
+  .exercise-table { font-size:12px; }
+  .meal-row { padding:9px 12px; }
+  .macro-bar-track { height:7px; }
+  .supp-grid { gap:6px; }
+  .supp-item { padding:9px 10px; }
 
-  /* ADD REMINDER */
-  .add-form { display:flex; gap:10px; margin-bottom:16px; }
-  .add-input {
-    flex:1; padding:10px 14px; border-radius:10px;
-    background:var(--bg2); border:1px solid var(--border);
-    color:var(--text); font-size:13px; outline:none;
-  }
-  .add-input:focus { border-color:var(--accent); }
-  .add-select {
-    padding:10px 12px; border-radius:10px;
-    background:var(--bg2); border:1px solid var(--border);
-    color:var(--text); font-size:13px; outline:none; cursor:pointer;
-  }
-  .add-btn {
-    padding:10px 18px; border-radius:10px; border:none;
-    background:var(--accent); color:#fff; font-size:13px;
-    font-weight:600; cursor:pointer; transition: all 0.2s;
-  }
-  .add-btn:hover { opacity:0.85; transform:translateY(-1px); }
+  .inner-tabs { overflow-x:auto; scrollbar-width:none; white-space:nowrap; }
+  .inner-tabs::-webkit-scrollbar { display:none; }
 
-  /* HOBBIES */
-  .hobby-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; }
-  .hobby-card {
-    border-radius:16px; padding:24px;
-    border: 1px solid var(--border);
-    position:relative; overflow:hidden;
-  }
-  .hobby-card.art { background: linear-gradient(135deg, #1a1030 0%, #2d1b69 100%); }
-  .hobby-card.bengali { background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); }
-  .hobby-card.health { background: linear-gradient(135deg, #134e5e 0%, #71b280 100%); }
-  .hobby-emoji { font-size: 32px; margin-bottom: 12px; }
-  .hobby-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-  .hobby-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+  .add-form { flex-direction:column; }
+  .add-select { width:100%; }
 
-  /* ART TRACKER */
-  .art-streak { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
-  .art-day {
-    width:28px; height:28px; border-radius:6px;
-    background:rgba(255,255,255,0.08); cursor:pointer;
-    transition:all 0.2s; display:flex; align-items:center; justify-content:center;
-    font-size:9px; color:rgba(255,255,255,0.3);
-  }
-  .art-day:hover { background: rgba(162,155,254,0.3); }
-  .art-day.active { background: var(--purple); color:#fff; }
-  .art-day.today { border: 2px solid var(--purple); }
+  .cmd-palette { max-width:100%; border-radius:0 0 20px 20px; }
 
-  /* BENGALI QUOTES */
-  .quote-display {
-    background: rgba(0,0,0,0.3); border-radius:12px; padding:16px;
-    font-style:italic; font-size:15px; line-height:1.7;
-    margin-bottom:12px; border-left:3px solid var(--blue);
-    min-height:80px;
-  }
-  .quote-author { font-size:12px; color:rgba(255,255,255,0.5); text-align:right; }
-  .quote-nav { display:flex; gap:8px; margin-top:12px; }
-  .quote-btn {
-    flex:1; padding:8px; border-radius:8px; border:none;
-    background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7);
-    cursor:pointer; font-size:12px; transition:all 0.2s;
-  }
-  .quote-btn:hover { background:rgba(255,255,255,0.2); color:#fff; }
+  .orb-1 { width:400px; height:400px; }
+  .orb-2 { width:300px; height:300px; }
+  .orb-3 { display:none; }
+}
 
-  /* HEALTH TRACKER */
-  .health-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .health-item {
-    background:rgba(0,0,0,0.25); border-radius:10px; padding:12px;
-    cursor:pointer; transition:all 0.2s; text-align:center;
-    border: 1px solid transparent;
-  }
-  .health-item:hover { border-color:rgba(255,255,255,0.2); }
-  .health-item.done { background:rgba(46,213,115,0.2); border-color:var(--green); }
-  .health-item-icon { font-size:22px; margin-bottom:4px; }
-  .health-item-label { font-size:11px; color:rgba(255,255,255,0.6); }
-  .health-item.done .health-item-label { color:var(--green); }
-
-  /* FINANCIAL GOALS */
-  .fin-goal {
-    background:var(--bg2); border:1px solid var(--border);
-    border-radius:12px; padding:16px; margin-bottom:12px;
-  }
-  .fin-goal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-  .fin-goal-name { font-size:13px; font-weight:600; }
-  .fin-goal-value { font-size:13px; color:var(--accent); font-weight:700; }
-  .fin-goal-meta { display:flex; justify-content:space-between; font-size:11px; color:var(--text3); margin-top:8px; }
-
-  /* ESOP TICKER */
-  .esop-display {
-    background: linear-gradient(135deg, #1a1030, #2d1b69);
-    border:1px solid rgba(162,155,254,0.3);
-    border-radius:12px; padding:16px;
-  }
-  .esop-value { font-size:28px; font-weight:800; color:var(--purple); }
-  .esop-label { font-size:11px; color:var(--text3); margin-top:2px; }
-  .esop-row { display:flex; gap:12px; margin-top:12px; }
-  .esop-chip { flex:1; background:rgba(0,0,0,0.3); border-radius:8px; padding:10px; text-align:center; }
-  .esop-chip-val { font-size:14px; font-weight:700; color:var(--purple); }
-  .esop-chip-label { font-size:10px; color:var(--text3); margin-top:2px; }
-
-  /* COUNTDOWN */
-  .countdown-wrap {
-    background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(255,101,132,0.1));
-    border: 1px solid rgba(108,99,255,0.3);
-    border-radius: 14px; padding: 20px; text-align:center;
-  }
-  .countdown-label { font-size:12px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; }
-  .countdown-value { font-size: 42px; font-weight:800; color:var(--accent); margin:8px 0; line-height:1; }
-  .countdown-sub { font-size: 13px; color:var(--text2); }
-
-  /* SECTION TITLE */
-  .section-title { font-size:22px; font-weight:700; margin-bottom:20px; }
-  .section-title span { color:var(--accent); }
-
-  /* SWOT */
-  .swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .swot-cell { border-radius:12px; padding:16px; }
-  .swot-cell.s { background:rgba(46,213,115,0.08); border:1px solid rgba(46,213,115,0.2); }
-  .swot-cell.w { background:rgba(255,71,87,0.08); border:1px solid rgba(255,71,87,0.2); }
-  .swot-cell.o { background:rgba(30,144,255,0.08); border:1px solid rgba(30,144,255,0.2); }
-  .swot-cell.t { background:rgba(247,151,30,0.08); border:1px solid rgba(247,151,30,0.2); }
-  .swot-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
-  .swot-cell.s .swot-label { color:var(--green); }
-  .swot-cell.w .swot-label { color:var(--red); }
-  .swot-cell.o .swot-label { color:var(--blue); }
-  .swot-cell.t .swot-label { color:var(--accent4); }
-  .swot-list { list-style:none; }
-  .swot-list li { font-size:12px; color:var(--text2); padding:3px 0; display:flex; gap:6px; }
-  .swot-list li::before { content:'→'; color:var(--text3); flex-shrink:0; }
-
-  /* VERDICT BOX */
-  .verdict {
-    background: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(255,101,132,0.08));
-    border: 1px solid var(--accent); border-radius: 14px; padding: 20px;
-    margin-top: 16px;
-  }
-  .verdict-label { font-size:11px; color:var(--accent); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
-  .verdict-text { font-size:14px; line-height:1.7; }
-
-  /* TABS inside card */
-  .inner-tabs { display:flex; gap:4px; margin-bottom:16px; }
-  .inner-tab {
-    padding:5px 14px; border-radius:8px; border:none;
-    background:var(--bg); color:var(--text2); font-size:12px;
-    cursor:pointer; transition:all 0.2s;
-  }
-  .inner-tab.active { background:var(--accent); color:#fff; }
-
-  /* COMPANY COMPARE */
-  .company-row {
-    display:flex; align-items:center; gap:12px;
-    padding: 12px 14px; border-radius:10px;
-    background:var(--bg2); border:1px solid var(--border);
-    margin-bottom:8px;
-  }
-  .company-rank { font-size:16px; font-weight:800; color:var(--text3); width:24px; }
-  .company-name { flex:1; font-size:13px; font-weight:600; }
-  .company-ctc { font-size:12px; color:var(--accent); font-weight:700; }
-  .company-wlb { font-size:12px; color:var(--text3); }
-  .wlb-stars { color:var(--gold); }
-
-  /* STORY EDITOR */
-  .story-area {
-    width:100%; min-height:120px; padding:12px;
-    background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1);
-    border-radius:10px; color:#fff; font-size:13px; line-height:1.7;
-    resize:vertical; outline:none; font-family:inherit;
-  }
-  .story-area:focus { border-color:rgba(30,144,255,0.5); }
-  .story-btn {
-    margin-top:8px; padding:8px 16px; border-radius:8px; border:none;
-    background:rgba(30,144,255,0.3); color:#fff; font-size:12px;
-    cursor:pointer; transition:all 0.2s;
-  }
-  .story-btn:hover { background:rgba(30,144,255,0.5); }
-  .story-saved { margin-top:10px; }
-  .story-entry {
-    background:rgba(0,0,0,0.3); border-radius:8px; padding:10px 12px;
-    margin-bottom:8px; font-size:12px; color:rgba(255,255,255,0.7);
-    line-height:1.6; border-left:2px solid rgba(30,144,255,0.5);
-  }
-  .story-entry-date { font-size:10px; color:rgba(255,255,255,0.35); margin-bottom:4px; }
-
-  /* WATER TRACKER */
-  .water-track { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
-  .water-cup {
-    width:32px; height:40px; border-radius:4px 4px 6px 6px;
-    border:2px solid rgba(30,144,255,0.4);
-    cursor:pointer; transition:all 0.2s;
-    display:flex; align-items:flex-end;
-  }
-  .water-cup.filled { background:rgba(30,144,255,0.6); border-color:var(--blue); }
-  .water-cup:hover { border-color:var(--blue); }
-
-  /* MOOD */
-  .mood-row { display:flex; gap:8px; margin-top:8px; }
-  .mood-btn {
-    width:40px; height:40px; border-radius:10px; border:none;
-    background:rgba(255,255,255,0.07); font-size:20px;
-    cursor:pointer; transition:all 0.2s;
-  }
-  .mood-btn:hover { background:rgba(255,255,255,0.15); transform:scale(1.1); }
-  .mood-btn.selected { background:rgba(108,99,255,0.3); outline:2px solid var(--accent); }
-
-  /* SCROLL */
-  ::-webkit-scrollbar { width:6px; }
-  ::-webkit-scrollbar-track { background:transparent; }
-  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
-
-  /* RESPONSIVE */
-  @media(max-width:768px) {
-    nav { padding:0 16px; }
-    main { padding:70px 16px 40px; }
-    .grid-2, .grid-3 { grid-template-columns:1fr; }
-    .hero { padding:24px; }
-    .hero-stats { gap:12px; }
-    .swot-grid { grid-template-columns:1fr; }
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-  .section.active { animation: fadeIn 0.3s ease; }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
-  .live { animation: pulse 2s infinite; }
+@media(max-width:480px) {
+  .body-stat-grid { grid-template-columns:repeat(2,1fr); }
+  .hero h1 { font-size:20px; }
+  .hero-stat { min-width:unset; flex:1; }
+  .hero-stats { flex-wrap:wrap; }
+  .nav-logo { font-size:13px; }
+  .supp-grid { grid-template-columns:1fr; }
+  .swot-cell { padding:13px; }
+  .health-grid { grid-template-columns:repeat(3,1fr); }
+}
 </style>
 </head>
 <body>
 
+<div class="bg-layer"></div>
+<div class="noise-layer"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="orb orb-4"></div>
+
 <nav>
-  <div class="nav-logo">Arnab · Life OS</div>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Hexagonal grid mark — precision + structure -->
+        <path d="M8 1.5L13.5 4.75V11.25L8 14.5L2.5 11.25V4.75L8 1.5Z" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" fill="none"/>
+        <path d="M8 4L11.2 5.8V9.4L8 11.2L4.8 9.4V5.8L8 4Z" fill="rgba(255,255,255,0.9)"/>
+        <circle cx="8" cy="7.6" r="1.4" fill="rgba(27,72,214,0.85)"/>
+      </svg>
+    </div>
+    Arnab · Life OS <span style="font-size:9px;font-weight:500;color:#94A3B8;margin-left:4px;letter-spacing:0.5px;-webkit-text-fill-color:#94A3B8;">v2</span>
+  </div>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showSection('dashboard')">Dashboard</button>
     <button class="nav-tab" onclick="showSection('career')">Career</button>
@@ -426,8 +1117,21 @@
     <button class="nav-tab" onclick="showSection('tasks')">Tasks</button>
     <button class="nav-tab" onclick="showSection('hobbies')">Hobbies</button>
   </div>
-  <div class="nav-date" id="nav-date"></div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="sys-status"><div class="sys-dot"></div><span>Live</span></div>
+    <div class="nav-date" id="nav-date"></div>
+  </div>
 </nav>
+
+<!-- AI Intelligence Strip -->
+<div class="ai-strip">
+  <div class="ai-strip-pulse"></div>
+  <span class="ai-strip-badge">AI</span>
+  <span class="ai-strip-text" id="ai-strip-text"><span id="ai-typewriter"></span><span class="ai-strip-cursor"></span></span>
+  <div class="ai-strip-right">
+    <div class="cmd-trigger" onclick="openCmd()" title="Command Palette (Ctrl+K)">⌘K &nbsp;<span style="opacity:0.6">Search</span></div>
+  </div>
+</div>
 
 <main>
 
@@ -462,7 +1166,37 @@
     </div>
   </div>
 
-  <div class="grid grid-2" style="margin-bottom:20px;">
+  <!-- AI System Intelligence -->
+  <div class="card" style="margin-bottom:20px;background:linear-gradient(135deg,#FFFFFF 0%,#F8FAFF 100%);border-color:rgba(37,99,235,0.12);">
+    <div class="card-title" style="margin-bottom:16px;">
+      <span class="icon">🧠</span> System Intelligence
+      <span style="margin-left:auto;font-size:10px;color:var(--text3);font-weight:500;text-transform:none;letter-spacing:0;">Updated now</span>
+    </div>
+    <div class="grid grid-2" style="gap:12px;">
+      <div>
+        <div class="ai-insight-item">
+          <div class="ai-insight-dot blue"></div>
+          <div class="ai-insight-text">March 2027 is <strong id="ai-days-march">—</strong> days away. You're <strong id="ai-pct-tenure">—</strong> through the minimum tenure window. Stay the course.</div>
+        </div>
+        <div class="ai-insight-item">
+          <div class="ai-insight-dot green"></div>
+          <div class="ai-insight-text">At ₹1.2L/mo SIP + 12% CAGR, you reach <strong>₹5 Cr liquid</strong> by age 34–35. The compounding flywheel is spinning.</div>
+        </div>
+      </div>
+      <div>
+        <div class="ai-insight-item">
+          <div class="ai-insight-dot amber"></div>
+          <div class="ai-insight-text">₹20L in savings → <strong>₹10L stays liquid</strong>, deploy ₹10L → NIFTY index. Idle cash is a slow leak.</div>
+        </div>
+        <div class="ai-insight-item">
+          <div class="ai-insight-dot purple"></div>
+          <div class="ai-insight-text">LinkedIn brand is <strong>asymmetric</strong>: 1 post/week × 52 weeks = compound recall at Revolut + CRED by 2027.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-bottom:14px;">
     <!-- Tenure Countdown -->
     <div class="card">
       <div class="card-title"><span class="icon">⏳</span> Tenure Milestone</div>
@@ -558,6 +1292,16 @@
       </div>
     </div>
   </div>
+
+  <!-- ── QUICK CAPTURE / IDEA INBOX ── -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title"><span class="icon">⚡</span> Quick Capture · Idea Inbox</div>
+    <div class="qc-form">
+      <input class="qc-input" id="qc-input" placeholder="Capture an idea, insight, follow-up…" onkeypress="if(event.key==='Enter') addQc()">
+      <button class="qc-btn" onclick="addQc()">Capture</button>
+    </div>
+    <div class="qc-list" id="qc-list"></div>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════
@@ -566,7 +1310,7 @@
 <div class="section" id="section-career">
   <div class="section-title">Career <span>Planner</span></div>
 
-  <div class="grid grid-2" style="margin-bottom:20px;">
+  <div class="grid grid-2" style="margin-bottom:14px;">
     <!-- Timeline -->
     <div class="card">
       <div class="card-title"><span class="icon">🗺️</span> Career Timeline</div>
@@ -750,7 +1494,7 @@
             <div class="company-wlb"><span class="wlb-stars">★★★</span> 3.2/5 WLB</div>
           </div>
         </div>
-        <div class="company-row" style="border-color:rgba(255,71,87,0.3);">
+        <div class="company-row" style="border-color:rgba(244,63,94,0.3);">
           <div class="company-rank" style="color:var(--red);">✗</div>
           <div class="company-name">Navi <span style="font-size:10px;color:var(--red);">AVOID</span></div>
           <div>
@@ -758,9 +1502,54 @@
             <div class="company-wlb" style="color:var(--red);">2.2/5 WLB · No WFH · Sundays too</div>
           </div>
         </div>
-        <div style="background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.2);border-radius:10px;padding:12px;font-size:12px;color:var(--text2);">
+        <div style="background:rgba(244,63,94,0.06);border:1px solid rgba(244,63,94,0.18);border-radius:10px;padding:12px;font-size:12px;color:var(--text2);">
           <strong style="color:var(--red);">Navi Warning:</strong> Glassdoor WLB 2.2/5, 49% recommend. "No WFH even Sundays." Worse culture than Slice.
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NETWORKING CRM ── -->
+  <div class="grid grid-2" style="margin-top:14px;">
+    <div class="card">
+      <div class="card-title"><span class="icon">🤝</span> Networking CRM · Target Companies</div>
+      <div class="crm-form">
+        <input id="crm-name" placeholder="Name">
+        <input id="crm-co" placeholder="Company">
+        <select id="crm-stage">
+          <option value="cold">Cold</option>
+          <option value="outreach">Outreach Sent</option>
+          <option value="chat">In Conversation</option>
+          <option value="warm">Warm Intro</option>
+          <option value="referred">Referred</option>
+        </select>
+        <button onclick="addCrm()">Add</button>
+      </div>
+      <div class="crm-row-header"><span>Name</span><span>Company</span><span>Stage</span><span>Last Touch</span><span></span></div>
+      <div id="crm-list"></div>
+    </div>
+
+    <!-- ── LINKEDIN STREAK ── -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📝</span> LinkedIn Post Streak · Weekly</div>
+      <div class="ls-stats">
+        <div class="ls-stat">
+          <div class="ls-stat-val" id="ls-current-streak">0</div>
+          <div class="ls-stat-label">Current Streak (wks)</div>
+        </div>
+        <div class="ls-stat">
+          <div class="ls-stat-val" id="ls-total-posts">0</div>
+          <div class="ls-stat-label">Total Posts (12wk)</div>
+        </div>
+        <div class="ls-stat">
+          <div class="ls-stat-val" id="ls-hit-rate">0%</div>
+          <div class="ls-stat-label">Hit Rate</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;font-weight:700;margin-bottom:8px;">LAST 12 WEEKS — TAP TO TOGGLE</div>
+      <div class="ls-week-grid" id="ls-weeks"></div>
+      <div style="font-size:11.5px;color:var(--text2);background:rgba(27,72,214,0.05);padding:11px 13px;border-radius:10px;border-left:2px solid var(--accent-blue);line-height:1.55;">
+        <strong style="color:var(--accent-blue);">Why this matters:</strong> 1 post/wk × 52 wks = compound recall when CRED/JPM/Jupiter recruiters search "credit risk + AI" in late 2027.
       </div>
     </div>
   </div>
@@ -772,7 +1561,7 @@
 <div class="section" id="section-finance">
   <div class="section-title">Financial <span>Planner</span></div>
 
-  <div class="grid grid-3" style="margin-bottom:20px;">
+  <div class="grid grid-3" style="margin-bottom:14px;">
     <div class="card">
       <div class="card-title"><span class="icon">🏦</span> Net Worth Snapshot</div>
       <div class="fin-goal">
@@ -783,16 +1572,16 @@
       <div class="fin-goal">
         <div class="fin-goal-header"><span class="fin-goal-name">Baguiathi Property</span><span class="fin-goal-value">~₹65L</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:65%;background:var(--accent4)"></div></div>
-        <div class="fin-goal-meta"><span>Rental: ₹50K/mo</span><span>8% CAGR → ₹1.3Cr by 2033</span></div>
+        <div class="fin-goal-meta"><span>Rental: ₹50K/mo</span><span>8% CAGR → ~₹1.1 Cr by 2033</span></div>
       </div>
       <div class="fin-goal">
         <div class="fin-goal-header"><span class="fin-goal-name">Equity / SIP</span><span class="fin-goal-value">~₹8L</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:15%;background:var(--blue)"></div></div>
         <div class="fin-goal-meta"><span>Target: ₹1.2–1.5L/mo</span><span>12% CAGR assumed</span></div>
       </div>
-      <div style="margin-top:16px;padding:14px;background:var(--bg2);border-radius:10px;border:1px solid var(--border);">
+      <div style="margin-top:16px;padding:14px;background:rgba(245,158,11,0.06);border-radius:12px;border:1px solid rgba(245,158,11,0.18);">
         <div style="font-size:11px;color:var(--text3);">TOTAL NET WORTH (May 2026)</div>
-        <div style="font-size:28px;font-weight:800;color:var(--gold);margin-top:4px;">~₹92–99L</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--gold);margin-top:4px;text-shadow:0 0 20px rgba(245,158,11,0.3);">~₹92–99L</div>
         <div style="font-size:12px;color:var(--text3);margin-top:4px;">Starting well above zero ✓</div>
       </div>
     </div>
@@ -824,7 +1613,7 @@
     <div class="card">
       <div class="card-title"><span class="icon">💎</span> ESOP Tracker (Slice)</div>
       <div class="esop-display">
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">TOTAL GRANT VALUE</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px;">TOTAL GRANT VALUE</div>
         <div class="esop-value">₹6L</div>
         <div class="esop-label">Vesting over 4 years · ₹1.5L/yr</div>
         <div class="esop-row">
@@ -843,10 +1632,10 @@
         </div>
       </div>
       <div style="margin-top:14px;font-size:12px;color:var(--text2);line-height:1.7;">
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
           <span>3-yr total market value</span><span style="color:var(--purple);font-weight:700;">₹21L</span>
         </div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
           <span>Net profit (minus grant)</span><span style="color:var(--green);font-weight:700;">~₹16.5L</span>
         </div>
         <div style="display:flex;justify-content:space-between;padding:8px 0;">
@@ -873,49 +1662,49 @@
       </table>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;">
-      <div style="background:rgba(46,213,115,0.08);border:1px solid rgba(46,213,115,0.2);border-radius:10px;padding:12px;text-align:center;">
+      <div style="background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.18);border-radius:12px;padding:14px;text-align:center;">
         <div style="font-size:11px;color:var(--text3);">Conservative</div>
-        <div style="font-size:18px;font-weight:700;color:var(--green);margin:4px 0;">₹18 Cr</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--green);margin:4px 0;">₹18 Cr</div>
         <div style="font-size:11px;color:var(--text3);">at age 50</div>
       </div>
-      <div style="background:rgba(108,99,255,0.08);border:1px solid rgba(108,99,255,0.2);border-radius:10px;padding:12px;text-align:center;">
+      <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);border-radius:12px;padding:14px;text-align:center;">
         <div style="font-size:11px;color:var(--text3);">Realistic</div>
-        <div style="font-size:18px;font-weight:700;color:var(--accent);margin:4px 0;">₹25–30 Cr</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--accent);margin:4px 0;">₹25–30 Cr</div>
         <div style="font-size:11px;color:var(--text3);">at age 50</div>
       </div>
-      <div style="background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:12px;text-align:center;">
+      <div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);border-radius:12px;padding:14px;text-align:center;">
         <div style="font-size:11px;color:var(--text3);">Best (Slice IPO)</div>
-        <div style="font-size:18px;font-weight:700;color:var(--gold);margin:4px 0;">₹40–55 Cr</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--gold);margin:4px 0;">₹40–55 Cr</div>
         <div style="font-size:11px;color:var(--text3);">at age 50</div>
       </div>
     </div>
   </div>
 
   <!-- Rules -->
-  <div class="card" style="margin-top:20px;">
+  <div class="card" style="margin-top:14px;">
     <div class="card-title"><span class="icon">🔒</span> Non-Negotiable Financial Rules</div>
     <div class="grid grid-3">
-      <div style="padding:14px;background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.2);border-radius:10px;">
+      <div style="padding:14px;background:rgba(244,63,94,0.06);border:1px solid rgba(244,63,94,0.18);border-radius:12px;">
         <div style="color:var(--red);font-weight:700;font-size:13px;margin-bottom:6px;">🚫 Always Liquid</div>
         <div style="font-size:12px;color:var(--text2);">₹10L emergency fund. Never deploy. Never touch. Period.</div>
       </div>
-      <div style="padding:14px;background:rgba(46,213,115,0.08);border:1px solid rgba(46,213,115,0.2);border-radius:10px;">
+      <div style="padding:14px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.18);border-radius:12px;">
         <div style="color:var(--green);font-weight:700;font-size:13px;margin-bottom:6px;">✅ SIP Minimum</div>
         <div style="font-size:12px;color:var(--text2);">₹1.2–1.5L/mo automate. Don't reduce. Increase with salary.</div>
       </div>
-      <div style="padding:14px;background:rgba(108,99,255,0.08);border:1px solid rgba(108,99,255,0.2);border-radius:10px;">
+      <div style="padding:14px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);border-radius:12px;">
         <div style="color:var(--accent);font-weight:700;font-size:13px;margin-bottom:6px;">🏢 Business Capital</div>
         <div style="font-size:12px;color:var(--text2);">Max ₹50–75L for business. Source: consulting income ONLY. Never corpus.</div>
       </div>
-      <div style="padding:14px;background:rgba(247,151,30,0.08);border:1px solid rgba(247,151,30,0.2);border-radius:10px;">
+      <div style="padding:14px;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);border-radius:12px;">
         <div style="color:var(--accent4);font-weight:700;font-size:13px;margin-bottom:6px;">🏠 Villa Rule</div>
         <div style="font-size:12px;color:var(--text2);">Don't buy Newtown villa before corpus hits ₹8 Cr. Non-negotiable.</div>
       </div>
-      <div style="padding:14px;background:rgba(30,144,255,0.08);border:1px solid rgba(30,144,255,0.2);border-radius:10px;">
-        <div style="color:var(--blue);font-weight:700;font-size:13px;margin-bottom:6px;">🏥 Insurance</div>
+      <div style="padding:14px;background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.18);border-radius:12px;">
+        <div style="color:var(--cyan);font-weight:700;font-size:13px;margin-bottom:6px;">🏥 Insurance</div>
         <div style="font-size:12px;color:var(--text2);">₹50L health floater. Get before baby arrives. Model LTCG tax in projections.</div>
       </div>
-      <div style="padding:14px;background:rgba(255,101,132,0.08);border:1px solid rgba(255,101,132,0.2);border-radius:10px;">
+      <div style="padding:14px;background:rgba(244,63,94,0.06);border:1px solid rgba(244,63,94,0.18);border-radius:12px;">
         <div style="color:var(--accent2);font-weight:700;font-size:13px;margin-bottom:6px;">👶 Child SIP</div>
         <div style="font-size:12px;color:var(--text2);">₹5K/mo from birth → ₹35–40L at 12% over 15 years. Start at birth.</div>
       </div>
@@ -955,36 +1744,58 @@
         <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>ESOP:</strong> Track Slice stock valuation quarterly</div><span class="reminder-tag tag-finance">Finance</span></div>
         <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Health insurance:</strong> Get ₹50L floater policy</div><span class="reminder-tag tag-health">Health</span></div>
         <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Daily art:</strong> 10–15 min drawing or sketching</div><span class="reminder-tag tag-habit">Hobby</span></div>
-        <div class="reminder-item"><div class="reminder-check"></div><div class="reminder-text"><strong>Bengali writing:</strong> 1 story or 3 quotes per week</div><span class="reminder-tag tag-habit">Hobby</span></div>
       </div>
     </div>
   </div>
 
-  <div class="card" style="margin-top:20px;">
+  <!-- ── POMODORO ── -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title"><span class="icon">🍅</span> Focus Timer · Pomodoro</div>
+    <div class="pomo-card">
+      <div class="pomo-presets">
+        <button class="pomo-preset active" data-min="25" onclick="pomoSet(25,this)">25 min</button>
+        <button class="pomo-preset" data-min="45" onclick="pomoSet(45,this)">45 min</button>
+        <button class="pomo-preset" data-min="50" onclick="pomoSet(50,this)">50 min</button>
+        <button class="pomo-preset" data-min="5" onclick="pomoSet(5,this)">5 min break</button>
+      </div>
+      <div class="pomo-display" id="pomo-display">25:00</div>
+      <div class="pomo-state" id="pomo-state">Ready</div>
+      <div class="pomo-ctrl">
+        <button class="pomo-btn primary" id="pomo-start" onclick="pomoToggle()">Start</button>
+        <button class="pomo-btn" onclick="pomoReset()">Reset</button>
+      </div>
+      <div class="pomo-today">
+        <div class="pomo-stat"><strong id="pomo-count">0</strong>Focus blocks today</div>
+        <div class="pomo-stat"><strong id="pomo-mins">0</strong>Minutes deep work</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
     <div class="card-title"><span class="icon">🔑</span> Career Rules (Read Weekly)</div>
     <div class="grid grid-3">
-      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--accent);">
+      <div style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border-left:3px solid var(--accent);border:1px solid rgba(255,255,255,0.05);border-left:3px solid var(--accent);">
         <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px;">Rule 1 — 18 Month Rule</div>
         <div style="font-size:12px;color:var(--text2);">Never leave a role before 18 months. Slice minimum: March 2027. Short stints kill credibility.</div>
       </div>
-      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--green);">
+      <div style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid rgba(255,255,255,0.05);border-left:3px solid var(--green);">
         <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px;">Rule 2 — 25% Hike Only</div>
         <div style="font-size:12px;color:var(--text2);">Switch jobs only for ≥25% hike on total comp. Disruption cost is real.</div>
       </div>
-      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--purple);">
+      <div style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid rgba(255,255,255,0.05);border-left:3px solid var(--purple);">
         <div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:6px;">Rule 3 — AI Tooling Moat</div>
         <div style="font-size:12px;color:var(--text2);">By 2029: position as "credit risk + AI tooling" expert. Use Claude/Cursor daily. This is the 5-yr moat.</div>
       </div>
-      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--accent4);">
+      <div style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid rgba(255,255,255,0.05);border-left:3px solid var(--accent4);">
         <div style="font-size:12px;font-weight:700;color:var(--accent4);margin-bottom:6px;">Rule 4 — Never CTC First</div>
         <div style="font-size:12px;color:var(--text2);">In negotiations, never reveal current CTC first. Anchor high. Ask ₹55–65L. Walk away only below ₹42L.</div>
       </div>
-      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--accent2);">
+      <div style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid rgba(255,255,255,0.05);border-left:3px solid var(--accent2);">
         <div style="font-size:12px;font-weight:700;color:var(--accent2);margin-bottom:6px;">Rule 5 — Build NOW</div>
         <div style="font-size:12px;color:var(--text2);">LinkedIn content + consulting network before you need it. Inbound > outbound. Start 2026.</div>
       </div>
-      <div style="padding:12px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--blue);">
-        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px;">Rule 6 — Leave When...</div>
+      <div style="padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid rgba(255,255,255,0.05);border-left:3px solid var(--cyan);">
+        <div style="font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:6px;">Rule 6 — Leave When...</div>
         <div style="font-size:12px;color:var(--text2);">Leave Slice when: stop learning / work becomes repetitive / no visibility. NOT for WFH alone.</div>
       </div>
     </div>
@@ -995,138 +1806,522 @@
      HOBBIES
 ═══════════════════════════════════════════ -->
 <div class="section" id="section-hobbies">
-  <div class="section-title">Hobbies & <span>Wellness</span></div>
+  <div class="section-title">Health & <span>Fitness OS</span></div>
 
-  <div class="hobby-grid">
+  <!-- ── BODY STATS ── -->
+  <div class="body-stat-grid">
+    <div class="body-stat">
+      <div class="body-stat-label">Current Weight</div>
+      <div class="body-stat-value" style="color:var(--amber,#D97706);" id="current-weight-disp">76 kg</div>
+      <div class="body-stat-sub">May 2026</div>
+    </div>
+    <div class="body-stat">
+      <div class="body-stat-label">Target Weight</div>
+      <div class="body-stat-value" style="color:var(--green);">68 kg</div>
+      <div class="body-stat-sub">Nov 2026 · −8 kg</div>
+    </div>
+    <div class="body-stat">
+      <div class="body-stat-label">BMI</div>
+      <div class="body-stat-value" style="color:var(--blue);" id="bmi-disp">24.5</div>
+      <div class="body-stat-sub">Normal (upper)</div>
+    </div>
+    <div class="body-stat">
+      <div class="body-stat-label">Daily Calories</div>
+      <div class="body-stat-value" style="color:var(--purple);">1,800</div>
+      <div class="body-stat-sub">−500 deficit/day</div>
+    </div>
+    <div class="body-stat">
+      <div class="body-stat-label">To Target</div>
+      <div class="body-stat-value" style="color:var(--green);" id="kg-to-go">8 kg</div>
+      <div class="body-stat-sub">~6 months @ 1.3kg/mo</div>
+    </div>
+  </div>
 
-    <!-- ART & DRAWING -->
-    <div class="hobby-card art">
-      <div class="hobby-emoji">🎨</div>
-      <div class="hobby-title">Art & Drawing</div>
-      <div class="hobby-sub">Track your creative practice — 10 min a day is enough</div>
+  <!-- Weight progress bar -->
+  <div class="card" style="margin-bottom:20px;padding:20px 28px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="card-title" style="margin-bottom:0;"><span class="icon">📉</span> Fat Loss Progress · 76 kg → 68 kg</div>
+      <div style="font-size:12px;color:var(--text3);">176 cm · 28 yrs · Male · Sedentary+Gym</div>
+    </div>
+    <div class="progress-bar" style="height:10px;">
+      <div class="progress-fill" id="weight-progress-bar" style="width:0%;background:linear-gradient(90deg,#059669,#10B981);"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:6px;">
+      <span>76 kg (start)</span><span id="weight-progress-pct" style="color:var(--green);font-weight:700;">0% lost</span><span>68 kg (target)</span>
+    </div>
+  </div>
 
-      <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px;">THIS MONTH — tap a day to mark done</div>
-      <div class="art-streak" id="art-calendar"></div>
+  <!-- ── ROW: WORKOUT SCHEDULE + DAILY LOG ── -->
+  <div class="grid grid-2" style="margin-bottom:14px;align-items:start;">
 
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
-        <div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);">STREAK</div>
-          <div style="font-size:22px;font-weight:800;color:var(--purple);" id="art-streak-count">0 days</div>
-        </div>
-        <div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.4);">THIS MONTH</div>
-          <div style="font-size:22px;font-weight:800;color:rgba(255,255,255,0.7);" id="art-month-count">0 days</div>
-        </div>
-        <button onclick="markArtToday()" style="padding:8px 14px;border-radius:8px;border:none;background:var(--purple);color:#fff;font-size:12px;cursor:pointer;font-weight:600;">Mark Today ✓</button>
+    <!-- WEEKLY WORKOUT SCHEDULE -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🏋️</span> Weekly Workout Plan — 5×/week</div>
+      <div class="workout-tabs">
+        <button class="workout-day-tab active" onclick="showWorkout('mon',this)">Mon</button>
+        <button class="workout-day-tab" onclick="showWorkout('tue',this)">Tue</button>
+        <button class="workout-day-tab" onclick="showWorkout('wed',this)">Wed</button>
+        <button class="workout-day-tab" onclick="showWorkout('thu',this)">Thu</button>
+        <button class="workout-day-tab" onclick="showWorkout('fri',this)">Fri</button>
+        <button class="workout-day-tab" onclick="showWorkout('sat',this)">Sat</button>
+        <button class="workout-day-tab rest" onclick="showWorkout('sun',this)">Sun</button>
       </div>
 
-      <div style="margin-top:14px;">
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:6px;">TODAY'S INSPIRATION</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.6);font-style:italic;" id="art-prompt">Loading...</div>
+      <!-- MON: Push -->
+      <div class="workout-panel active" id="workout-mon">
+        <div class="workout-panel-header">
+          <span class="workout-panel-icon">💪</span>
+          <div><div class="workout-panel-title">Push Day — Chest · Shoulders · Triceps</div><div class="workout-panel-meta">~55 min · Weight training</div></div>
+        </div>
+        <table class="exercise-table">
+          <thead><tr><th>Exercise</th><th>Sets × Reps</th><th>Rest</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ex-name">Barbell Bench Press</span><span class="ex-badge compound">Compound</span></td><td>4 × 8</td><td>90s</td></tr>
+            <tr><td><span class="ex-name">Incline DB Press</span><span class="ex-badge compound">Compound</span></td><td>3 × 10</td><td>75s</td></tr>
+            <tr><td><span class="ex-name">Cable Fly (Mid)</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 15</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Overhead Press</span><span class="ex-badge compound">Compound</span></td><td>4 × 8</td><td>90s</td></tr>
+            <tr><td><span class="ex-name">Lateral Raises</span><span class="ex-badge isolation">Isolation</span></td><td>4 × 15</td><td>45s</td></tr>
+            <tr><td><span class="ex-name">Tricep Pushdown</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 12</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Skull Crushers</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 12</td><td>60s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TUE: Cardio + Core -->
+      <div class="workout-panel" id="workout-tue">
+        <div class="workout-panel-header">
+          <span class="workout-panel-icon">🏃</span>
+          <div><div class="workout-panel-title">Cardio + Core</div><div class="workout-panel-meta">~40 min · HIIT + Abs</div></div>
+        </div>
+        <table class="exercise-table">
+          <thead><tr><th>Exercise</th><th>Duration / Sets</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ex-name">Treadmill HIIT</span><span class="ex-badge cardio">Cardio</span></td><td>20 min</td><td>30s sprint / 90s walk × 8</td></tr>
+            <tr><td><span class="ex-name">Plank Hold</span><span class="ex-badge isolation">Core</span></td><td>3 × 60s</td><td>Dead straight</td></tr>
+            <tr><td><span class="ex-name">Bicycle Crunches</span><span class="ex-badge isolation">Core</span></td><td>3 × 25</td><td>Slow, controlled</td></tr>
+            <tr><td><span class="ex-name">Hanging Leg Raise</span><span class="ex-badge isolation">Core</span></td><td>3 × 12</td><td>Full ROM</td></tr>
+            <tr><td><span class="ex-name">Cable Woodchop</span><span class="ex-badge isolation">Core</span></td><td>3 × 15</td><td>Each side</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- WED: Pull -->
+      <div class="workout-panel" id="workout-wed">
+        <div class="workout-panel-header">
+          <span class="workout-panel-icon">🔙</span>
+          <div><div class="workout-panel-title">Pull Day — Back · Biceps</div><div class="workout-panel-meta">~55 min · Weight training</div></div>
+        </div>
+        <table class="exercise-table">
+          <thead><tr><th>Exercise</th><th>Sets × Reps</th><th>Rest</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ex-name">Pull-ups (Weighted)</span><span class="ex-badge compound">Compound</span></td><td>4 × max</td><td>90s</td></tr>
+            <tr><td><span class="ex-name">Barbell Row</span><span class="ex-badge compound">Compound</span></td><td>4 × 8</td><td>90s</td></tr>
+            <tr><td><span class="ex-name">Lat Pulldown</span><span class="ex-badge compound">Compound</span></td><td>3 × 12</td><td>75s</td></tr>
+            <tr><td><span class="ex-name">Seated Cable Row</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 12</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Face Pulls</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 20</td><td>45s</td></tr>
+            <tr><td><span class="ex-name">Barbell Curl</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 10</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Hammer Curls</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 12</td><td>60s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- THU: Legs -->
+      <div class="workout-panel" id="workout-thu">
+        <div class="workout-panel-header">
+          <span class="workout-panel-icon">🦵</span>
+          <div><div class="workout-panel-title">Leg Day — Quads · Hams · Glutes · Calves</div><div class="workout-panel-meta">~60 min · Most important day</div></div>
+        </div>
+        <table class="exercise-table">
+          <thead><tr><th>Exercise</th><th>Sets × Reps</th><th>Rest</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ex-name">Barbell Back Squat</span><span class="ex-badge compound">Compound</span></td><td>4 × 8</td><td>2 min</td></tr>
+            <tr><td><span class="ex-name">Romanian Deadlift</span><span class="ex-badge compound">Compound</span></td><td>4 × 8</td><td>90s</td></tr>
+            <tr><td><span class="ex-name">Leg Press</span><span class="ex-badge compound">Compound</span></td><td>3 × 12</td><td>90s</td></tr>
+            <tr><td><span class="ex-name">Leg Curl (Machine)</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 12</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Leg Extension</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 15</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Walking Lunges</span><span class="ex-badge compound">Compound</span></td><td>3 × 20</td><td>75s</td></tr>
+            <tr><td><span class="ex-name">Standing Calf Raise</span><span class="ex-badge isolation">Isolation</span></td><td>4 × 20</td><td>45s</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FRI: Full Body -->
+      <div class="workout-panel" id="workout-fri">
+        <div class="workout-panel-header">
+          <span class="workout-panel-icon">⚡</span>
+          <div><div class="workout-panel-title">Full Body Strength + Cardio Finisher</div><div class="workout-panel-meta">~60 min · Heavy + metabolic</div></div>
+        </div>
+        <table class="exercise-table">
+          <thead><tr><th>Exercise</th><th>Sets × Reps</th><th>Rest</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ex-name">Deadlift</span><span class="ex-badge compound">Compound</span></td><td>4 × 5</td><td>2 min</td></tr>
+            <tr><td><span class="ex-name">DB Shoulder Press</span><span class="ex-badge compound">Compound</span></td><td>3 × 10</td><td>75s</td></tr>
+            <tr><td><span class="ex-name">Goblet Squat</span><span class="ex-badge compound">Compound</span></td><td>3 × 15</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Single-arm DB Row</span><span class="ex-badge isolation">Isolation</span></td><td>3 × 12</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Push-ups (weighted)</span><span class="ex-badge compound">Compound</span></td><td>3 × max</td><td>60s</td></tr>
+            <tr><td><span class="ex-name">Cardio Finisher (bike)</span><span class="ex-badge cardio">Cardio</span></td><td>15 min</td><td>Max effort</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SAT: HIIT -->
+      <div class="workout-panel" id="workout-sat">
+        <div class="workout-panel-header">
+          <span class="workout-panel-icon">🔥</span>
+          <div><div class="workout-panel-title">HIIT + Functional Training</div><div class="workout-panel-meta">~35 min · Max fat burn</div></div>
+        </div>
+        <table class="exercise-table">
+          <thead><tr><th>Exercise</th><th>Duration</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><span class="ex-name">Warm-up jog</span><span class="ex-badge cardio">Cardio</span></td><td>5 min</td><td>Easy pace</td></tr>
+            <tr><td><span class="ex-name">Sprint intervals</span><span class="ex-badge cardio">Cardio</span></td><td>5 rounds</td><td>45s sprint / 75s walk</td></tr>
+            <tr><td><span class="ex-name">Burpees</span><span class="ex-badge compound">Compound</span></td><td>3 × 15</td><td>No rest between reps</td></tr>
+            <tr><td><span class="ex-name">Jump Squats</span><span class="ex-badge compound">Compound</span></td><td>3 × 20</td><td>Explosive</td></tr>
+            <tr><td><span class="ex-name">Mountain Climbers</span><span class="ex-badge cardio">Cardio</span></td><td>3 × 40</td><td>Fast pace</td></tr>
+            <tr><td><span class="ex-name">Cool-down walk</span><span class="ex-badge cardio">Cardio</span></td><td>5 min</td><td>+ stretch 5 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SUN: Rest -->
+      <div class="workout-panel" id="workout-sun">
+        <div class="workout-panel-header">
+          <span class="workout-panel-icon">😴</span>
+          <div><div class="workout-panel-title">Rest & Active Recovery</div><div class="workout-panel-meta">Muscle repair day — don't skip this</div></div>
+        </div>
+        <div style="padding:16px;background:rgba(5,150,105,0.05);border-radius:12px;border:1px solid rgba(5,150,105,0.15);">
+          <div style="font-size:13px;color:var(--text2);line-height:1.8;">
+            <div style="margin-bottom:8px;">🚶 <strong>30 min easy walk</strong> — not sitting all day</div>
+            <div style="margin-bottom:8px;">🧘 <strong>10 min stretching</strong> — focus on legs + hips</div>
+            <div style="margin-bottom:8px;">🛁 <strong>Hot shower</strong> — relax muscles</div>
+            <div style="margin-bottom:8px;">😴 <strong>8 hrs sleep</strong> — growth hormone peaks overnight</div>
+            <div>🥗 <strong>Eat clean, high protein</strong> — muscles rebuild on rest days</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- BENGALI STORIES & QUOTES -->
-    <div class="hobby-card bengali">
-      <div class="hobby-emoji">📖</div>
-      <div class="hobby-title">Bengali Stories & Quotes</div>
-      <div class="hobby-sub">আপনার সৃষ্টিশীল কোণ — Your creative corner</div>
+    <!-- DAILY HABIT CHECKLIST + WATER + MOOD -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
 
-      <div id="quote-display" class="quote-display"></div>
-      <div class="quote-author" id="quote-author"></div>
-      <div class="quote-nav">
-        <button class="quote-btn" onclick="prevQuote()">← Previous</button>
-        <button class="quote-btn" onclick="nextQuote()">Next →</button>
-        <button class="quote-btn" onclick="randomQuote()" style="background:rgba(30,144,255,0.2);">✦ Random</button>
+      <!-- Daily Checklist -->
+      <div class="hobby-card health" style="padding:24px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="font-size:20px;">✅</div>
+          <div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:#fff;">Today's Checklist</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.45);">Daily non-negotiables</div>
+          </div>
+          <div style="margin-left:auto;text-align:right;">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#6EE7B7;" id="health-score">0/9</div>
+          </div>
+        </div>
+        <div class="health-grid" id="health-checks">
+          <div class="health-item" onclick="toggleHealth(this)" data-key="gym"><div class="health-item-icon">🏋️</div><div class="health-item-label">Gym Done</div></div>
+          <div class="health-item" onclick="toggleHealth(this)" data-key="protein"><div class="health-item-icon">🥩</div><div class="health-item-label">150g Protein</div></div>
+          <div class="health-item" onclick="toggleHealth(this)" data-key="calories"><div class="health-item-icon">🔥</div><div class="health-item-label">≤1800 kcal</div></div>
+          <div class="health-item" onclick="toggleHealth(this)" data-key="walk"><div class="health-item-icon">🚶</div><div class="health-item-label">10k Steps</div></div>
+          <div class="health-item" onclick="toggleHealth(this)" data-key="sleep"><div class="health-item-icon">😴</div><div class="health-item-label">8hr Sleep</div></div>
+          <div class="health-item" onclick="toggleHealth(this)" data-key="nojunk"><div class="health-item-icon">🚫</div><div class="health-item-label">No Junk</div></div>
+          <div class="health-item" onclick="toggleHealth(this)" data-key="supps"><div class="health-item-icon">💊</div><div class="health-item-label">Supplements</div></div>
+          <div class="health-item" onclick="toggleHealth(this)" data-key="meditation"><div class="health-item-icon">🧘</div><div class="health-item-label">5min Stretch</div></div>
+          <div class="health-item" onclick="toggleHealth(this)" data-key="art"><div class="health-item-icon">🎨</div><div class="health-item-label">Art 10 min</div></div>
+        </div>
+        <div style="height:5px;background:rgba(0,0,0,0.25);border-radius:5px;margin-top:14px;overflow:hidden;">
+          <div id="health-bar" style="height:100%;border-radius:5px;background:linear-gradient(90deg,#10B981,#06B6D4);width:0%;transition:width 0.4s;"></div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:8px;letter-spacing:0.8px;">WATER INTAKE — tap to fill</div>
+          <div class="water-track" id="water-cups"></div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:5px;" id="water-label">0 / 8 glasses</div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:8px;letter-spacing:0.8px;">TODAY'S ENERGY</div>
+          <div class="mood-row">
+            <button class="mood-btn" onclick="setMood(this,'😴')">😴</button>
+            <button class="mood-btn" onclick="setMood(this,'😐')">😐</button>
+            <button class="mood-btn" onclick="setMood(this,'😊')">😊</button>
+            <button class="mood-btn" onclick="setMood(this,'💪')">💪</button>
+            <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
+          </div>
+        </div>
       </div>
 
-      <div style="margin-top:16px;">
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:6px;">WRITE YOUR STORY / THOUGHT</div>
-        <textarea class="story-area" id="story-input" placeholder="আপনার গল্প বা চিন্তা লিখুন... (Write your story or thought here)"></textarea>
-        <button class="story-btn" onclick="saveStory()">Save Entry ✓</button>
+      <!-- Weight Log -->
+      <div class="card">
+        <div class="card-title"><span class="icon">⚖️</span> Weekly Weigh-in Log</div>
+        <div class="weight-log-wrap">
+          <input class="weight-input" type="number" id="weight-entry" placeholder="Enter weight (kg)" min="50" max="120" step="0.1">
+          <button class="weight-btn" onclick="logWeight()">Log</button>
+        </div>
+        <div class="weight-log-list" id="weight-log-list"></div>
       </div>
+    </div>
+  </div>
 
-      <div class="story-saved" id="story-saved"></div>
+  <!-- ── DIET PLAN ── -->
+  <div class="grid grid-2" style="margin-bottom:14px;align-items:start;">
+
+    <!-- Meal Plan -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🥗</span> Daily Meal Plan — 1,800 kcal · 150g Protein</div>
+      <div style="margin-bottom:4px;" class="meal-card">
+        <div class="meal-time">6:30 AM — Wake Up</div>
+        <div class="meal-row"><span class="meal-icon">🍋</span><span class="meal-name">Warm water + lemon juice</span><span class="meal-kcal">0 kcal</span><span class="meal-protein">0g P</span></div>
+        <div class="meal-row"><span class="meal-icon">☕</span><span class="meal-name">Black coffee (no sugar)</span><span class="meal-kcal">5 kcal</span><span class="meal-protein">0g P</span></div>
+      </div>
+      <div style="margin-bottom:4px;" class="meal-card">
+        <div class="meal-time">7:00 AM — Pre-Workout</div>
+        <div class="meal-row"><span class="meal-icon">🍌</span><span class="meal-name">1 banana</span><span class="meal-kcal">90 kcal</span><span class="meal-protein">1g P</span></div>
+      </div>
+      <div style="margin-bottom:4px;" class="meal-card">
+        <div class="meal-time">9:00 AM — Post-Workout Breakfast</div>
+        <div class="meal-row"><span class="meal-icon">🥛</span><span class="meal-name">Whey protein shake (1 scoop)</span><span class="meal-kcal">120 kcal</span><span class="meal-protein" style="color:#059669;font-weight:700;">25g P</span></div>
+        <div class="meal-row"><span class="meal-icon">🍳</span><span class="meal-name">3 egg whites + 1 whole egg (omelette)</span><span class="meal-kcal">130 kcal</span><span class="meal-protein" style="color:#059669;font-weight:700;">22g P</span></div>
+        <div class="meal-row"><span class="meal-icon">🍞</span><span class="meal-name">2 slices multigrain bread</span><span class="meal-kcal">140 kcal</span><span class="meal-protein">6g P</span></div>
+      </div>
+      <div style="margin-bottom:4px;" class="meal-card">
+        <div class="meal-time">1:00 PM — Lunch</div>
+        <div class="meal-row"><span class="meal-icon">🍗</span><span class="meal-name">200g grilled chicken breast (or 150g paneer)</span><span class="meal-kcal">330 kcal</span><span class="meal-protein" style="color:#059669;font-weight:700;">60g P</span></div>
+        <div class="meal-row"><span class="meal-icon">🍚</span><span class="meal-name">1 cup brown rice (or 2 rotis)</span><span class="meal-kcal">215 kcal</span><span class="meal-protein">4g P</span></div>
+        <div class="meal-row"><span class="meal-icon">🥗</span><span class="meal-name">Mixed dal + sabzi</span><span class="meal-kcal">100 kcal</span><span class="meal-protein">6g P</span></div>
+        <div class="meal-row"><span class="meal-icon">🥒</span><span class="meal-name">Cucumber + tomato + onion salad</span><span class="meal-kcal">30 kcal</span><span class="meal-protein">1g P</span></div>
+      </div>
+      <div style="margin-bottom:4px;" class="meal-card">
+        <div class="meal-time">4:30 PM — Evening Snack</div>
+        <div class="meal-row"><span class="meal-icon">🌰</span><span class="meal-name">30g almonds + walnuts</span><span class="meal-kcal">180 kcal</span><span class="meal-protein">6g P</span></div>
+        <div class="meal-row"><span class="meal-icon">🥛</span><span class="meal-name">1 cup low-fat curd / Greek yogurt</span><span class="meal-kcal">80 kcal</span><span class="meal-protein">8g P</span></div>
+      </div>
+      <div style="margin-bottom:4px;" class="meal-card">
+        <div class="meal-time">8:00 PM — Dinner (no carbs)</div>
+        <div class="meal-row"><span class="meal-icon">🐟</span><span class="meal-name">150g grilled fish / chicken / 3 eggs</span><span class="meal-kcal">250 kcal</span><span class="meal-protein" style="color:#059669;font-weight:700;">35g P</span></div>
+        <div class="meal-row"><span class="meal-icon">🥦</span><span class="meal-name">Stir-fried vegetables (broccoli, spinach)</span><span class="meal-kcal">60 kcal</span><span class="meal-protein">4g P</span></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-time">10:30 PM — Pre-Sleep</div>
+        <div class="meal-row"><span class="meal-icon">🍵</span><span class="meal-name">Warm turmeric milk (low-fat, no sugar)</span><span class="meal-kcal">70 kcal</span><span class="meal-protein">4g P</span></div>
+      </div>
+      <div style="background:rgba(5,150,105,0.07);border:1px solid rgba(5,150,105,0.2);border-radius:12px;padding:12px 16px;margin-top:14px;display:flex;justify-content:space-around;text-align:center;">
+        <div><div style="font-size:10px;color:var(--text3);">TOTAL CALORIES</div><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--green);">~1,800</div></div>
+        <div><div style="font-size:10px;color:var(--text3);">PROTEIN</div><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:#059669;">~152g</div></div>
+        <div><div style="font-size:10px;color:var(--text3);">CARBS</div><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--accent);">~170g</div></div>
+        <div><div style="font-size:10px;color:var(--text3);">FATS</div><div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--amber,#D97706);">~55g</div></div>
+      </div>
     </div>
 
-    <!-- HEALTH & WELLNESS -->
-    <div class="hobby-card health">
-      <div class="hobby-emoji">💪</div>
-      <div class="hobby-title">Health & Wellness</div>
-      <div class="hobby-sub">Daily habits that keep you sharp and strong</div>
+    <!-- Macros + Supplements + Rules -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
 
-      <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:10px;">TODAY'S HEALTH CHECKLIST</div>
-      <div class="health-grid" id="health-checks">
-        <div class="health-item" onclick="toggleHealth(this)" data-key="walk">
-          <div class="health-item-icon">🚶</div>
-          <div class="health-item-label">Walk / Run</div>
+      <!-- Macro Targets -->
+      <div class="card">
+        <div class="card-title"><span class="icon">📊</span> Daily Macro Targets</div>
+        <div class="macro-ring-wrap">
+          <div class="macro-bar-row">
+            <div class="macro-bar-label"><span>🔴 Calories (deficit target)</span><span>1,800 / 2,300 TDEE</span></div>
+            <div class="macro-bar-track"><div class="macro-bar-fill" style="width:78%;background:linear-gradient(90deg,#DC2626,#F87171);"></div></div>
+          </div>
+          <div class="macro-bar-row">
+            <div class="macro-bar-label"><span>🟢 Protein (muscle retention)</span><span>150g · 2g/kg body weight</span></div>
+            <div class="macro-bar-track"><div class="macro-bar-fill" style="width:85%;background:linear-gradient(90deg,#059669,#34D399);"></div></div>
+          </div>
+          <div class="macro-bar-row">
+            <div class="macro-bar-label"><span>🔵 Carbohydrates (fuel)</span><span>170g · energy + training</span></div>
+            <div class="macro-bar-track"><div class="macro-bar-fill" style="width:60%;background:linear-gradient(90deg,#2563EB,#60A5FA);"></div></div>
+          </div>
+          <div class="macro-bar-row">
+            <div class="macro-bar-label"><span>🟡 Fats (hormones)</span><span>55g · healthy fats only</span></div>
+            <div class="macro-bar-track"><div class="macro-bar-fill" style="width:45%;background:linear-gradient(90deg,#D97706,#FCD34D);"></div></div>
+          </div>
         </div>
-        <div class="health-item" onclick="toggleHealth(this)" data-key="workout">
-          <div class="health-item-icon">🏋️</div>
-          <div class="health-item-label">Workout</div>
-        </div>
-        <div class="health-item" onclick="toggleHealth(this)" data-key="meditation">
-          <div class="health-item-icon">🧘</div>
-          <div class="health-item-label">Meditation</div>
-        </div>
-        <div class="health-item" onclick="toggleHealth(this)" data-key="sleep">
-          <div class="health-item-icon">😴</div>
-          <div class="health-item-label">8hr Sleep</div>
-        </div>
-        <div class="health-item" onclick="toggleHealth(this)" data-key="healthy-meal">
-          <div class="health-item-icon">🥗</div>
-          <div class="health-item-label">Healthy Meal</div>
-        </div>
-        <div class="health-item" onclick="toggleHealth(this)" data-key="no-junk">
-          <div class="health-item-icon">🚫</div>
-          <div class="health-item-label">No Junk Food</div>
+        <div style="margin-top:14px;padding:12px;background:rgba(37,99,235,0.05);border-radius:10px;border:1px solid rgba(37,99,235,0.12);font-size:12px;color:var(--text2);line-height:1.7;">
+          <strong style="color:var(--text);">Fat loss math:</strong> TDEE ~2,300 kcal − 500 deficit = 1,800 target. At −3,500 kcal/week = ~0.5 kg fat loss/week. Hit 68 kg by Nov 2026.
         </div>
       </div>
 
-      <div style="margin-top:16px;">
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px;">WATER INTAKE (tap to fill)</div>
-        <div class="water-track" id="water-cups"></div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px;" id="water-label">0 / 8 glasses</div>
-      </div>
-
-      <div style="margin-top:16px;">
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:8px;">TODAY'S MOOD</div>
-        <div class="mood-row" id="mood-row">
-          <button class="mood-btn" onclick="setMood(this,'😊')">😊</button>
-          <button class="mood-btn" onclick="setMood(this,'😤')">😤</button>
-          <button class="mood-btn" onclick="setMood(this,'😴')">😴</button>
-          <button class="mood-btn" onclick="setMood(this,'💪')">💪</button>
-          <button class="mood-btn" onclick="setMood(this,'😰')">😰</button>
-          <button class="mood-btn" onclick="setMood(this,'🔥')">🔥</button>
+      <!-- Supplements -->
+      <div class="card">
+        <div class="card-title"><span class="icon">💊</span> Daily Supplements — tap when taken</div>
+        <div class="supp-grid" id="supp-grid">
+          <div class="supp-item" onclick="toggleSupp(this,'whey')" data-key="whey">
+            <div class="supp-check">✓</div>
+            <div><div class="supp-name">Whey Protein</div><div class="supp-dose">1 scoop post-workout · 25g protein</div></div>
+          </div>
+          <div class="supp-item" onclick="toggleSupp(this,'creatine')" data-key="creatine">
+            <div class="supp-check">✓</div>
+            <div><div class="supp-name">Creatine Monohydrate</div><div class="supp-dose">5g/day · any time with water</div></div>
+          </div>
+          <div class="supp-item" onclick="toggleSupp(this,'multi')" data-key="multi">
+            <div class="supp-check">✓</div>
+            <div><div class="supp-name">Multivitamin</div><div class="supp-dose">1 tablet · with breakfast</div></div>
+          </div>
+          <div class="supp-item" onclick="toggleSupp(this,'vitd')" data-key="vitd">
+            <div class="supp-check">✓</div>
+            <div><div class="supp-name">Vitamin D3 + K2</div><div class="supp-dose">2000 IU D3 · with fat meal</div></div>
+          </div>
+          <div class="supp-item" onclick="toggleSupp(this,'omega')" data-key="omega">
+            <div class="supp-check">✓</div>
+            <div><div class="supp-name">Omega-3 Fish Oil</div><div class="supp-dose">1g EPA+DHA · reduces inflammation</div></div>
+          </div>
+          <div class="supp-item" onclick="toggleSupp(this,'magnesium')" data-key="magnesium">
+            <div class="supp-check">✓</div>
+            <div><div class="supp-name">Magnesium Glycinate</div><div class="supp-dose">300mg · pre-sleep · recovery + sleep</div></div>
+          </div>
         </div>
       </div>
 
-      <div style="margin-top:14px;padding:12px;background:rgba(0,0,0,0.25);border-radius:10px;">
-        <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:6px;">HEALTH SCORE TODAY</div>
-        <div style="font-size:24px;font-weight:800;color:var(--green);" id="health-score">0 / 6</div>
-        <div style="height:6px;background:rgba(0,0,0,0.3);border-radius:3px;margin-top:8px;overflow:hidden;">
-          <div id="health-bar" style="height:100%;border-radius:3px;background:linear-gradient(90deg,#43e97b,#38f9d7);width:0%;transition:width 0.4s;"></div>
+      <!-- Diet Rules -->
+      <div class="card">
+        <div class="card-title"><span class="icon">🔒</span> Non-Negotiable Diet Rules</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:12.5px;color:var(--text2);line-height:1.6;">
+          <div style="display:flex;gap:8px;"><span style="color:#DC2626;font-weight:700;">✗</span><span>No rice/roti at dinner — carbs only pre/post workout</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#DC2626;font-weight:700;">✗</span><span>No sugar, fried food, processed snacks, alcohol</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#DC2626;font-weight:700;">✗</span><span>No skipping breakfast after workout — anabolic window real</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#059669;font-weight:700;">✓</span><span>Protein in EVERY meal — aim 30–40g per sitting</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#059669;font-weight:700;">✓</span><span>3L water minimum daily — critical for fat metabolism</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#059669;font-weight:700;">✓</span><span>Weigh-in every Monday morning (fasted, post-toilet)</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#059669;font-weight:700;">✓</span><span>One flexible meal/week (Saturday lunch) — not a cheat day</span></div>
+          <div style="display:flex;gap:8px;"><span style="color:#2563EB;font-weight:700;">↗</span><span>When you hit 72kg → increase calories to 2,000 (slow cut)</span></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Weekly Health Log -->
-  <div class="card" style="margin-top:20px;">
-    <div class="card-title"><span class="icon">📅</span> Wellness Philosophy</div>
-    <div class="grid grid-3">
-      <div style="padding:14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--green);">
-        <div style="font-weight:700;font-size:13px;color:var(--green);margin-bottom:8px;">🚶 Movement</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">30 min walk minimum daily. Bangalore heat = early morning. Weekends: longer walks in parks near your area.</div>
+  <!-- ── ART + TIMELINE ── -->
+  <div class="grid grid-2" style="align-items:start;">
+
+    <!-- ART & DRAWING -->
+    <div class="hobby-card art">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+        <span class="hobby-emoji" style="margin-bottom:0;font-size:28px;">✏️</span>
+        <span id="art-done-badge" style="display:none;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(139,92,246,0.3);border:1px solid rgba(139,92,246,0.5);color:#C4B5FD;letter-spacing:0.5px;">DONE TODAY ✓</span>
       </div>
-      <div style="padding:14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--blue);">
-        <div style="font-weight:700;font-size:13px;color:var(--blue);margin-bottom:8px;">🧘 Mental Reset</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">5 days WFO + chaotic culture = need daily decompression. Art, reading, Bengali writing = mental reset rituals. Non-negotiable.</div>
+      <div class="hobby-title">Drawing Practice</div>
+      <div class="hobby-sub">Daily visual thinking — gesture + focused study</div>
+
+      <!-- Stats row -->
+      <div class="art-stats-row">
+        <div class="art-stat-cell">
+          <div class="art-stat-label">STREAK</div>
+          <div class="art-stat-val purple" id="art-streak-count">0</div>
+          <div class="art-stat-unit">days</div>
+        </div>
+        <div class="art-stat-cell">
+          <div class="art-stat-label">THIS MONTH</div>
+          <div class="art-stat-val white" id="art-month-count">0</div>
+          <div class="art-stat-unit">sessions</div>
+        </div>
+        <div class="art-stat-cell">
+          <div class="art-stat-label">ALL TIME</div>
+          <div class="art-stat-val white" id="art-total-count">0</div>
+          <div class="art-stat-unit">sessions</div>
+        </div>
       </div>
-      <div style="padding:14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--accent4);">
-        <div style="font-weight:700;font-size:13px;color:var(--accent4);margin-bottom:8px;">🎨 Creative Time</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.7;">10–15 min drawing daily. Bengali stories: 1/week minimum. These aren't luxuries — they keep your analytical mind from burning out.</div>
+
+      <!-- Calendar -->
+      <div class="art-cal-label">THIS MONTH — tap any day</div>
+      <div class="art-streak" id="art-calendar"></div>
+
+      <!-- Gesture plan -->
+      <div class="art-cal-label" style="margin-top:16px;">TODAY'S GESTURE PLAN</div>
+      <div class="art-gesture-grid" id="art-gesture-grid"></div>
+
+      <!-- Focus prompt + actions -->
+      <div class="art-cal-label" style="margin-top:14px;">TODAY'S FOCUS</div>
+      <div class="art-prompt-text" id="art-prompt">Loading...</div>
+      <div style="display:flex;gap:8px;margin-top:14px;">
+        <button onclick="markArtToday()" class="art-btn-primary">Mark Done ✓</button>
+        <button onclick="setArtPrompt()" class="art-btn-secondary">↻ New Focus</button>
       </div>
+    </div>
+
+    <!-- Fat Loss Timeline -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> Fat Loss Timeline — 76 kg → 68 kg</div>
+      <div class="timeline">
+        <div class="milestone" style="background:#FAFBFF;">
+          <div class="milestone-year">May 2026 — Now</div>
+          <div class="milestone-title">Starting Point · 76 kg · BMI 24.5</div>
+          <div class="milestone-desc">Begin deficit + gym routine. Focus: habit formation, not scale obsession.</div>
+          <span class="milestone-badge badge-now">Current</span>
+        </div>
+        <div class="milestone" style="background:#FAFBFF;">
+          <div class="milestone-year">June 2026 — Month 1</div>
+          <div class="milestone-title">Target: 74.5–75 kg</div>
+          <div class="milestone-desc">Adaptation phase. Strength drops slightly (normal). Diet compliance is the main focus.</div>
+          <span class="milestone-badge badge-target">−1 to 1.5 kg</span>
+        </div>
+        <div class="milestone" style="background:#FAFBFF;">
+          <div class="milestone-year">Aug 2026 — Month 3</div>
+          <div class="milestone-title">Target: 72–73 kg · Visible change</div>
+          <div class="milestone-desc">Strength returns + body recomp starts. Jawline definition noticeable.</div>
+          <span class="milestone-badge badge-target">−3 to 4 kg total</span>
+        </div>
+        <div class="milestone" style="background:#FAFBFF;">
+          <div class="milestone-year">Oct 2026 — Month 5</div>
+          <div class="milestone-title">Target: 70 kg · Big milestone</div>
+          <div class="milestone-desc">70 kg is the psychological milestone. Clothes fit differently. Keep deficit.</div>
+          <span class="milestone-badge badge-target">−6 kg total</span>
+        </div>
+        <div class="milestone" style="background:#FAFBFF;">
+          <div class="milestone-year">Nov–Dec 2026 — Month 6–7</div>
+          <div class="milestone-title">Target: 68 kg · BMI 21.9 ✓</div>
+          <div class="milestone-desc">Lean physique locked. Transition to maintenance calories. Begin strength phase.</div>
+          <span class="milestone-badge badge-future">Goal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLEEP TRACKER ── -->
+  <div class="hobby-grid" style="margin-top:14px;grid-template-columns:1fr;">
+    <div class="hobby-card sleep">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+        <span class="hobby-emoji" style="margin-bottom:0;font-size:28px;">😴</span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.8px;font-weight:700;">Target: 7.5h · Quality ≥ 7/10</span>
+      </div>
+      <div class="hobby-title">Sleep Log</div>
+      <div class="hobby-sub">Recovery = strength gains + fat loss + sharp brain at Slice</div>
+
+      <div class="sleep-stats">
+        <div class="sleep-stat">
+          <div class="sleep-stat-val" id="sleep-avg-h">—</div>
+          <div class="sleep-stat-label">7-day avg hrs</div>
+        </div>
+        <div class="sleep-stat">
+          <div class="sleep-stat-val" id="sleep-avg-q">—</div>
+          <div class="sleep-stat-label">7-day avg quality</div>
+        </div>
+        <div class="sleep-stat">
+          <div class="sleep-stat-val" id="sleep-streak">0</div>
+          <div class="sleep-stat-label">7+ hr streak</div>
+        </div>
+        <div class="sleep-stat">
+          <div class="sleep-stat-val" id="sleep-debt">0h</div>
+          <div class="sleep-stat-label">Week debt vs 7.5h</div>
+        </div>
+      </div>
+
+      <div class="sleep-form">
+        <input type="number" id="sleep-hours" placeholder="Hours (e.g. 7.5)" step="0.25" min="0" max="14">
+        <select id="sleep-quality">
+          <option value="">Quality (1–10)</option>
+          <option value="10">10 — Perfect</option>
+          <option value="9">9 — Excellent</option>
+          <option value="8">8 — Great</option>
+          <option value="7">7 — Good</option>
+          <option value="6">6 — Okay</option>
+          <option value="5">5 — Mediocre</option>
+          <option value="4">4 — Poor</option>
+          <option value="3">3 — Bad</option>
+          <option value="2">2 — Terrible</option>
+          <option value="1">1 — No sleep</option>
+        </select>
+        <button onclick="logSleep()">Log Last Night</button>
+      </div>
+
+      <div class="sleep-log" id="sleep-log"></div>
     </div>
   </div>
 </div>
@@ -1144,11 +2339,19 @@ function init() {
   updateDateTime();
   updateCountdowns();
   buildArtCalendar();
+  buildGesturePlan();
+  setArtPrompt();
   buildWaterCups();
-  loadQuote();
-  loadStories();
   loadCustomTasks();
   loadHealthState();
+  loadSuppState();
+  renderWeightLog();
+  initWorkoutTab();
+  renderQc();
+  renderCrm();
+  buildLsWeeks();
+  renderSleep();
+  pomoRender();
   setInterval(updateDateTime, 60000);
 }
 
@@ -1263,12 +2466,15 @@ function buildArtCalendar() {
   if (!cal) return;
   const daysInMonth = new Date(TODAY.getFullYear(), TODAY.getMonth() + 1, 0).getDate();
   const artData = JSON.parse(localStorage.getItem('arnab-art') || '{}');
-  const key = `${TODAY.getFullYear()}-${TODAY.getMonth()}`;
+  const monthKey = `${TODAY.getFullYear()}-${TODAY.getMonth()}`;
 
   cal.innerHTML = '';
   let monthCount = 0;
+  let totalCount = 0;
+  for (const v of Object.values(artData)) { if (v) totalCount++; }
+
   for (let d = 1; d <= daysInMonth; d++) {
-    const dayKey = `${key}-${d}`;
+    const dayKey = `${monthKey}-${d}`;
     const done = artData[dayKey];
     if (done) monthCount++;
     const div = document.createElement('div');
@@ -1277,7 +2483,16 @@ function buildArtCalendar() {
     div.onclick = () => toggleArtDay(dayKey, div);
     cal.appendChild(div);
   }
-  document.getElementById('art-month-count').textContent = monthCount + ' days';
+
+  const todayKey = `${monthKey}-${TODAY.getDate()}`;
+  const todayDone = artData[todayKey];
+  const badge = document.getElementById('art-done-badge');
+  if (badge) badge.style.display = todayDone ? 'inline-block' : 'none';
+
+  const mc = document.getElementById('art-month-count');
+  const tc = document.getElementById('art-total-count');
+  if (mc) mc.textContent = monthCount;
+  if (tc) tc.textContent = totalCount;
   updateArtStreak(artData);
 }
 
@@ -1306,96 +2521,106 @@ function updateArtStreak(artData) {
     else break;
   }
   const el = document.getElementById('art-streak-count');
-  if (el) el.textContent = streak + ' days';
+  if (el) el.textContent = streak;
 }
 
 const ART_PROMPTS = [
-  'Sketch a Kolkata street corner from memory',
-  'Draw your favorite Bengali dish',
-  'Portrait study — eyes only',
-  'Abstract shapes using only 3 colors',
-  'The view from your Bangalore window',
-  'A memory from IIT Roorkee campus',
-  'Geometric patterns inspired by Bengali kantha embroidery',
-  'Sketch your morning routine in 4 panels',
-  'Draw a rickshaw or tram from Kolkata',
-  'Nature study — a single leaf in detail',
-  'Landscape: Bengal delta rivers',
-  'Character design — a Bengali folk figure',
+  'Gesture study — draw 5 figures in 30 sec each, no lifting the pen',
+  'Portrait: eyes + brow only — get the shape of the socket right',
+  'Still life: object on your desk, 3 values only (shadow/mid/light)',
+  'Memory sketch — Kolkata street corner, no reference',
+  'Hands study — your own hand in 3 different positions',
+  'Contour only — draw your room outline without looking at the page',
+  'Thumbnail compositions — same scene, 6 different crop/value reads',
+  'Clothing folds — grab a crumpled shirt, draw 5 folds in detail',
+  'Gesture: animals in motion — cat/dog stretching, 1 min each',
+  'Perspective exercise — two-point interior corner of your room',
+  'Face proportions from construction — build from sphere + planes',
+  'Value study — 5-step grayscale, then apply to a simple form',
 ];
+
+const GESTURE_PLANS = [
+  [ // Sun — long session
+    { time:'5 min', icon:'🏃', text:'30-sec figure gestures ×10', type:'gesture' },
+    { time:'10 min', icon:'👁️', text:'Portrait: just the eyes — structure + shading', type:'study' },
+    { time:'5 min', icon:'💭', text:'Free draw — anything, no rules', type:'free' },
+  ],
+  [ // Mon — quick warmup
+    { time:'2 min', icon:'⚡', text:'30-sec gesture poses ×4 — stay loose', type:'gesture' },
+    { time:'5 min', icon:'📦', text:'Object on your desk — line + basic shadow', type:'study' },
+    { time:'3 min', icon:'✏️', text:'Doodle flow — fill the page', type:'free' },
+  ],
+  [ // Tue — hands + construction
+    { time:'3 min', icon:'🤚', text:'Your own hand — 3 positions, 1 min each', type:'study' },
+    { time:'5 min', icon:'🔷', text:'Loomis head construction — front view', type:'study' },
+    { time:'2 min', icon:'🏃', text:'2 quick gestures — any subject', type:'gesture' },
+  ],
+  [ // Wed — perspective
+    { time:'5 min', icon:'📐', text:'Two-point perspective — room corner', type:'study' },
+    { time:'3 min', icon:'🏃', text:'1-min gesture ×3 — dynamic poses', type:'gesture' },
+    { time:'2 min', icon:'💭', text:'Memory sketch — no reference', type:'free' },
+  ],
+  [ // Thu — values
+    { time:'5 min', icon:'🌗', text:'3-value study (shadow/mid/light) — simple object', type:'study' },
+    { time:'3 min', icon:'🏃', text:'Gesture ×3 — 1 min each, flowing line', type:'gesture' },
+    { time:'2 min', icon:'✏️', text:'Contour drawing without looking at page', type:'free' },
+  ],
+  [ // Fri — portrait
+    { time:'5 min', icon:'👤', text:'Portrait from photo — proportions first', type:'study' },
+    { time:'3 min', icon:'🤚', text:'Hand study ×2 — different grip/angle', type:'study' },
+    { time:'2 min', icon:'⚡', text:'Speed gestures ×4 — 30 sec each', type:'gesture' },
+  ],
+  [ // Sat — freeform + review
+    { time:'5 min', icon:'🌿', text:'Nature: single leaf or plant — full detail', type:'study' },
+    { time:'5 min', icon:'💭', text:'Imagination piece — scene from memory', type:'free' },
+    { time:'2 min', icon:'🏃', text:'Warmdown — loose gestures, feel the line', type:'gesture' },
+  ],
+];
+
+const TYPE_COLOR = { gesture:'rgba(220,38,38,0.7)', study:'rgba(37,99,235,0.7)', free:'rgba(5,150,105,0.7)' };
+
+function buildGesturePlan() {
+  const grid = document.getElementById('art-gesture-grid');
+  if (!grid) return;
+  const plan = GESTURE_PLANS[TODAY.getDay()];
+  const doneKey = 'art-gestures-' + TODAY.toDateString();
+  const doneSet = new Set(JSON.parse(localStorage.getItem(doneKey) || '[]'));
+  grid.innerHTML = '';
+  plan.forEach((ex, i) => {
+    const item = document.createElement('div');
+    item.className = 'art-gesture-item' + (doneSet.has(i) ? ' done-ex' : '');
+    item.innerHTML = `
+      <span class="art-time-pill">${ex.time}</span>
+      <span class="art-gesture-icon">${ex.icon}</span>
+      <span class="art-gesture-text">${ex.text}</span>
+      <span class="art-type-tag" style="color:${TYPE_COLOR[ex.type]}">${ex.type}</span>
+      <div class="art-gesture-check" onclick="toggleGestureEx(${i},this)">${doneSet.has(i) ? '✓' : ''}</div>
+    `;
+    grid.appendChild(item);
+  });
+}
+
+function toggleGestureEx(i, checkEl) {
+  const doneKey = 'art-gestures-' + TODAY.toDateString();
+  const doneSet = new Set(JSON.parse(localStorage.getItem(doneKey) || '[]'));
+  if (doneSet.has(i)) doneSet.delete(i); else doneSet.add(i);
+  localStorage.setItem(doneKey, JSON.stringify([...doneSet]));
+  buildGesturePlan();
+}
 
 function setArtPrompt() {
   const el = document.getElementById('art-prompt');
-  if (el) el.textContent = ART_PROMPTS[Math.floor(Math.random() * ART_PROMPTS.length)];
-}
-
-// ─── BENGALI QUOTES ───────────────────────────────────
-const QUOTES = [
-  { text: 'যদি তোর ডাক শুনে কেউ না আসে তবে একলা চলো রে।', author: '— রবীন্দ্রনাথ ঠাকুর (Rabindranath Tagore)' },
-  { text: 'সাফল্য হলো সেই জায়গা যেখানে প্রস্তুতি ও সুযোগ মিলিত হয়।', author: '— বাংলা প্রবাদ' },
-  { text: 'স্বপ্ন দেখো, সংকল্প করো, কাজে নামো — ফলাফল আসবেই।', author: '— আধুনিক বাংলা ভাবনা' },
-  { text: 'জীবনে যা পেতে চাও, তার জন্য মূল্য দিতে হয়। সেই মূল্য হলো পরিশ্রম ও অপেক্ষা।', author: '— বাংলা জ্ঞান' },
-  { text: 'আলো আসবে বলেই অন্ধকারে পথ চলি।', author: '— রবীন্দ্রনাথ ঠাকুর' },
-  { text: 'মানুষের মধ্যে যে মানুষ তাকে জাগাও।', author: '— বাংলা দার্শনিক চিন্তা' },
-  { text: 'শ্রেষ্ঠ বিনিয়োগ হলো নিজের ওপর বিনিয়োগ।', author: '— আর্নব মণ্ডল (ব্যক্তিগত নোট)' },
-  { text: 'ধৈর্য সেই গাছ যার ফল তিক্ত, কিন্তু ফলাফল মধুর।', author: '— বাংলা প্রবাদ' },
-  { text: 'সূর্য প্রতিদিন উদয় হয়, নতুন সুযোগ নিয়ে আসে।', author: '— বাংলা কবিতা' },
-  { text: 'যে কঠিন পথ বেছে নেয়, সে সহজ জীবন পায়।', author: '— বাংলা দর্শন' },
-  { text: 'সাহস মানে ভয় না পাওয়া নয়, ভয় থাকলেও এগিয়ে যাওয়া।', author: '— আধুনিক বাংলা চিন্তা' },
-  { text: 'তোমার স্বপ্ন তোমাকেই পূরণ করতে হবে — অন্য কেউ করবে না।', author: '— বাংলা অনুপ্রেরণা' },
-];
-
-let currentQuote = 0;
-
-function loadQuote() {
-  currentQuote = Math.floor(Math.random() * QUOTES.length);
-  showQuote();
-}
-
-function showQuote() {
-  const q = QUOTES[currentQuote];
-  document.getElementById('quote-display').textContent = q.text;
-  document.getElementById('quote-author').textContent = q.author;
-}
-
-function nextQuote() {
-  currentQuote = (currentQuote + 1) % QUOTES.length;
-  showQuote();
-}
-
-function prevQuote() {
-  currentQuote = (currentQuote - 1 + QUOTES.length) % QUOTES.length;
-  showQuote();
-}
-
-function randomQuote() {
-  currentQuote = Math.floor(Math.random() * QUOTES.length);
-  showQuote();
-}
-
-// ─── STORY WRITER ────────────────────────────────────
-function saveStory() {
-  const input = document.getElementById('story-input');
-  const text  = input.value.trim();
-  if (!text) return;
-
-  const stories = JSON.parse(localStorage.getItem('arnab-stories') || '[]');
-  stories.unshift({ text, date: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) });
-  localStorage.setItem('arnab-stories', JSON.stringify(stories.slice(0, 20)));
-  input.value = '';
-  loadStories();
-}
-
-function loadStories() {
-  const stories = JSON.parse(localStorage.getItem('arnab-stories') || '[]');
-  const el = document.getElementById('story-saved');
   if (!el) return;
-  el.innerHTML = stories.slice(0, 3).map(s => `
-    <div class="story-entry">
-      <div class="story-entry-date">${s.date}</div>
-      ${s.text}
-    </div>
-  `).join('');
+  const key = 'art-prompt-' + TODAY.toDateString();
+  let idx = localStorage.getItem(key);
+  if (idx === null || el.textContent === 'Loading...') {
+    idx = Math.floor(Math.random() * ART_PROMPTS.length);
+    localStorage.setItem(key, idx);
+  } else {
+    idx = (parseInt(idx) + 1) % ART_PROMPTS.length;
+    localStorage.setItem(key, idx);
+  }
+  el.textContent = ART_PROMPTS[idx];
 }
 
 // ─── WATER CUPS ──────────────────────────────────────
@@ -1461,10 +2686,591 @@ function setMood(btn, emoji) {
   localStorage.setItem('arnab-mood-' + TODAY.toDateString(), emoji);
 }
 
+// ─── WORKOUT TABS ────────────────────────────────────
+function showWorkout(day, btn) {
+  document.querySelectorAll('.workout-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.workout-day-tab').forEach(t => t.classList.remove('active'));
+  const panel = document.getElementById('workout-' + day);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+// Auto-select today's workout tab on load
+function initWorkoutTab() {
+  const days = ['sun','mon','tue','wed','thu','fri','sat'];
+  const idx = new Date().getDay();
+  const today = days[idx];
+  const tabs = document.querySelectorAll('.workout-day-tab');
+  const panels = document.querySelectorAll('.workout-panel');
+  tabs.forEach(t => t.classList.remove('active'));
+  panels.forEach(p => p.classList.remove('active'));
+  if (tabs[idx]) tabs[idx].classList.add('active');
+  const panel = document.getElementById('workout-' + today);
+  if (panel) panel.classList.add('active');
+}
+
+// ─── WEIGHT LOG ──────────────────────────────────────
+const WEIGHT_START = 76;
+const WEIGHT_TARGET = 68;
+
+function logWeight() {
+  const inp = document.getElementById('weight-entry');
+  const val = parseFloat(inp.value);
+  if (!val || val < 30 || val > 200) return;
+  const log = JSON.parse(localStorage.getItem('arnab-weight-log') || '[]');
+  const entry = { kg: val, date: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }), ts: Date.now() };
+  log.unshift(entry);
+  localStorage.setItem('arnab-weight-log', JSON.stringify(log.slice(0, 52))); // keep 52 weeks
+  inp.value = '';
+  renderWeightLog();
+  updateWeightProgress(val);
+}
+
+function renderWeightLog() {
+  const log = JSON.parse(localStorage.getItem('arnab-weight-log') || '[]');
+  const container = document.getElementById('weight-log-list');
+  if (!container) return;
+  if (!log.length) {
+    container.innerHTML = `<div style="text-align:center;color:var(--text3);font-size:12px;padding:16px;">No entries yet. Weigh in every Monday morning.</div>`;
+    return;
+  }
+  container.innerHTML = log.map((entry, i) => {
+    const prev = log[i + 1];
+    let delta = '';
+    if (prev) {
+      const diff = (entry.kg - prev.kg).toFixed(1);
+      const cls = diff <= 0 ? 'loss' : 'gain';
+      const sign = diff > 0 ? '+' : '';
+      delta = `<span class="weight-log-delta ${cls}">${sign}${diff} kg</span>`;
+    }
+    return `<div class="weight-log-entry">
+      <span class="weight-log-date">${entry.date}</span>
+      <span class="weight-log-val">${entry.kg} kg</span>
+      ${delta}
+    </div>`;
+  }).join('');
+
+  if (log[0]) updateWeightProgress(log[0].kg);
+}
+
+function updateWeightProgress(currentKg) {
+  const lost = Math.max(0, WEIGHT_START - currentKg);
+  const totalToLose = WEIGHT_START - WEIGHT_TARGET;
+  const pct = Math.min(100, Math.round((lost / totalToLose) * 100));
+  const bar = document.getElementById('weight-progress-bar');
+  const pctEl = document.getElementById('weight-progress-pct');
+  const kgEl  = document.getElementById('kg-to-go');
+  const dispEl = document.getElementById('current-weight-disp');
+  const bmiEl  = document.getElementById('bmi-disp');
+  if (bar)    bar.style.width = pct + '%';
+  if (pctEl)  pctEl.textContent = pct + '% lost (' + lost.toFixed(1) + ' kg)';
+  if (kgEl)   kgEl.textContent  = Math.max(0, currentKg - WEIGHT_TARGET).toFixed(1) + ' kg';
+  if (dispEl) dispEl.textContent = currentKg + ' kg';
+  if (bmiEl)  bmiEl.textContent  = (currentKg / (1.76 * 1.76)).toFixed(1);
+}
+
+// ─── SUPPLEMENTS ─────────────────────────────────────
+function toggleSupp(el, key) {
+  el.classList.toggle('taken');
+  saveSuppState();
+}
+
+function saveSuppState() {
+  const state = {};
+  document.querySelectorAll('.supp-item[data-key]').forEach(el => {
+    state[el.dataset.key] = el.classList.contains('taken');
+  });
+  localStorage.setItem('arnab-supps-' + TODAY.toDateString(), JSON.stringify(state));
+}
+
+function loadSuppState() {
+  const saved = JSON.parse(localStorage.getItem('arnab-supps-' + TODAY.toDateString()) || '{}');
+  document.querySelectorAll('.supp-item[data-key]').forEach(el => {
+    if (saved[el.dataset.key]) el.classList.add('taken');
+  });
+}
+
+// ─── QUICK CAPTURE / IDEA INBOX ──────────────────────
+function addQc() {
+  const inp = document.getElementById('qc-input');
+  const text = inp.value.trim();
+  if (!text) return;
+  const items = JSON.parse(localStorage.getItem('arnab-qc') || '[]');
+  items.unshift({ text, ts: Date.now(), id: Date.now() });
+  localStorage.setItem('arnab-qc', JSON.stringify(items.slice(0, 100)));
+  inp.value = '';
+  renderQc();
+}
+
+function renderQc() {
+  const items = JSON.parse(localStorage.getItem('arnab-qc') || '[]');
+  const el = document.getElementById('qc-list');
+  if (!el) return;
+  if (!items.length) {
+    el.innerHTML = `<div style="text-align:center;color:var(--text3);font-size:12px;padding:18px;">Inbox empty. Capture anything — ideas, follow-ups, decisions.</div>`;
+    return;
+  }
+  el.innerHTML = items.map(it => {
+    const d = new Date(it.ts);
+    const rel = qcRel(d);
+    return `<div class="qc-item">
+      <div class="qc-item-text">${escapeHtml(it.text)}<div class="qc-item-time">${rel}</div></div>
+      <span class="qc-item-del" onclick="delQc(${it.id})">×</span>
+    </div>`;
+  }).join('');
+}
+
+function delQc(id) {
+  const items = JSON.parse(localStorage.getItem('arnab-qc') || '[]').filter(i => i.id !== id);
+  localStorage.setItem('arnab-qc', JSON.stringify(items));
+  renderQc();
+}
+
+function qcRel(d) {
+  const diff = (Date.now() - d.getTime()) / 1000;
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return Math.floor(diff/60) + ' min ago';
+  if (diff < 86400) return Math.floor(diff/3600) + ' hr ago';
+  if (diff < 604800) return Math.floor(diff/86400) + ' days ago';
+  return d.toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ─── NETWORKING CRM ──────────────────────────────────
+function addCrm() {
+  const name = document.getElementById('crm-name').value.trim();
+  const co   = document.getElementById('crm-co').value.trim();
+  const stage = document.getElementById('crm-stage').value;
+  if (!name || !co) return;
+  const list = JSON.parse(localStorage.getItem('arnab-crm') || '[]');
+  list.unshift({ name, co, stage, ts: Date.now(), id: Date.now() });
+  localStorage.setItem('arnab-crm', JSON.stringify(list));
+  document.getElementById('crm-name').value = '';
+  document.getElementById('crm-co').value = '';
+  renderCrm();
+}
+
+function renderCrm() {
+  const list = JSON.parse(localStorage.getItem('arnab-crm') || '[]');
+  const el = document.getElementById('crm-list');
+  if (!el) return;
+  if (!list.length) {
+    el.innerHTML = `<div style="text-align:center;color:var(--text3);font-size:12px;padding:18px;">No contacts yet. Start with 1 person at Jupiter / CRED / Revolut this week.</div>`;
+    return;
+  }
+  el.innerHTML = list.map(c => {
+    const d = new Date(c.ts).toLocaleDateString('en-IN', { day:'numeric', month:'short' });
+    const stageLabels = { cold:'Cold', outreach:'Outreach', chat:'In Chat', warm:'Warm', referred:'Referred' };
+    return `<div class="crm-row">
+      <span class="crm-name">${escapeHtml(c.name)}</span>
+      <span class="crm-company">${escapeHtml(c.co)}</span>
+      <span class="crm-stage" data-s="${c.stage}" onclick="cycleCrmStage(${c.id})" style="cursor:pointer;">${stageLabels[c.stage]||c.stage}</span>
+      <span class="crm-date">${d}</span>
+      <span class="crm-del" onclick="delCrm(${c.id})">×</span>
+    </div>`;
+  }).join('');
+}
+
+function cycleCrmStage(id) {
+  const order = ['cold','outreach','chat','warm','referred'];
+  const list = JSON.parse(localStorage.getItem('arnab-crm') || '[]');
+  const c = list.find(x => x.id === id);
+  if (!c) return;
+  const i = order.indexOf(c.stage);
+  c.stage = order[(i + 1) % order.length];
+  c.ts = Date.now();
+  localStorage.setItem('arnab-crm', JSON.stringify(list));
+  renderCrm();
+}
+
+function delCrm(id) {
+  const list = JSON.parse(localStorage.getItem('arnab-crm') || '[]').filter(c => c.id !== id);
+  localStorage.setItem('arnab-crm', JSON.stringify(list));
+  renderCrm();
+}
+
+// ─── LINKEDIN WEEKLY STREAK ──────────────────────────
+function lsWeekKey(offset) {
+  const d = new Date();
+  d.setDate(d.getDate() - (offset * 7));
+  // ISO week-ish: use Sunday-anchored year-week
+  const yr = d.getFullYear();
+  const start = new Date(yr, 0, 1);
+  const wk = Math.ceil(((d - start) / 86400000 + start.getDay() + 1) / 7);
+  return `${yr}-W${wk}`;
+}
+
+function buildLsWeeks() {
+  const grid = document.getElementById('ls-weeks');
+  if (!grid) return;
+  const done = JSON.parse(localStorage.getItem('arnab-ls') || '{}');
+  grid.innerHTML = '';
+  let postsCount = 0;
+  let streak = 0;
+  let streakBroken = false;
+
+  for (let i = 11; i >= 0; i--) {
+    const key = lsWeekKey(i);
+    const isDone = !!done[key];
+    if (isDone) postsCount++;
+    if (i === 0 || !streakBroken) {
+      if (isDone) streak++;
+      else if (i !== 0) streakBroken = true;
+    }
+    const el = document.createElement('div');
+    el.className = 'ls-week' + (isDone ? ' done' : '') + (i === 0 ? ' current' : '');
+    el.textContent = 'W' + (12 - i);
+    el.title = key + (isDone ? ' · posted ✓' : ' · pending');
+    el.onclick = () => toggleLs(key);
+    grid.appendChild(el);
+  }
+
+  // recompute streak correctly: walk from current week back
+  streak = 0;
+  for (let i = 0; i < 12; i++) {
+    if (done[lsWeekKey(i)]) streak++;
+    else break;
+  }
+
+  const rate = Math.round((postsCount / 12) * 100);
+  document.getElementById('ls-current-streak').textContent = streak;
+  document.getElementById('ls-total-posts').textContent = postsCount;
+  document.getElementById('ls-hit-rate').textContent = rate + '%';
+}
+
+function toggleLs(key) {
+  const done = JSON.parse(localStorage.getItem('arnab-ls') || '{}');
+  done[key] = !done[key];
+  localStorage.setItem('arnab-ls', JSON.stringify(done));
+  buildLsWeeks();
+}
+
+// ─── SLEEP TRACKER ───────────────────────────────────
+function logSleep() {
+  const hrs = parseFloat(document.getElementById('sleep-hours').value);
+  const q   = parseInt(document.getElementById('sleep-quality').value);
+  if (!hrs || hrs <= 0 || !q) return;
+  const log = JSON.parse(localStorage.getItem('arnab-sleep') || '[]');
+  log.unshift({ hrs, q, ts: Date.now(), date: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short' }) });
+  localStorage.setItem('arnab-sleep', JSON.stringify(log.slice(0, 60)));
+  document.getElementById('sleep-hours').value = '';
+  document.getElementById('sleep-quality').value = '';
+  renderSleep();
+}
+
+function renderSleep() {
+  const log = JSON.parse(localStorage.getItem('arnab-sleep') || '[]');
+  const el = document.getElementById('sleep-log');
+  if (!el) return;
+
+  const last7 = log.slice(0, 7);
+  const avgH = last7.length ? (last7.reduce((s,e) => s + e.hrs, 0) / last7.length).toFixed(1) : '—';
+  const avgQ = last7.length ? (last7.reduce((s,e) => s + e.q, 0) / last7.length).toFixed(1) : '—';
+
+  let streak = 0;
+  for (const e of log) { if (e.hrs >= 7) streak++; else break; }
+
+  const target = 7.5;
+  const debt = last7.length ? (last7.reduce((s,e) => s + Math.max(0, target - e.hrs), 0)).toFixed(1) : '0';
+
+  document.getElementById('sleep-avg-h').textContent = avgH + (avgH === '—' ? '' : 'h');
+  document.getElementById('sleep-avg-q').textContent = avgQ;
+  document.getElementById('sleep-streak').textContent = streak;
+  document.getElementById('sleep-debt').textContent = debt + 'h';
+
+  if (!log.length) {
+    el.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.4);font-size:12px;padding:14px;">No sleep logs yet. Log every morning for trend.</div>`;
+    return;
+  }
+
+  el.innerHTML = log.slice(0, 14).map(e => {
+    const emoji = e.q >= 8 ? '🟢' : e.q >= 6 ? '🟡' : '🔴';
+    return `<div class="sleep-entry">
+      <span class="sleep-entry-date">${e.date}</span>
+      <span><strong style="color:#A5B4FC;">${e.hrs}h</strong></span>
+      <span class="sleep-quality">${emoji} ${e.q}/10</span>
+    </div>`;
+  }).join('');
+}
+
+// ─── POMODORO ─────────────────────────────────────────
+let pomoMin = 25;
+let pomoSec = 25 * 60;
+let pomoRunning = false;
+let pomoInterval = null;
+let pomoMode = 'work'; // 'work' or 'break'
+
+function pomoRender() {
+  const m = Math.floor(pomoSec / 60);
+  const s = pomoSec % 60;
+  const d = document.getElementById('pomo-display');
+  if (d) d.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+  const st = document.getElementById('pomo-state');
+  if (st) {
+    st.className = 'pomo-state' + (pomoRunning ? (pomoMode === 'break' ? ' break' : ' running') : '');
+    st.textContent = pomoRunning ? (pomoMode === 'break' ? 'Break · stay loose' : 'Focus · deep work') : 'Ready';
+  }
+
+  const btn = document.getElementById('pomo-start');
+  if (btn) btn.textContent = pomoRunning ? 'Pause' : 'Start';
+
+  const todayKey = 'arnab-pomo-' + TODAY.toDateString();
+  const stats = JSON.parse(localStorage.getItem(todayKey) || '{"c":0,"m":0}');
+  document.getElementById('pomo-count').textContent = stats.c;
+  document.getElementById('pomo-mins').textContent = stats.m;
+}
+
+function pomoSet(min, btn) {
+  pomoMin = min;
+  pomoSec = min * 60;
+  pomoMode = min <= 10 ? 'break' : 'work';
+  document.querySelectorAll('.pomo-preset').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  pomoRender();
+}
+
+function pomoToggle() {
+  if (pomoRunning) {
+    pomoRunning = false;
+    clearInterval(pomoInterval);
+    pomoRender();
+  } else {
+    pomoRunning = true;
+    pomoInterval = setInterval(pomoTick, 1000);
+    pomoRender();
+  }
+}
+
+function pomoReset() {
+  pomoRunning = false;
+  clearInterval(pomoInterval);
+  pomoSec = pomoMin * 60;
+  pomoRender();
+}
+
+function pomoTick() {
+  pomoSec--;
+  if (pomoSec <= 0) {
+    pomoRunning = false;
+    clearInterval(pomoInterval);
+    if (pomoMode === 'work') {
+      const todayKey = 'arnab-pomo-' + TODAY.toDateString();
+      const stats = JSON.parse(localStorage.getItem(todayKey) || '{"c":0,"m":0}');
+      stats.c++;
+      stats.m += pomoMin;
+      localStorage.setItem(todayKey, JSON.stringify(stats));
+    }
+    pomoSec = pomoMin * 60;
+    pomoBeep();
+  }
+  pomoRender();
+}
+
+function pomoBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.frequency.value = 880;
+    g.gain.setValueAtTime(0.2, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+    o.start(); o.stop(ctx.currentTime + 0.6);
+  } catch(e) {}
+}
+
 // ─── BOOT ────────────────────────────────────────────
-setArtPrompt();
-document.addEventListener('DOMContentLoaded', init);
-init();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+// ─── AI STRIP TYPEWRITER ──────────────────────────────
+const AI_OBSERVATIONS = [
+  () => {
+    const now = new Date();
+    const d = Math.round((MARCH_2027 - now) / 86400000);
+    const pct = Math.round(((now - SLICE_START) / (MARCH_2027 - SLICE_START)) * 100);
+    return `March 2027 tenure target: <strong>${d} days away</strong> — you're ${pct}% through. Don't break the streak.`;
+  },
+  () => 'At ₹1.2L/mo SIP + 12% CAGR, you reach <strong>₹5 Cr liquid by age 34</strong>. The compounding flywheel is already spinning.',
+  () => 'Deploy ₹10L from savings → NIFTY 50 index. <strong>₹10L stays liquid</strong> as your runway buffer.',
+  () => 'Baguiathi property at 8% CAGR → <strong>~₹1.1 Cr by 2033</strong>. Rental ₹50K/mo adds ₹6L/yr to investable surplus.',
+  () => '<strong>LinkedIn brand = asymmetric bet.</strong> 1 post/week × 52 weeks = compound recall at Revolut + CRED.',
+  () => 'EXL path lags Slice by <strong>₹15–30L/yr from 2028</strong>. The spread grows every year. Stay.',
+  () => 'ESOP math: <strong>₹21L net profit</strong> over 3 yrs if Slice 2× stock assumption holds. Worth the WFO.',
+];
+
+let aiIdx = 0;
+let aiCharIdx = 0;
+let aiTimer = null;
+
+function typeAiText() {
+  const el = document.getElementById('ai-typewriter');
+  if (!el) return;
+  const text = AI_OBSERVATIONS[aiIdx]();
+  el.innerHTML = '';
+  aiCharIdx = 0;
+
+  // strip tags for typewriting, reveal full HTML at end
+  const plain = text.replace(/<[^>]+>/g, '');
+
+  function typeChar() {
+    if (aiCharIdx <= plain.length) {
+      el.textContent = plain.slice(0, aiCharIdx);
+      aiCharIdx++;
+      aiTimer = setTimeout(typeChar, 28);
+    } else {
+      el.innerHTML = text; // restore rich HTML
+      aiTimer = setTimeout(() => {
+        aiIdx = (aiIdx + 1) % AI_OBSERVATIONS.length;
+        setTimeout(typeAiText, 400);
+      }, 6000);
+    }
+  }
+  typeChar();
+}
+
+setTimeout(typeAiText, 800);
+
+// Update AI insights card dynamic values
+function updateAiInsights() {
+  const now = new Date();
+  const d = Math.round((MARCH_2027 - now) / 86400000);
+  const pct = Math.round(((now - SLICE_START) / (MARCH_2027 - SLICE_START)) * 100);
+  const dm = document.getElementById('ai-days-march');
+  const dp = document.getElementById('ai-pct-tenure');
+  if (dm) dm.textContent = d;
+  if (dp) dp.textContent = pct + '%';
+}
+updateAiInsights();
+
+// ─── COMMAND PALETTE ─────────────────────────────────
+const CMD_ITEMS = [
+  { icon:'🏠', label:'Dashboard · Overview',                  section:'dashboard' },
+  { icon:'🚀', label:'Career Planner · Timeline · Companies',  section:'career'    },
+  { icon:'💰', label:'Finance · Net Worth · SIP · Goals',     section:'finance'   },
+  { icon:'✅', label:'Tasks · Reminders · Focus',             section:'tasks'     },
+  { icon:'🎨', label:'Hobbies · Art · Fitness · Wellbeing',   section:'hobbies'   },
+  { icon:'📊', label:'Net Worth',   badge: '~₹92–99L', section: null },
+  { icon:'💼', label:'Current CTC', badge: '₹33L',     section: null },
+  { icon:'📈', label:'ESOP Vested', badge: '₹6L',      section: null },
+  { icon:'🎯', label:'March 2027 countdown', badge: () => Math.round((MARCH_2027-new Date())/86400000)+' days', section: null },
+];
+
+let cmdFocusIdx = -1;
+
+function openCmd() {
+  const ov = document.getElementById('cmd-overlay');
+  ov.classList.add('open');
+  const inp = document.getElementById('cmd-input');
+  inp.value = '';
+  renderCmdItems('');
+  inp.focus();
+  cmdFocusIdx = -1;
+}
+
+function closeCmd() {
+  document.getElementById('cmd-overlay').classList.remove('open');
+}
+
+function closeCmdIfOverlay(e) {
+  if (e.target === document.getElementById('cmd-overlay')) closeCmd();
+}
+
+function cmdGo(id) {
+  closeCmd();
+  const sections = ['dashboard','career','finance','tasks','hobbies'];
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach((t,i) => {
+    t.classList.toggle('active', sections[i] === id);
+  });
+  const sec = document.getElementById('section-' + id);
+  if (sec) sec.classList.add('active');
+}
+
+function renderCmdItems(query) {
+  const container = document.getElementById('cmd-results');
+  const q = query.toLowerCase();
+  const filtered = CMD_ITEMS.filter(it => it.label.toLowerCase().includes(q));
+  const navItems  = filtered.filter(it => it.section !== null);
+  const statItems = filtered.filter(it => it.section === null);
+
+  let html = '';
+  if (navItems.length) {
+    html += `<div class="cmd-group-label">Navigate</div>`;
+    navItems.forEach(it => {
+      html += `<div class="cmd-item" data-section="${it.section}"><span class="cmd-item-icon">${it.icon}</span><span class="cmd-item-label">${it.label}</span></div>`;
+    });
+  }
+  if (statItems.length) {
+    html += `<div class="cmd-group-label">Quick Stats</div>`;
+    statItems.forEach(it => {
+      const badge = typeof it.badge === 'function' ? it.badge() : (it.badge || '');
+      html += `<div class="cmd-item"><span class="cmd-item-icon">${it.icon}</span><span class="cmd-item-label">${it.label}</span>${badge ? `<span class="cmd-item-badge">${badge}</span>` : ''}</div>`;
+    });
+  }
+  if (!html) html = `<div style="padding:24px;text-align:center;color:var(--text3);font-size:13px;">No results for "${query}"</div>`;
+  container.innerHTML = html;
+  cmdFocusIdx = -1;
+
+  container.querySelectorAll('.cmd-item[data-section]').forEach(el => {
+    el.addEventListener('click', () => cmdGo(el.dataset.section));
+  });
+}
+
+function filterCmdItems() {
+  renderCmdItems(document.getElementById('cmd-input').value);
+}
+
+function cmdKeydown(e) {
+  const items = document.querySelectorAll('#cmd-results .cmd-item');
+  if (e.key === 'Escape') { closeCmd(); return; }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    cmdFocusIdx = Math.min(cmdFocusIdx + 1, items.length - 1);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    cmdFocusIdx = Math.max(cmdFocusIdx - 1, 0);
+  } else if (e.key === 'Enter') {
+    if (cmdFocusIdx >= 0 && items[cmdFocusIdx]) items[cmdFocusIdx].click();
+    return;
+  } else return;
+  items.forEach((el,i) => el.classList.toggle('cmd-focused', i === cmdFocusIdx));
+  if (items[cmdFocusIdx]) items[cmdFocusIdx].scrollIntoView({ block:'nearest' });
+}
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    const ov = document.getElementById('cmd-overlay');
+    ov.classList.contains('open') ? closeCmd() : openCmd();
+  }
+  if (e.key === 'Escape') closeCmd();
+});
 </script>
+
+<!-- Command Palette -->
+<div class="cmd-overlay" id="cmd-overlay" onclick="closeCmdIfOverlay(event)">
+  <div class="cmd-palette">
+    <div class="cmd-input-wrap">
+      <span class="cmd-icon">⌘</span>
+      <input class="cmd-input" id="cmd-input" placeholder="Go to section or search stats…" oninput="filterCmdItems()" onkeydown="cmdKeydown(event)">
+      <span class="cmd-esc" onclick="closeCmd()">ESC</span>
+    </div>
+    <div class="cmd-results" id="cmd-results"></div>
+    <div class="cmd-footer">
+      <span class="cmd-footer-hint"><kbd class="cmd-key">↑↓</kbd> Navigate</span>
+      <span class="cmd-footer-hint"><kbd class="cmd-key">↵</kbd> Select</span>
+      <span class="cmd-footer-hint"><kbd class="cmd-key">ESC</kbd> Close</span>
+      <span style="margin-left:auto;font-size:10px;color:var(--text3);">Ctrl+K</span>
+    </div>
+  </div>
+</div>
 </body>
 </html>
