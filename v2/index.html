@@ -575,6 +575,57 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 .cl-mood-btn.selected { background:linear-gradient(135deg,rgba(27,72,214,0.12),rgba(109,40,217,0.12)); border-color:var(--accent-blue); box-shadow:0 3px 10px rgba(27,72,214,0.18); }
 @media(max-width:480px) { .cl-grid { grid-template-columns:repeat(3,1fr); } }
 
+/* ── WATER LIGHT CARD ── */
+.water-light {
+  background:linear-gradient(145deg,#F0F9FF 0%,#E0F2FE 100%);
+  border:1px solid rgba(14,165,233,0.18);
+  border-radius:16px; padding:16px 18px;
+  box-shadow:0 4px 14px rgba(14,165,233,0.1), inset 0 1px 0 #fff;
+}
+.water-light-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.water-light-icon { width:30px; height:30px; border-radius:9px; background:linear-gradient(135deg,#0EA5E9,#0284C7); display:flex; align-items:center; justify-content:center; font-size:14px; box-shadow:0 3px 8px rgba(14,165,233,0.3); }
+.water-light-title { font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:700; color:var(--text); }
+.water-light-count { margin-left:auto; font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:800; color:#0284C7; font-variant-numeric:tabular-nums; }
+.water-cups-light { display:flex; gap:5px; flex-wrap:wrap; }
+.water-cup-light {
+  flex:1; min-width:22px; height:30px; border-radius:5px;
+  background:rgba(14,165,233,0.08); border:1.5px solid rgba(14,165,233,0.22);
+  cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden;
+}
+.water-cup-light:hover { background:rgba(14,165,233,0.18); border-color:rgba(14,165,233,0.4); }
+.water-cup-light.filled {
+  background:linear-gradient(180deg,#7DD3FC 0%,#0EA5E9 100%);
+  border-color:#0284C7;
+  box-shadow:0 2px 6px rgba(14,165,233,0.35), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* ── TOP 3 PRIORITIES ── */
+.top3-card {
+  background:#fff; border:1px solid var(--border);
+  border-radius:16px; padding:18px;
+  box-shadow:var(--shadow-card);
+}
+.top3-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.top3-icon { width:30px; height:30px; border-radius:9px; background:linear-gradient(135deg,#F59E0B,#D97706); display:flex; align-items:center; justify-content:center; font-size:14px; box-shadow:0 3px 8px rgba(194,112,10,0.28); }
+.top3-title { font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:700; color:var(--text); }
+.top3-sub { font-size:10.5px; color:var(--text3); text-transform:uppercase; letter-spacing:0.8px; font-weight:700; margin-left:auto; }
+.top3-list { display:flex; flex-direction:column; gap:6px; }
+.top3-row {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 11px; border-radius:10px;
+  background:#FAFBFF; border:1px solid var(--border);
+  transition:all 0.2s;
+}
+.top3-row:hover { border-color:var(--border-hover); }
+.top3-row.done { opacity:0.55; }
+.top3-row.done .top3-input-text { text-decoration:line-through; }
+.top3-num { width:22px; height:22px; border-radius:7px; background:var(--accent-blue); color:#fff; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:'Space Grotesk',sans-serif; }
+.top3-row.done .top3-num { background:var(--accent-green); }
+.top3-input-text { flex:1; font-size:12.5px; color:var(--text); border:none; background:transparent; outline:none; font-family:'Inter',sans-serif; }
+.top3-input-text::placeholder { color:var(--text3); }
+.top3-check { width:18px; height:18px; border-radius:5px; border:1.5px solid var(--border-strong); background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:10px; transition:all 0.2s; }
+.top3-row.done .top3-check { background:var(--accent-green); border-color:var(--accent-green); color:#fff; }
+
 /* ── RIGHT NOW HERO ── */
 .rn-hero {
   background:linear-gradient(135deg,#1B48D6 0%,#6D28D9 100%);
@@ -1300,7 +1351,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-17-009';
+  const BUILD = '2026-05-17-010';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -2361,6 +2412,43 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
           </div>
         </div>
       </div>
+
+      <!-- Water Intake (light) -->
+      <div class="water-light">
+        <div class="water-light-head">
+          <div class="water-light-icon">💧</div>
+          <div class="water-light-title">Water Intake</div>
+          <div class="water-light-count"><span id="water-count">0</span>/8</div>
+        </div>
+        <div class="water-cups-light" id="water-cups"></div>
+        <div style="display:none;" id="water-label">0 / 8 glasses</div>
+      </div>
+
+      <!-- Today's Top 3 Priorities -->
+      <div class="top3-card">
+        <div class="top3-head">
+          <div class="top3-icon">🎯</div>
+          <div class="top3-title">Top 3 Priorities</div>
+          <div class="top3-sub" id="top3-date">Today</div>
+        </div>
+        <div class="top3-list">
+          <div class="top3-row" id="top3-row-0">
+            <div class="top3-num">1</div>
+            <input class="top3-input-text" id="top3-input-0" placeholder="Most important thing today…" oninput="top3Save()">
+            <div class="top3-check" onclick="top3Done(0)" id="top3-check-0"></div>
+          </div>
+          <div class="top3-row" id="top3-row-1">
+            <div class="top3-num">2</div>
+            <input class="top3-input-text" id="top3-input-1" placeholder="Second priority…" oninput="top3Save()">
+            <div class="top3-check" onclick="top3Done(1)" id="top3-check-1"></div>
+          </div>
+          <div class="top3-row" id="top3-row-2">
+            <div class="top3-num">3</div>
+            <input class="top3-input-text" id="top3-input-2" placeholder="Third priority…" oninput="top3Save()">
+            <div class="top3-check" onclick="top3Done(2)" id="top3-check-2"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2746,6 +2834,7 @@ function init() {
   updateStreaks();
   bqInit();
   highlightCurrentMeal();
+  top3Load();
   setInterval(updateRightNow, 60000);
   setInterval(highlightCurrentMeal, 60000);
   setInterval(updateDateTime, 60000);
@@ -3030,11 +3119,14 @@ function buildWaterCups() {
   el.innerHTML = '';
   for (let i = 0; i < 8; i++) {
     const cup = document.createElement('div');
-    cup.className = 'water-cup' + (i < filled ? ' filled' : '');
+    cup.className = 'water-cup-light' + (i < filled ? ' filled' : '');
     cup.onclick = () => fillWater(i + 1);
     el.appendChild(cup);
   }
-  document.getElementById('water-label').textContent = `${filled} / 8 glasses`;
+  const label = document.getElementById('water-label');
+  if (label) label.textContent = `${filled} / 8 glasses`;
+  const count = document.getElementById('water-count');
+  if (count) count.textContent = filled;
 }
 
 function fillWater(n) {
@@ -3629,6 +3721,46 @@ function highlightCurrentMeal() {
   document.querySelectorAll('.meal-card').forEach(c => {
     if (c.textContent.toLowerCase().includes(slot.keyword)) c.classList.add('meal-now');
   });
+}
+
+// ─── TODAY'S TOP 3 PRIORITIES ────────────────────────
+function top3Key() { return 'arnab-top3-' + TODAY.toDateString(); }
+
+function top3Load() {
+  const raw = localStorage.getItem(top3Key());
+  const data = raw ? JSON.parse(raw) : { items:['','',''], done:[false,false,false] };
+  for (let i = 0; i < 3; i++) {
+    const inp = document.getElementById('top3-input-' + i);
+    const row = document.getElementById('top3-row-' + i);
+    const chk = document.getElementById('top3-check-' + i);
+    if (inp) inp.value = data.items[i] || '';
+    if (row) row.classList.toggle('done', !!data.done[i]);
+    if (chk) chk.textContent = data.done[i] ? '✓' : '';
+  }
+  // Update date label
+  const dt = document.getElementById('top3-date');
+  if (dt) {
+    const now = new Date();
+    dt.textContent = now.toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'short' });
+  }
+}
+
+function top3Save() {
+  const items = [], done = [];
+  for (let i = 0; i < 3; i++) {
+    items.push(document.getElementById('top3-input-' + i)?.value || '');
+    done.push(document.getElementById('top3-row-' + i)?.classList.contains('done') || false);
+  }
+  localStorage.setItem(top3Key(), JSON.stringify({ items, done }));
+}
+
+function top3Done(i) {
+  const row = document.getElementById('top3-row-' + i);
+  const chk = document.getElementById('top3-check-' + i);
+  if (!row) return;
+  row.classList.toggle('done');
+  chk.textContent = row.classList.contains('done') ? '✓' : '';
+  top3Save();
 }
 
 // ─── HOBBIES SUB-TAB SWITCH ──────────────────────────
