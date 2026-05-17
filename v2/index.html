@@ -1351,7 +1351,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-17-010';
+  const BUILD = '2026-05-17-011';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -2638,8 +2638,8 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
   <!-- ════ MIND & STUDIO ════ -->
   <div class="hobby-panel" id="hp-mind">
 
-  <!-- ── ART + TIMELINE ── -->
-  <div class="grid grid-2" style="align-items:start;">
+  <!-- ── ART ── -->
+  <div class="grid" style="grid-template-columns:1fr;">
 
     <!-- ART & DRAWING -->
     <div class="hobby-card art">
@@ -2686,17 +2686,6 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       </div>
     </div>
 
-    <!-- Bengali Quote of the Day -->
-    <div class="bq-card">
-      <div class="bq-label">Bangla Bani · বাণী</div>
-      <div class="bq-text" id="bq-text">—</div>
-      <div class="bq-author" id="bq-author">—</div>
-      <div class="bq-controls">
-        <button class="bq-btn" onclick="bqShow(-1)">← Prev</button>
-        <button class="bq-btn" onclick="bqShow(1)">Next →</button>
-        <button class="bq-btn" onclick="bqShow(0)">✦ Random</button>
-      </div>
-    </div>
   </div>
 
   <!-- ── SLEEP TRACKER ── -->
@@ -2832,7 +2821,6 @@ function init() {
   pomoRender();
   updateRightNow();
   updateStreaks();
-  bqInit();
   highlightCurrentMeal();
   top3Load();
   setInterval(updateRightNow, 60000);
@@ -3773,7 +3761,6 @@ function showHobby(id, btn) {
   // refresh dynamic widgets per tab
   if (id === 'today')     { updateRightNow(); updateStreaks(); }
   if (id === 'nutrition') { highlightCurrentMeal(); }
-  if (id === 'mind')      { bqInit(); }
   // scroll to top of section
   const sec = document.getElementById('section-hobbies');
   if (sec) window.scrollTo({ top: sec.offsetTop - 100, behavior: 'smooth' });
