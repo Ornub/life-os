@@ -1099,8 +1099,33 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 }
 .hobby-card.sleep:hover { border-color:rgba(99,102,241,0.5); box-shadow:0 20px 56px rgba(67,56,202,0.32), inset 0 1px 0 rgba(255,255,255,0.08); }
 
-/* ── POMODORO ── */
-.pomo-card { text-align:center; padding:8px 0; }
+/* ── TASKS ── */
+.task-add-row { display:flex; gap:6px; margin-bottom:10px; }
+.task-input { flex:1; padding:8px 12px; border:1px solid var(--border); border-radius:9px; font-size:12.5px; font-family:var(--font-body); color:var(--text); background:#fff; outline:none; transition:border 0.18s; }
+.task-input:focus { border-color:var(--accent-blue); box-shadow:0 0 0 3px rgba(27,72,214,0.09); }
+.task-tag-sel { padding:8px 10px; border:1px solid var(--border); border-radius:9px; font-size:12px; font-family:var(--font-body); color:var(--text2); background:#fff; cursor:pointer; outline:none; }
+.task-add-btn { padding:8px 14px; border-radius:9px; border:none; background:var(--grad-brand); color:#fff; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; transition:box-shadow 0.18s; }
+.task-add-btn:hover { box-shadow:0 4px 12px rgba(27,72,214,0.3); }
+.task-list { display:flex; flex-direction:column; gap:5px; max-height:320px; overflow-y:auto; }
+.task-item { display:grid; grid-template-columns:20px 1fr auto auto; align-items:center; gap:8px; padding:8px 10px; border-radius:9px; background:rgba(10,18,40,0.03); border-left:3px solid transparent; transition:background 0.15s; }
+.task-item.tag-today { border-left-color:#EF4444; }
+.task-item.tag-tomorrow { border-left-color:#F59E0B; }
+.task-item.tag-week { border-left-color:#3B82F6; }
+.task-item.tag-someday { border-left-color:#94A3B8; }
+.task-item.done-item { opacity:0.45; }
+.task-cb { width:16px; height:16px; cursor:pointer; accent-color:var(--accent-blue); }
+.task-text { font-size:12.5px; color:var(--text2); }
+.task-item.done-item .task-text { text-decoration:line-through; color:var(--text3); }
+.task-badge { font-size:10px; font-weight:700; padding:2px 7px; border-radius:99px; white-space:nowrap; }
+.tb-today { background:rgba(239,68,68,0.12); color:#DC2626; }
+.tb-tomorrow { background:rgba(245,158,11,0.12); color:#D97706; }
+.tb-week { background:rgba(59,130,246,0.12); color:#2563EB; }
+.tb-someday { background:rgba(148,163,184,0.12); color:#64748B; }
+.task-del { background:none; border:none; color:var(--text-muted); font-size:14px; cursor:pointer; line-height:1; padding:0 2px; }
+.task-del:hover { color:var(--red); }
+.task-empty { font-size:12px; color:var(--text3); text-align:center; padding:18px 0; }
+
+/* ── POMO-DISPLAY (keep for RN schedule ref only) ── */
 .pomo-display {
   font-family:'Space Grotesk',sans-serif;
   font-size:64px; font-weight:800; letter-spacing:-2px;
@@ -1670,7 +1695,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-18-017';
+  const BUILD = '2026-05-18-018';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -3426,27 +3451,20 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
     </div>
   </div>
 
-  <!-- ── POMODORO ── -->
+  <!-- ── TASKS & REMINDERS ── -->
   <div class="card" style="margin-top:14px;">
-    <div class="card-title"><span class="icon">🍅</span> Focus Timer · Pomodoro</div>
-    <div class="pomo-card">
-      <div class="pomo-presets">
-        <button class="pomo-preset active" data-min="25" onclick="pomoSet(25,this)">25 min</button>
-        <button class="pomo-preset" data-min="45" onclick="pomoSet(45,this)">45 min</button>
-        <button class="pomo-preset" data-min="50" onclick="pomoSet(50,this)">50 min</button>
-        <button class="pomo-preset" data-min="5" onclick="pomoSet(5,this)">5 min break</button>
-      </div>
-      <div class="pomo-display" id="pomo-display">25:00</div>
-      <div class="pomo-state" id="pomo-state">Ready</div>
-      <div class="pomo-ctrl">
-        <button class="pomo-btn primary" id="pomo-start" onclick="pomoToggle()">Start</button>
-        <button class="pomo-btn" onclick="pomoReset()">Reset</button>
-      </div>
-      <div class="pomo-today">
-        <div class="pomo-stat"><strong id="pomo-count">0</strong>Focus blocks today</div>
-        <div class="pomo-stat"><strong id="pomo-mins">0</strong>Minutes deep work</div>
-      </div>
+    <div class="card-title"><span class="icon">✅</span> Tasks &amp; Reminders</div>
+    <div class="task-add-row">
+      <input class="task-input" id="task-input" placeholder="Add task or reminder…" onkeypress="if(event.key==='Enter') addTask()">
+      <select class="task-tag-sel" id="task-tag">
+        <option value="today">Today</option>
+        <option value="tomorrow">Tomorrow</option>
+        <option value="week">This Week</option>
+        <option value="someday">Someday</option>
+      </select>
+      <button class="task-add-btn" onclick="addTask()">+ Add</button>
     </div>
+    <div class="task-list" id="task-list"></div>
   </div>
 
   <div class="card" style="margin-top:14px;">
@@ -4224,7 +4242,7 @@ function init() {
   buildLsWeeks();
   renderSleep();
   renderKk();
-  pomoRender();
+  renderTasks();
   updateRightNow();
   updateStreaks();
   highlightCurrentMeal();
@@ -4884,98 +4902,67 @@ function renderSleep() {
   }).join('');
 }
 
-// ─── POMODORO ─────────────────────────────────────────
-let pomoMin = 25;
-let pomoSec = 25 * 60;
-let pomoRunning = false;
-let pomoInterval = null;
-let pomoMode = 'work'; // 'work' or 'break'
+// ─── TASKS & REMINDERS ────────────────────────────────
+const TASK_KEY = 'arnab-tasks-v1';
+const TAG_ORDER = { today: 0, tomorrow: 1, week: 2, someday: 3 };
+const TAG_LABEL = { today: 'Today', tomorrow: 'Tomorrow', week: 'This Week', someday: 'Someday' };
+const TAG_CLASS = { today: 'tb-today', tomorrow: 'tb-tomorrow', week: 'tb-week', someday: 'tb-someday' };
 
-function pomoRender() {
-  const m = Math.floor(pomoSec / 60);
-  const s = pomoSec % 60;
-  const d = document.getElementById('pomo-display');
-  if (d) d.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+function loadTasks() {
+  try { return JSON.parse(localStorage.getItem(TASK_KEY) || '[]'); } catch { return []; }
+}
+function saveTasks(tasks) { localStorage.setItem(TASK_KEY, JSON.stringify(tasks)); }
 
-  const st = document.getElementById('pomo-state');
-  if (st) {
-    st.className = 'pomo-state' + (pomoRunning ? (pomoMode === 'break' ? ' break' : ' running') : '');
-    st.textContent = pomoRunning ? (pomoMode === 'break' ? 'Break · stay loose' : 'Focus · deep work') : 'Ready';
+function addTask() {
+  const inp = document.getElementById('task-input');
+  const sel = document.getElementById('task-tag');
+  const text = inp.value.trim();
+  if (!text) return;
+  const tasks = loadTasks();
+  tasks.push({ id: Date.now(), text, tag: sel.value, done: false, created: Date.now() });
+  saveTasks(tasks);
+  inp.value = '';
+  renderTasks();
+}
+
+function toggleTask(id) {
+  const tasks = loadTasks();
+  const t = tasks.find(x => x.id === id);
+  if (t) t.done = !t.done;
+  saveTasks(tasks);
+  renderTasks();
+}
+
+function deleteTask(id) {
+  saveTasks(loadTasks().filter(x => x.id !== id));
+  renderTasks();
+}
+
+function renderTasks() {
+  const el = document.getElementById('task-list');
+  if (!el) return;
+  const tasks = loadTasks().sort((a, b) => {
+    if (a.done !== b.done) return a.done ? 1 : -1;
+    return (TAG_ORDER[a.tag] ?? 9) - (TAG_ORDER[b.tag] ?? 9) || a.created - b.created;
+  });
+  if (!tasks.length) {
+    el.innerHTML = '<div class="task-empty">No tasks · add one above</div>';
+    return;
   }
-
-  const btn = document.getElementById('pomo-start');
-  if (btn) btn.textContent = pomoRunning ? 'Pause' : 'Start';
-
-  const todayKey = 'arnab-pomo-' + TODAY.toDateString();
-  const stats = JSON.parse(localStorage.getItem(todayKey) || '{"c":0,"m":0}');
-  document.getElementById('pomo-count').textContent = stats.c;
-  document.getElementById('pomo-mins').textContent = stats.m;
-}
-
-function pomoSet(min, btn) {
-  pomoMin = min;
-  pomoSec = min * 60;
-  pomoMode = min <= 10 ? 'break' : 'work';
-  document.querySelectorAll('.pomo-preset').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  pomoRender();
-}
-
-function pomoToggle() {
-  if (pomoRunning) {
-    pomoRunning = false;
-    clearInterval(pomoInterval);
-    pomoRender();
-  } else {
-    pomoRunning = true;
-    pomoInterval = setInterval(pomoTick, 1000);
-    pomoRender();
-  }
-}
-
-function pomoReset() {
-  pomoRunning = false;
-  clearInterval(pomoInterval);
-  pomoSec = pomoMin * 60;
-  pomoRender();
-}
-
-function pomoTick() {
-  pomoSec--;
-  if (pomoSec <= 0) {
-    pomoRunning = false;
-    clearInterval(pomoInterval);
-    if (pomoMode === 'work') {
-      const todayKey = 'arnab-pomo-' + TODAY.toDateString();
-      const stats = JSON.parse(localStorage.getItem(todayKey) || '{"c":0,"m":0}');
-      stats.c++;
-      stats.m += pomoMin;
-      localStorage.setItem(todayKey, JSON.stringify(stats));
-    }
-    pomoSec = pomoMin * 60;
-    pomoBeep();
-  }
-  pomoRender();
-}
-
-function pomoBeep() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination);
-    o.frequency.value = 880;
-    g.gain.setValueAtTime(0.2, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-    o.start(); o.stop(ctx.currentTime + 0.6);
-  } catch(e) {}
+  el.innerHTML = tasks.map(t => `
+    <div class="task-item tag-${t.tag}${t.done ? ' done-item' : ''}">
+      <input type="checkbox" class="task-cb" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
+      <span class="task-text">${t.text}</span>
+      <span class="task-badge ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span>
+      <button class="task-del" onclick="deleteTask(${t.id})" title="Remove">×</button>
+    </div>`).join('');
 }
 
 // ─── RIGHT NOW CONTEXTUAL HERO ───────────────────────
 const RN_SCHEDULE = [
   { h: 5, end: 7,  e:'🌅', label:'Early Morning',    action:'Hydrate + warm-up',           detail:'Glass of warm water with lemon. 5 min stretch. Bed → action.' },
   { h: 7, end: 9,  e:'🥚', label:'Breakfast Window',  action:'Whey shake + eggs + multigrain bread', detail:'~25g protein. Pre/post-workout window. Don\'t skip.' },
-  { h: 9, end: 12, e:'💼', label:'Deep Work Block',   action:'Slice deep work — credit risk decisions', detail:'2× Pomodoro 50min. No Slack. Phone face down.' },
+  { h: 9, end: 12, e:'💼', label:'Deep Work Block',   action:'Slice deep work — credit risk decisions', detail:'2× focused blocks 50min. No Slack. Phone face down.' },
   { h: 12, end: 14,e:'🍱', label:'Lunch Time',        action:'Chicken + rice + dal + salad', detail:'~60g protein, ~400 kcal. Eat away from desk. 15 min walk after.' },
   { h: 14, end: 17,e:'⚡', label:'Afternoon Sprint',  action:'Stakeholder + analytics work', detail:'Energy dip ~3 PM — black coffee, no sugar. Stand every 30 min.' },
   { h: 17, end: 19,e:'🏋️', label:'Gym Window',         action:'Today\'s workout — log it',     detail:'30 min lift + 15 min cardio finisher. Check Workout tab.' },
