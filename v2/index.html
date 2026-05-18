@@ -1151,6 +1151,41 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 .sim-table tr.sim-hit td { color:var(--green); font-weight:700; background:rgba(4,120,87,0.06); }
 .sim-table tr.sim-big td { color:var(--accent); font-weight:700; background:rgba(27,72,214,0.05); }
 
+/* ── COUNTDOWNS ── */
+.cdwn-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.cdwn-card { border-radius:14px; padding:14px; text-align:center; border:1px solid var(--border); background:#fff; }
+.cdwn-card.esop  { border-top:3px solid #F59E0B; }
+.cdwn-card.switch { border-top:3px solid #1B48D6; }
+.cdwn-card.vest  { border-top:3px solid #047857; }
+.cdwn-num  { font-family:'Space Grotesk',sans-serif; font-size:36px; font-weight:800; line-height:1; }
+.cdwn-unit { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-top:2px; }
+.cdwn-lbl  { font-size:11.5px; color:var(--text2); font-weight:600; margin-top:8px; }
+.cdwn-date { font-size:10px; color:var(--text3); margin-top:2px; }
+.cdwn-done { font-size:22px; }
+
+/* ── LINKEDIN QUEUE ── */
+.li-queue { display:flex; flex-direction:column; gap:5px; max-height:260px; overflow-y:auto; margin-bottom:10px; }
+.li-item { display:grid; grid-template-columns:20px 1fr auto auto; align-items:center; gap:8px; padding:8px 10px; border-radius:9px; background:rgba(10,18,40,0.03); font-size:12.5px; }
+.li-item.posted { opacity:0.45; }
+.li-item.posted .li-text { text-decoration:line-through; color:var(--text3); }
+.li-tag { font-size:10px; padding:2px 7px; border-radius:99px; font-weight:700; background:rgba(27,72,214,0.1); color:var(--accent); white-space:nowrap; }
+.li-cb { width:16px; height:16px; cursor:pointer; accent-color:#0A66C2; }
+.li-del { background:none; border:none; color:var(--text-muted); font-size:14px; cursor:pointer; padding:0 2px; }
+.li-del:hover { color:var(--red); }
+.li-streak { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:99px; background:rgba(245,158,11,0.1); color:var(--amber); font-size:11px; font-weight:700; }
+
+/* ── SIP LOG ── */
+.siplog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px; }
+.siplog-stat { text-align:center; padding:10px; background:rgba(10,18,40,0.03); border-radius:10px; }
+.siplog-stat-num { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:800; color:var(--accent); }
+.siplog-stat-lbl { font-size:10.5px; color:var(--text3); margin-top:2px; }
+.siplog-list { display:flex; flex-direction:column; gap:4px; max-height:220px; overflow-y:auto; }
+.siplog-row { display:grid; grid-template-columns:90px 1fr auto; align-items:center; gap:8px; padding:6px 10px; border-radius:8px; background:rgba(10,18,40,0.03); font-size:12px; }
+.siplog-mo { color:var(--text3); font-size:11px; }
+.siplog-amt { font-weight:700; color:var(--accent-green); font-family:'Space Grotesk',sans-serif; }
+.siplog-del { background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:13px; }
+.siplog-del:hover { color:var(--red); }
+
 /* ── POMO-DISPLAY (keep for RN schedule ref only) ── */
 .pomo-display {
   font-family:'Space Grotesk',sans-serif;
@@ -1721,7 +1756,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-18-019';
+  const BUILD = '2026-05-18-020';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -1940,6 +1975,22 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
         <thead><tr><th>Year</th><th>Age</th><th>Corpus</th><th>Milestone</th></tr></thead>
         <tbody id="sim-body"></tbody>
       </table>
+    </div>
+
+    <!-- SIP Log -->
+    <div class="card" style="margin-top:14px;">
+      <div class="card-title"><span class="icon">📊</span> SIP Log · Actual Deployed</div>
+      <div class="siplog-grid">
+        <div class="siplog-stat"><div class="siplog-stat-num" id="sip-total">₹0</div><div class="siplog-stat-lbl">Total deployed</div></div>
+        <div class="siplog-stat"><div class="siplog-stat-num" id="sip-avg">₹0</div><div class="siplog-stat-lbl">Monthly average</div></div>
+        <div class="siplog-stat"><div class="siplog-stat-num" id="sip-vs">—</div><div class="siplog-stat-lbl">vs ₹1.2L target</div></div>
+      </div>
+      <div class="siplog-list" id="sip-list"></div>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+        <select id="sip-mo-in" style="padding:7px 10px;border:1px solid var(--border);border-radius:9px;font-size:12px;font-family:var(--font-body);outline:none;background:#fff;"></select>
+        <input id="sip-amt-in" type="number" placeholder="Amount (₹)" style="width:130px;padding:7px 11px;border:1px solid var(--border);border-radius:9px;font-size:12px;font-family:var(--font-body);outline:none;" onkeypress="if(event.key==='Enter')sipLogAdd()">
+        <button onclick="sipLogAdd()" style="padding:7px 14px;border-radius:9px;border:none;background:var(--grad-brand);color:#fff;font-size:12px;font-weight:700;cursor:pointer;">+ Log</button>
+      </div>
     </div>
 
     <div class="card">
@@ -2762,6 +2813,51 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       • <strong>Public speaking:</strong> conference talks (Money20/20, Global Fintech Fest) · CRO needs visibility<br>
       • <strong>Network density:</strong> 5+ ex-CRO/Head of Risk contacts at target companies by 2028
     </div>
+  </div>
+</div>
+
+<!-- ── KEY DATE COUNTDOWNS ── -->
+<div class="card" style="margin-top:14px;">
+  <div class="card-title"><span class="icon">⏳</span> Key Date Countdowns</div>
+  <div class="cdwn-grid">
+    <div class="cdwn-card esop">
+      <div class="cdwn-num" id="cdwn-esop-num" style="color:#F59E0B;">—</div>
+      <div class="cdwn-unit" id="cdwn-esop-unit">days</div>
+      <div class="cdwn-lbl">ESOP Cliff 🪙</div>
+      <div class="cdwn-date">25 Sept 2026</div>
+    </div>
+    <div class="cdwn-card switch">
+      <div class="cdwn-num" id="cdwn-switch-num" style="color:#1B48D6;">—</div>
+      <div class="cdwn-unit" id="cdwn-switch-unit">days</div>
+      <div class="cdwn-lbl">Job Switch Window 🚀</div>
+      <div class="cdwn-date">Mar 2027</div>
+    </div>
+    <div class="cdwn-card vest">
+      <div class="cdwn-num" id="cdwn-vest-num" style="color:#047857;">—</div>
+      <div class="cdwn-unit" id="cdwn-vest-unit">days</div>
+      <div class="cdwn-lbl">ESOP 50% Vested 💰</div>
+      <div class="cdwn-date">25 Sept 2027</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LINKEDIN CONTENT QUEUE ── -->
+<div class="card" style="margin-top:14px;">
+  <div class="card-title">
+    <span class="icon">💼</span> LinkedIn Content Queue
+    <span class="li-streak" id="li-streak-badge" style="margin-left:auto;font-size:10px;">🔥 0 posted</span>
+  </div>
+  <div class="li-queue" id="li-queue"></div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;">
+    <input id="li-topic-in" placeholder="Post topic or idea…" style="flex:1;min-width:160px;padding:7px 11px;border:1px solid var(--border);border-radius:9px;font-size:12.5px;font-family:var(--font-body);outline:none;">
+    <select id="li-cat-in" style="padding:7px 10px;border:1px solid var(--border);border-radius:9px;font-size:12px;font-family:var(--font-body);outline:none;background:#fff;">
+      <option value="Credit Risk">Credit Risk</option>
+      <option value="Fraud Strategy">Fraud Strategy</option>
+      <option value="AI/Analytics">AI/Analytics</option>
+      <option value="Career">Career</option>
+      <option value="Fintech">Fintech</option>
+    </select>
+    <button onclick="liAdd()" style="padding:7px 14px;border-radius:9px;border:none;background:var(--grad-brand);color:#fff;font-size:12px;font-weight:700;cursor:pointer;">+ Add</button>
   </div>
 </div>
 
@@ -4308,6 +4404,9 @@ function init() {
   renderTasks();
   renderPipeline();
   runSim();
+  updateCountdowns();
+  renderLiQueue();
+  sipLogInit();
   updateRightNow();
   updateStreaks();
   highlightCurrentMeal();
@@ -5119,6 +5218,150 @@ function runSim() {
     rows += `<tr class="${cls}"><td>${yr}</td><td>${age}</td><td>${fmtCr(c)}</td><td>${ms}</td></tr>`;
   }
   document.getElementById('sim-body').innerHTML = rows;
+}
+
+// ─── KEY DATE COUNTDOWNS ─────────────────────────────
+function updateCountdowns() {
+  const now = new Date();
+  const targets = [
+    { ids: ['cdwn-esop-num','cdwn-esop-unit'], date: new Date('2026-09-25') },
+    { ids: ['cdwn-switch-num','cdwn-switch-unit'], date: new Date('2027-03-01') },
+    { ids: ['cdwn-vest-num','cdwn-vest-unit'], date: new Date('2027-09-25') },
+  ];
+  targets.forEach(({ ids, date }) => {
+    const numEl = document.getElementById(ids[0]);
+    const unitEl = document.getElementById(ids[1]);
+    if (!numEl) return;
+    const diff = date - now;
+    if (diff <= 0) { numEl.textContent = '✓'; unitEl.textContent = 'done'; return; }
+    const days = Math.floor(diff / 86400000);
+    if (days > 60) { numEl.textContent = Math.ceil(days / 30.44); unitEl.textContent = 'months away'; }
+    else { numEl.textContent = days; unitEl.textContent = 'days away'; }
+  });
+}
+
+// ─── LINKEDIN CONTENT QUEUE ──────────────────────────
+const LI_KEY = 'arnab-li-queue-v1';
+const LI_DEFAULTS = [
+  { id:1, topic:'Self-employed underwriting: how we built it at Slice', cat:'Credit Risk', posted:false },
+  { id:2, topic:'AI-assisted rule drafting: 90% faster policy changes', cat:'AI/Analytics', posted:false },
+  { id:3, topic:'Why I moved from EXL to a fintech startup at 27', cat:'Career', posted:false },
+  { id:4, topic:'Fraud rings 101: graph analytics for credit card fraud', cat:'Fraud Strategy', posted:false },
+  { id:5, topic:'5 things I learned building NACH automation from scratch', cat:'Fintech', posted:false },
+];
+
+function liLoad() {
+  try { const d = JSON.parse(localStorage.getItem(LI_KEY)); return d && d.length ? d : JSON.parse(JSON.stringify(LI_DEFAULTS)); }
+  catch { return JSON.parse(JSON.stringify(LI_DEFAULTS)); }
+}
+function liSave(d) { localStorage.setItem(LI_KEY, JSON.stringify(d)); }
+
+function liAdd() {
+  const topic = document.getElementById('li-topic-in').value.trim();
+  const cat   = document.getElementById('li-cat-in').value;
+  if (!topic) return;
+  const data = liLoad();
+  data.push({ id: Date.now(), topic, cat, posted: false });
+  liSave(data);
+  document.getElementById('li-topic-in').value = '';
+  renderLiQueue();
+}
+
+function liToggle(id) {
+  const data = liLoad();
+  const item = data.find(x => x.id === id);
+  if (item) item.posted = !item.posted;
+  liSave(data); renderLiQueue();
+}
+
+function liRemove(id) { liSave(liLoad().filter(x => x.id !== id)); renderLiQueue(); }
+
+function renderLiQueue() {
+  const el = document.getElementById('li-queue');
+  const badge = document.getElementById('li-streak-badge');
+  if (!el) return;
+  const data = liLoad().sort((a,b) => a.posted - b.posted || a.id - b.id);
+  const postedCount = data.filter(x => x.posted).length;
+  if (badge) badge.textContent = `🔥 ${postedCount} posted`;
+  if (!data.length) { el.innerHTML = '<div class="task-empty">Queue empty · add a topic</div>'; return; }
+  el.innerHTML = data.map(t => `
+    <div class="li-item${t.posted ? ' posted' : ''}">
+      <input type="checkbox" class="li-cb" ${t.posted ? 'checked' : ''} onchange="liToggle(${t.id})">
+      <span class="li-text" style="font-size:12.5px;color:var(--text2);">${t.topic}</span>
+      <span class="li-tag">${t.cat}</span>
+      <button class="li-del" onclick="liRemove(${t.id})">×</button>
+    </div>`).join('');
+}
+
+// ─── SIP LOG ─────────────────────────────────────────
+const SIP_LOG_KEY = 'arnab-siplog-v1';
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function sipLogLoad() { try { return JSON.parse(localStorage.getItem(SIP_LOG_KEY) || '[]'); } catch { return []; } }
+function sipLogSave(d) { localStorage.setItem(SIP_LOG_KEY, JSON.stringify(d)); }
+
+function sipLogInit() {
+  const sel = document.getElementById('sip-mo-in');
+  if (!sel) return;
+  const now = new Date();
+  sel.innerHTML = '';
+  for (let i = 0; i < 24; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const val = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    const lbl = `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+    sel.innerHTML += `<option value="${val}">${lbl}</option>`;
+  }
+  renderSipLog();
+}
+
+function sipLogAdd() {
+  const mo  = document.getElementById('sip-mo-in').value;
+  const amt = +document.getElementById('sip-amt-in').value;
+  if (!mo || !amt || amt <= 0) return;
+  const data = sipLogLoad().filter(x => x.mo !== mo);
+  data.push({ mo, amt });
+  data.sort((a,b) => b.mo.localeCompare(a.mo));
+  sipLogSave(data);
+  document.getElementById('sip-amt-in').value = '';
+  renderSipLog();
+}
+
+function sipLogDel(mo) { sipLogSave(sipLogLoad().filter(x => x.mo !== mo)); renderSipLog(); }
+
+function renderSipLog() {
+  const el = document.getElementById('sip-list');
+  if (!el) return;
+  const data = sipLogLoad();
+  const total = data.reduce((s,x) => s + x.amt, 0);
+  const avg   = data.length ? Math.round(total / data.length) : 0;
+  const target = 120000;
+  const vsText = avg >= target
+    ? `+₹${((avg-target)/1000).toFixed(0)}k above`
+    : `−₹${((target-avg)/1000).toFixed(0)}k below`;
+  const vsColor = avg >= target ? 'var(--green)' : 'var(--red)';
+
+  const tEl = document.getElementById('sip-total');
+  const aEl = document.getElementById('sip-avg');
+  const vEl = document.getElementById('sip-vs');
+  if (tEl) tEl.textContent = fmtCr(total);
+  if (aEl) aEl.textContent = fmtCr(avg);
+  if (vEl) { vEl.textContent = vsText; vEl.style.color = vsColor; }
+
+  if (!data.length) { el.innerHTML = '<div class="task-empty">No entries · log your first SIP</div>'; return; }
+  el.innerHTML = data.map(x => {
+    const [yr, mo] = x.mo.split('-');
+    const lbl = `${MONTHS[+mo-1]} ${yr}`;
+    const pct = Math.min(100, Math.round(x.amt / target * 100));
+    const col = x.amt >= target ? 'var(--green)' : x.amt >= 80000 ? 'var(--amber)' : 'var(--red)';
+    return `<div class="siplog-row">
+      <span class="siplog-mo">${lbl}</span>
+      <div style="flex:1;background:rgba(10,18,40,0.06);border-radius:4px;height:6px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:${col};border-radius:4px;"></div>
+      </div>
+      <span class="siplog-amt">₹${(x.amt/1000).toFixed(0)}k</span>
+      <button class="siplog-del" onclick="sipLogDel('${x.mo}')">×</button>
+    </div>`;
+  }).join('');
 }
 
 // ─── RIGHT NOW CONTEXTUAL HERO ───────────────────────
