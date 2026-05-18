@@ -1125,6 +1125,32 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 .task-del:hover { color:var(--red); }
 .task-empty { font-size:12px; color:var(--text3); text-align:center; padding:18px 0; }
 
+/* ── JOB PIPELINE ── */
+.pipeline-board { display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; }
+.pipeline-col { flex:0 0 148px; }
+.pipeline-hdr { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:1px; padding:6px 9px; border-radius:8px 8px 0 0; color:#fff; display:flex; align-items:center; gap:5px; }
+.ph-watch { background:#64748B; } .ph-apply { background:#2563EB; } .ph-screen { background:#D97706; } .ph-interview { background:#7C3AED; } .ph-offer { background:#047857; } .ph-pass { background:#DC2626; }
+.pipeline-drop { min-height:72px; background:rgba(10,18,40,0.03); border-radius:0 0 8px 8px; padding:6px; display:flex; flex-direction:column; gap:4px; border:1px solid var(--border); border-top:none; }
+.pip-card { background:#fff; border-radius:7px; padding:7px 9px; box-shadow:var(--shadow-xs); font-size:11.5px; user-select:none; }
+.pip-co { font-weight:700; color:var(--text2); }
+.pip-role { color:var(--text3); font-size:10px; margin-top:1px; }
+.pip-ctc { color:var(--accent-green); font-size:10.5px; font-weight:700; margin-top:2px; }
+.pip-actions { display:flex; gap:4px; margin-top:5px; }
+.pip-btn { font-size:10px; padding:2px 7px; border-radius:5px; border:1px solid var(--border); background:rgba(10,18,40,0.04); cursor:pointer; color:var(--text3); font-weight:600; }
+.pip-btn:hover { background:rgba(27,72,214,0.08); color:var(--accent); border-color:rgba(27,72,214,0.2); }
+.pip-btn.danger:hover { background:rgba(200,26,26,0.08); color:var(--red); border-color:rgba(200,26,26,0.2); }
+
+/* ── WEALTH SIMULATOR ── */
+.sim-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.sim-label { font-size:12px; color:var(--text2); font-weight:600; min-width:105px; }
+.sim-slider { flex:1; accent-color:var(--accent-blue); cursor:pointer; }
+.sim-val { font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:13px; color:var(--accent); min-width:52px; text-align:right; }
+.sim-table { width:100%; border-collapse:collapse; font-size:12px; margin-top:8px; }
+.sim-table th { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:0.8px; padding:4px 8px; text-align:left; border-bottom:1px solid var(--border); font-weight:700; }
+.sim-table td { padding:5px 8px; border-bottom:1px solid rgba(10,18,40,0.04); color:var(--text2); }
+.sim-table tr.sim-hit td { color:var(--green); font-weight:700; background:rgba(4,120,87,0.06); }
+.sim-table tr.sim-big td { color:var(--accent); font-weight:700; background:rgba(27,72,214,0.05); }
+
 /* ── POMO-DISPLAY (keep for RN schedule ref only) ── */
 .pomo-display {
   font-family:'Space Grotesk',sans-serif;
@@ -1695,7 +1721,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-18-018';
+  const BUILD = '2026-05-18-019';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -1890,6 +1916,30 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       <div style="font-size:11px;color:var(--text3);margin-top:6px;">
         At 12% CAGR + growing SIP → ₹5 Cr by age 38–39 (2035–36)
       </div>
+    </div>
+
+    <!-- Wealth Simulator -->
+    <div class="card" style="margin-top:14px;">
+      <div class="card-title"><span class="icon">🧮</span> Wealth Simulator</div>
+      <div class="sim-row">
+        <span class="sim-label">Monthly SIP</span>
+        <input type="range" class="sim-slider" id="sim-sip" min="50000" max="300000" step="10000" value="120000" oninput="runSim()">
+        <span class="sim-val" id="sim-sip-val">₹1.2L</span>
+      </div>
+      <div class="sim-row">
+        <span class="sim-label">CAGR assumption</span>
+        <input type="range" class="sim-slider" id="sim-cagr" min="8" max="18" step="1" value="12" oninput="runSim()">
+        <span class="sim-val" id="sim-cagr-val">12%</span>
+      </div>
+      <div class="sim-row">
+        <span class="sim-label">Starting corpus</span>
+        <input type="range" class="sim-slider" id="sim-corpus" min="1000000" max="10000000" step="500000" value="2800000" oninput="runSim()">
+        <span class="sim-val" id="sim-corpus-val">₹28L</span>
+      </div>
+      <table class="sim-table" id="sim-table">
+        <thead><tr><th>Year</th><th>Age</th><th>Corpus</th><th>Milestone</th></tr></thead>
+        <tbody id="sim-body"></tbody>
+      </table>
     </div>
 
     <div class="card">
@@ -2712,6 +2762,19 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
       • <strong>Public speaking:</strong> conference talks (Money20/20, Global Fintech Fest) · CRO needs visibility<br>
       • <strong>Network density:</strong> 5+ ex-CRO/Head of Risk contacts at target companies by 2028
     </div>
+  </div>
+</div>
+
+<!-- ── JOB PIPELINE ── -->
+<div class="card" style="margin-top:14px;">
+  <div class="card-title"><span class="icon">🎯</span> Job Pipeline · Post-March 2027</div>
+  <div style="font-size:11.5px;color:var(--text3);margin-bottom:10px;">Click <strong>→</strong> to advance stage · <strong>×</strong> to remove · pre-loaded with your Tier 1 targets</div>
+  <div class="pipeline-board" id="pip-board"></div>
+  <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+    <input id="pip-co-in" placeholder="Company" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:var(--font-body);outline:none;width:130px;">
+    <input id="pip-role-in" placeholder="Role" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:var(--font-body);outline:none;width:160px;">
+    <input id="pip-ctc-in" placeholder="Target CTC" style="padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:var(--font-body);outline:none;width:100px;">
+    <button onclick="pipAdd()" style="padding:6px 14px;border-radius:8px;border:none;background:var(--grad-brand);color:#fff;font-size:12px;font-weight:700;cursor:pointer;">+ Add</button>
   </div>
 </div>
 
@@ -4243,6 +4306,8 @@ function init() {
   renderSleep();
   renderKk();
   renderTasks();
+  renderPipeline();
+  runSim();
   updateRightNow();
   updateStreaks();
   highlightCurrentMeal();
@@ -4956,6 +5021,104 @@ function renderTasks() {
       <span class="task-badge ${TAG_CLASS[t.tag]}">${TAG_LABEL[t.tag]}</span>
       <button class="task-del" onclick="deleteTask(${t.id})" title="Remove">×</button>
     </div>`).join('');
+}
+
+// ─── JOB PIPELINE ────────────────────────────────────
+const PIP_KEY = 'arnab-pipeline-v1';
+const PIP_STAGES = ['watch','apply','screen','interview','offer','pass'];
+const PIP_LABELS = { watch:'Watching', apply:'Applied', screen:'Screening', interview:'Interview', offer:'Offer 🎉', pass:'Passed' };
+const PIP_COLORS = { watch:'#64748B', apply:'#2563EB', screen:'#D97706', interview:'#7C3AED', offer:'#047857', pass:'#DC2626' };
+const PIP_DEFAULTS = [
+  { id:1, co:'Revolut India', role:'Senior Risk Analyst', ctc:'₹50–80L', stage:'watch' },
+  { id:2, co:'CRED', role:'Lead · Credit Risk', ctc:'₹50–70L', stage:'watch' },
+  { id:3, co:'JPMorgan Chase', role:'Associate · Fraud Strategy', ctc:'₹40–60L', stage:'watch' },
+  { id:4, co:'Jupiter', role:'Risk / Analytics Lead', ctc:'₹45–60L', stage:'watch' },
+  { id:5, co:'Razorpay', role:'Senior Risk Analyst', ctc:'₹45–65L', stage:'watch' },
+];
+
+function pipLoad() {
+  try { const d = JSON.parse(localStorage.getItem(PIP_KEY)); return d && d.length ? d : JSON.parse(JSON.stringify(PIP_DEFAULTS)); }
+  catch { return JSON.parse(JSON.stringify(PIP_DEFAULTS)); }
+}
+function pipSave(data) { localStorage.setItem(PIP_KEY, JSON.stringify(data)); }
+
+function pipAdvance(id) {
+  const data = pipLoad();
+  const item = data.find(x => x.id === id);
+  if (!item) return;
+  const idx = PIP_STAGES.indexOf(item.stage);
+  item.stage = PIP_STAGES[Math.min(idx + 1, PIP_STAGES.length - 1)];
+  pipSave(data); renderPipeline();
+}
+function pipRemove(id) { pipSave(pipLoad().filter(x => x.id !== id)); renderPipeline(); }
+
+function pipAdd() {
+  const co = document.getElementById('pip-co-in').value.trim();
+  const role = document.getElementById('pip-role-in').value.trim();
+  const ctc = document.getElementById('pip-ctc-in').value.trim();
+  if (!co) return;
+  const data = pipLoad();
+  data.push({ id: Date.now(), co, role, ctc, stage: 'watch' });
+  pipSave(data);
+  ['pip-co-in','pip-role-in','pip-ctc-in'].forEach(id => document.getElementById(id).value = '');
+  renderPipeline();
+}
+
+function renderPipeline() {
+  const el = document.getElementById('pip-board');
+  if (!el) return;
+  const data = pipLoad();
+  el.innerHTML = PIP_STAGES.map(stage => {
+    const cards = data.filter(x => x.stage === stage);
+    const isLast = stage === 'pass';
+    return `<div class="pipeline-col">
+      <div class="pipeline-hdr ph-${stage}" style="background:${PIP_COLORS[stage]};">
+        ${PIP_LABELS[stage]} <span style="opacity:0.8;font-size:11px;">(${cards.length})</span>
+      </div>
+      <div class="pipeline-drop">
+        ${cards.length ? cards.map(c => `
+          <div class="pip-card">
+            <div class="pip-co">${c.co}</div>
+            ${c.role ? `<div class="pip-role">${c.role}</div>` : ''}
+            ${c.ctc  ? `<div class="pip-ctc">${c.ctc}</div>` : ''}
+            <div class="pip-actions">
+              ${!isLast ? `<button class="pip-btn" onclick="pipAdvance(${c.id})">→ Next</button>` : ''}
+              <button class="pip-btn danger" onclick="pipRemove(${c.id})">×</button>
+            </div>
+          </div>`).join('') : '<div style="font-size:11px;color:var(--text-muted);padding:8px 4px;">empty</div>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── WEALTH SIMULATOR ────────────────────────────────
+function fmtCr(n) {
+  if (n >= 10000000) return '₹' + (n/10000000).toFixed(1) + ' Cr';
+  if (n >= 100000)   return '₹' + (n/100000).toFixed(1) + 'L';
+  return '₹' + Math.round(n/1000) + 'k';
+}
+
+function runSim() {
+  const sip    = +document.getElementById('sim-sip').value;
+  const cagr   = +document.getElementById('sim-cagr').value / 100;
+  const corpus = +document.getElementById('sim-corpus').value;
+  document.getElementById('sim-sip-val').textContent    = '₹' + (sip/100000).toFixed(1) + 'L';
+  document.getElementById('sim-cagr-val').textContent   = (+document.getElementById('sim-cagr').value) + '%';
+  document.getElementById('sim-corpus-val').textContent = fmtCr(corpus);
+
+  const START_YEAR = 2026, START_AGE = 29;
+  const MILESTONES = [[5e7,'₹5Cr 🎯'],[10e7,'₹10Cr 🏆'],[20e7,'₹20Cr 🚀'],[50e7,'₹50Cr 💎']];
+  let c = corpus, rows = '', hit = new Set();
+  for (let i = 0; i <= 15; i++) {
+    const yr = START_YEAR + i, age = START_AGE + i;
+    if (i > 0) c = c * (1 + cagr) + sip * 12;
+    let ms = '', cls = '';
+    for (const [thresh, label] of MILESTONES) {
+      if (c >= thresh && !hit.has(thresh)) { ms = label; hit.add(thresh); cls = thresh >= 10e7 ? 'sim-big' : 'sim-hit'; break; }
+    }
+    rows += `<tr class="${cls}"><td>${yr}</td><td>${age}</td><td>${fmtCr(c)}</td><td>${ms}</td></tr>`;
+  }
+  document.getElementById('sim-body').innerHTML = rows;
 }
 
 // ─── RIGHT NOW CONTEXTUAL HERO ───────────────────────
