@@ -1670,7 +1670,7 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
 <script>
 // Auto cache-bust: hard reload if new build deployed
 (function(){
-  const BUILD = '2026-05-18-016';
+  const BUILD = '2026-05-18-017';
   const last  = localStorage.getItem('__lifeos_build');
   if (last && last !== BUILD) {
     localStorage.setItem('__lifeos_build', BUILD);
@@ -1982,35 +1982,29 @@ main { padding: 100px 24px 56px; max-width: 1440px; margin: 0 auto; position: re
           <div style="font-size:11px;color:var(--text3);margin-top:10px;">ESOP assumes 2x stock growth/yr from grant. 3-yr profit: ~₹16.5L net.</div>
         </div>
         <div id="salary-exl" style="display:none;">
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;">📜 ACTUAL EXL HISTORY (2020–2025)</div>
-          <table class="salary-table" style="margin-bottom:10px;">
-            <thead><tr><th>Year</th><th>CTC</th><th>YoY %</th><th>Role</th></tr></thead>
-            <tbody>
-              <tr><td><span class="year-pill">2020</span></td><td>₹12L</td><td style="color:var(--text3);">start</td><td>Consultant I</td></tr>
-              <tr><td><span class="year-pill">2021</span></td><td>₹13.5L</td><td style="color:var(--accent-blue);">+12%</td><td>Cons I→II</td></tr>
-              <tr><td><span class="year-pill">2022</span></td><td>₹15L</td><td style="color:var(--accent-blue);">+11%</td><td>Consultant II</td></tr>
-              <tr><td><span class="year-pill">2023</span></td><td>₹17L</td><td style="color:var(--accent-blue);">+13%</td><td>Cons II→Sr</td></tr>
-              <tr><td><span class="year-pill">2024</span></td><td>₹19L</td><td style="color:var(--accent-gold);">+12%</td><td>Sr Consultant</td></tr>
-              <tr style="background:rgba(4,120,87,0.06);"><td><span class="year-pill">2025</span></td><td><strong style="color:var(--accent-green);">₹24L</strong></td><td style="color:var(--accent-green);font-weight:700;">+26%</td><td><strong>Pre-switch peak</strong></td></tr>
-            </tbody>
-          </table>
-          <div style="font-size:10.5px;color:var(--text2);background:rgba(4,120,87,0.06);border-radius:8px;padding:8px 11px;margin-bottom:12px;border-left:2px solid var(--accent-green);">
-            <strong>Actual CAGR 2020→25: 14.9%</strong> · stable 11–13% annual + final 26% jump · solid analytics/risk trajectory at EXL
-          </div>
-
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;">🔮 PROJECTED IF STAYED AT EXL (2026–2031)</div>
           <table class="salary-table">
-            <thead><tr><th>Year</th><th>CTC</th><th>Bonus (10%)</th><th>Effective</th><th>Role</th></tr></thead>
+            <thead><tr><th>Year</th><th>CTC</th><th>YoY %</th><th>Effective (incl bonus)</th><th>Role</th></tr></thead>
             <tbody>
-              <tr><td><span class="year-pill">2026</span></td><td>₹38L</td><td>₹3.8L</td><td>₹41.8L</td><td>Project Mgr</td></tr>
-              <tr><td><span class="year-pill">2027</span></td><td>₹41.8L</td><td>₹4.2L</td><td>₹46L</td><td>Sr PM</td></tr>
-              <tr><td><span class="year-pill">2028</span></td><td>₹46L</td><td>₹4.6L</td><td>₹50.6L</td><td>Sr PM</td></tr>
-              <tr><td><span class="year-pill">2029</span></td><td>₹50.6L</td><td>₹5.1L</td><td>₹55.7L</td><td>AVP/Mgr</td></tr>
-              <tr><td><span class="year-pill">2030</span></td><td>₹55.7L</td><td>₹5.6L</td><td>₹61.3L</td><td>AVP</td></tr>
-              <tr class="highlight-row"><td><span class="year-pill">2031</span></td><td>₹61.3L</td><td>₹6.1L</td><td style="color:var(--text3)">₹67.4L</td><td style="color:var(--text3)">VP maybe</td></tr>
+              <!-- ACTUAL HISTORY -->
+              <tr><td colspan="5" style="padding:5px 8px;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;background:rgba(10,18,40,0.03);border-bottom:1px solid var(--border);">📜 Actual History</td></tr>
+              <tr><td><span class="year-pill">2020</span></td><td>₹12L</td><td style="color:var(--text3);">—</td><td>₹12L</td><td>Consultant I</td></tr>
+              <tr><td><span class="year-pill">2021</span></td><td>₹13.5L</td><td style="color:var(--accent-blue);">+12%</td><td>₹13.5L</td><td>Consultant I→II</td></tr>
+              <tr><td><span class="year-pill">2022</span></td><td>₹15L</td><td style="color:var(--accent-blue);">+11%</td><td>₹15L</td><td>Consultant II</td></tr>
+              <tr><td><span class="year-pill">2023</span></td><td>₹17L</td><td style="color:var(--accent-blue);">+13%</td><td>₹17L</td><td>Consultant II→Sr</td></tr>
+              <tr><td><span class="year-pill">2024</span></td><td>₹19L</td><td style="color:var(--accent-gold);">+12%</td><td>₹19L</td><td>Sr Consultant</td></tr>
+              <tr style="background:rgba(4,120,87,0.06);"><td><span class="year-pill">2025</span></td><td><strong style="color:var(--accent-green);">₹24L</strong></td><td style="color:var(--accent-green);font-weight:700;">+26%</td><td><strong style="color:var(--accent-green);">₹26.4L</strong></td><td><strong>Sr Consultant · peak</strong></td></tr>
+              <!-- DIVIDER -->
+              <tr><td colspan="5" style="padding:5px 8px;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;font-weight:700;background:rgba(10,18,40,0.03);border-bottom:1px solid var(--border);">🔮 Projected (if stayed)</td></tr>
+              <tr><td><span class="year-pill">2026</span></td><td>₹38L</td><td style="color:var(--accent-blue);">+58%*</td><td>₹41.8L</td><td>Project Mgr</td></tr>
+              <tr><td><span class="year-pill">2027</span></td><td>₹41.8L</td><td style="color:var(--accent-blue);">+10%</td><td>₹46L</td><td>Sr PM</td></tr>
+              <tr><td><span class="year-pill">2028</span></td><td>₹46L</td><td style="color:var(--accent-blue);">+10%</td><td>₹50.6L</td><td>Sr PM</td></tr>
+              <tr><td><span class="year-pill">2029</span></td><td>₹50.6L</td><td style="color:var(--accent-blue);">+10%</td><td>₹55.7L</td><td>AVP / Mgr</td></tr>
+              <tr><td><span class="year-pill">2030</span></td><td>₹55.7L</td><td style="color:var(--accent-blue);">+10%</td><td>₹61.3L</td><td>AVP</td></tr>
+              <tr class="highlight-row"><td><span class="year-pill">2031</span></td><td>₹61.3L</td><td style="color:var(--text3);">+10%</td><td style="color:var(--text3);">₹67.4L</td><td style="color:var(--text3);">VP maybe</td></tr>
             </tbody>
           </table>
-          <div style="font-size:11px;color:var(--red);margin-top:10px;">⚠ EXL VP ceiling ~₹65–70L median. Slice path wins from year 3 onward by ₹15–30L/yr.</div>
+          <div style="font-size:10.5px;color:var(--text3);margin-top:7px;">* 2026 jump = hypothetical promotion to PM after 5yr; actual EXL 2020→25 CAGR was 14.9%</div>
+          <div style="font-size:11px;color:var(--red);margin-top:6px;">⚠ EXL VP ceiling ~₹65–70L median. Slice path wins from year 3 onward by ₹15–30L/yr.</div>
         </div>
       </div>
 
